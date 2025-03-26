@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CarController2 : MonoBehaviour
 {
@@ -15,7 +11,6 @@ public class CarController2 : MonoBehaviour
     private float _accelerationInput;
     private float _turnInput;
     private Rigidbody _rigidbody;
-    private float _velocityVsUp;
     private float _rotationAngle = 0f;
 
     private void Awake()
@@ -36,8 +31,6 @@ public class CarController2 : MonoBehaviour
 
     private void AddSpeed()
     {
-        _velocityVsUp = Vector3.Dot(transform.up, _rigidbody.velocity);
-        
         if (_rigidbody.velocity.magnitude > maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
         if (_rigidbody.velocity.magnitude > maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
@@ -50,7 +43,7 @@ public class CarController2 : MonoBehaviour
             _rigidbody.drag = 0f;
         }
         
-        Vector3 engineForce = transform.forward * acceleration * _accelerationInput;
+        Vector3 engineForce = transform.forward * (acceleration * _accelerationInput);
         _rigidbody.AddForce(engineForce, ForceMode.Force);
     }
 
