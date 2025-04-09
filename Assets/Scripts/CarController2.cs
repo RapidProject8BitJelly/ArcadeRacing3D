@@ -1,8 +1,12 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
 public class CarController2 : MonoBehaviour
 {
+    [SerializeField] private GameObject[] wheels;
+    [SerializeField] private GameObject carBase;
+    
     [SerializeField] private float acceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float turnFactor;
@@ -15,6 +19,7 @@ public class CarController2 : MonoBehaviour
     private float _turnInput;
     private Rigidbody _rigidbody;
     private float _rotationAngle = 0f;
+    private float _previousTurnInput;
 
     private void Awake()
     {
@@ -60,11 +65,35 @@ public class CarController2 : MonoBehaviour
 
     private void Turn()
     {
+        if (_turnInput == 0 && _previousTurnInput != 0)
+        {
+            foreach (var wheel in wheels)
+            {
+                wheel.transform.DOLocalRotate(new Vector3(90, 90, 0), 0.5f);
+            }
+            carBase.transform.DOLocalRotate(new Vector3(0, 90, 0), 0.5f);
+        }
+        else if (_turnInput != 0 && _previousTurnInput == 0 || _turnInput > 0 && _previousTurnInput < 0 || _turnInput < 0 && _previousTurnInput > 0) 
+        {
+            foreach (var wheel in wheels)
+            {
+                if (_turnInput > 0f)
+                {
+                    wheel.transform.DOLocalRotate(new Vector3(90, 90, -35), 0.5f);
+                }
+                else if (_turnInput < 0f)
+                {
+                    wheel.transform.DOLocalRotate(new Vector3(90, 90, 35), 0.5f);
+                }
+            }
+        }
         float minSpeedBeforeAllowTurningFactor = (_rigidbody.velocity.magnitude / 8);
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
         _rotationAngle -= _turnInput * turnFactor * minSpeedBeforeAllowTurningFactor;
         Quaternion deltaRotation = Quaternion.Euler(0f, -_rotationAngle, 0f);
+        
         _rigidbody.MoveRotation(deltaRotation);
+        _previousTurnInput = _turnInput;
     }
     private void Drift()
     {
