@@ -33,6 +33,8 @@ public class CarController : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        //if (!isLocalPlayer) return;
+        
         _accelerationInput = Input.GetAxis("Vertical");
         _turnInput = Input.GetAxis("Horizontal");
         AddSpeed();
