@@ -66,12 +66,14 @@ public class CanvasController : MonoBehaviour
         public GameObject roomView;
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
-        public GameObject minimap; 
+        //public GameObject minimap; 
         
         private Vector3[] startingPositions = new Vector3[]
         {
-            new Vector3(-4, 0, 0),  // Pozycja pierwszego gracza
-            new Vector3(4, 0, 0)   // Pozycja drugiego gracza
+            new Vector3(-4, 0, 0),
+            new Vector3(4, 0, 0),
+            new Vector3(-4, 0, -4),
+            new Vector3(4, 0, -4),
         };
 
 
@@ -382,7 +384,7 @@ public class CanvasController : MonoBehaviour
             matchConnections.Add(newMatchId, new HashSet<NetworkConnectionToClient>());
             matchConnections[newMatchId].Add(conn);
             playerMatches.Add(conn, newMatchId);
-            openMatches.Add(newMatchId, new MatchInfo { matchId = newMatchId, maxPlayers = 2, players = 1 });
+            openMatches.Add(newMatchId, new MatchInfo { matchId = newMatchId, maxPlayers = 4, players = 1 });
 
             PlayerInfo playerInfo = playerInfos[conn];
             playerInfo.ready = false;
@@ -500,6 +502,7 @@ public class CanvasController : MonoBehaviour
 
                 MatchController matchController = matchControllerObject.GetComponent<MatchController>();
 
+                int playerPositionCount = 0;
                 foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
                 {
                     playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Started });
@@ -507,27 +510,31 @@ public class CanvasController : MonoBehaviour
                     GameObject player = Instantiate(NetworkManager.singleton.playerPrefab);
                     player.GetComponent<NetworkMatch>().matchId = matchId;
                     
-                    int playerInd = matchController.player1 == null ? 0 : 1; // Pierwszy gracz to 0, drugi to 1
-                    if (playerInd < startingPositions.Length)
-                    {
-                        player.transform.position = startingPositions[playerInd];
-                        player.transform.rotation = Quaternion.Euler(0,0,0);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Brak wystarczającej liczby pozycji startowych dla graczy.");
-                    }
+                    // int playerInt = matchController.player1 == null ? 0 : 1; // Pierwszy gracz to 0, drugi to 1
+                    // if (playerInt < startingPositions.Length)
+                    // {
+                    //     player.transform.position = startingPositions[playerInt];
+                    //     player.transform.rotation = Quaternion.Euler(0,0,0);
+                    // }
+                    // else
+                    // {
+                    //     Debug.LogWarning("Brak wystarczającej liczby pozycji startowych dla graczy.");
+                    // }
+                    player.transform.position = startingPositions[playerPositionCount];
+                    playerPositionCount++;
+                    player.transform.rotation = Quaternion.Euler(0,0,0);
                     
                     NetworkServer.AddPlayerForConnection(playerConn, player);
 
-                    if (matchController.player1 == null)
-                    {
-                        matchController.player1 = playerConn.identity;
-                    }
-                    else
-                    {
-                        matchController.player2 = playerConn.identity;
-                    }
+                    // if (matchController.player1 == null)
+                    // {
+                    //     matchController.player1 = playerConn.identity;
+                    // }
+                    // else
+                    // {
+                    //     matchController.player2 = playerConn.identity;
+                    // }
+                    matchController.players.Add(playerConn.identity);
 
                     /* Reset ready state for after the match. */
                     PlayerInfo playerInfo = playerInfos[playerConn];
@@ -616,7 +623,7 @@ public class CanvasController : MonoBehaviour
                     }
                 case ClientMatchOperation.Started:
                     {
-                        minimap.SetActive(true);
+                        //minimap.SetActive(true);
                         lobbyView.SetActive(false);
                         roomView.SetActive(false);
                         break;
