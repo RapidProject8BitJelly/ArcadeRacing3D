@@ -75,4 +75,9 @@ public class CarController : NetworkBehaviour
     {
         //StartCoroutine(StopCarCoroutine());
     }
+
+    public void ResetRotation()
+    {
+        _rotationAngle = 0f;
+    }
 }
