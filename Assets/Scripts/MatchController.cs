@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(NetworkMatch))]
 public class MatchController : NetworkBehaviour
 {
     #region Variables
+    public static MatchController Instance { get; private set; }
     internal readonly SyncDictionary<NetworkIdentity, MatchPlayerData> MatchPlayerData = new SyncDictionary<NetworkIdentity, MatchPlayerData>();
     private bool _playAgain = false;
     #endregion
@@ -20,7 +22,6 @@ public class MatchController : NetworkBehaviour
     public Button exitButton;
     public Button playAgainButton;
     public TMP_Text lapCounterText;
-    public TMP_Text positionText;
     public TMP_Text infoText;
 
     [Header("Diagnostics")]
@@ -50,7 +51,7 @@ public class MatchController : NetworkBehaviour
     public override void OnStartClient()
     {
         lapCounterText.text = "Laps: 1";
-        positionText.text = "Pos: 1";
+        //leaderboardText.text = "Pos: 1";
 
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
@@ -250,8 +251,17 @@ public class MatchController : NetworkBehaviour
     #region Unity Callbacks
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        
         // Initialize the canvas controller
-        canvasController = GameObject.FindObjectOfType<CanvasController>();
+        canvasController = GameObject.FindObjectOfType<CanvasController>(); //TODO: DO ZMIANY
     }
     #endregion
 

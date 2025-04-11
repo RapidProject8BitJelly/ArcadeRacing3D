@@ -559,7 +559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &551422352
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1125,7 +1125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1472968648
 Transform:
   m_ObjectHideFlags: 0
@@ -2106,6 +2106,10 @@ PrefabInstance:
       propertyPath: turnFactor
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2708185122616111851, guid: 624eb68ad33c68a478c088454566051b, type: 3}
+      propertyPath: driftFactor
+      value: 0.95
+      objectReference: {fileID: 0}
     - target: {fileID: 3888378662610461390, guid: 624eb68ad33c68a478c088454566051b, type: 3}
       propertyPath: m_Name
       value: Car
@@ -2120,7 +2124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7454871783183404931, guid: 624eb68ad33c68a478c088454566051b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.38
+      value: 6.13
       objectReference: {fileID: 0}
     - target: {fileID: 7454871783183404931, guid: 624eb68ad33c68a478c088454566051b, type: 3}
       propertyPath: m_LocalPosition.z
