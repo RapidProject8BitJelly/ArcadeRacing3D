@@ -716,11 +716,11 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 3888378662610461390, guid: 624eb68ad33c68a478c088454566051b, type: 3}
+  playerPrefab: {fileID: 7172262971620463697, guid: a5dcc16a42b1846908e25d659440eaa3, type: 3}
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 746755590041020690, guid: 56e2a910c56b74e85afc2726c959a334, type: 3}
+  - {fileID: 3091365900613999505, guid: 183110669cf8f4f539a5ffd7acf3ac84, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -1795,7 +1795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchList: {fileID: 777768151}
   matchPrefab: {fileID: 136683997269349423, guid: a7148d941de2c480fa602de43148f67c, type: 3}
-  matchControllerPrefab: {fileID: 746755590041020690, guid: 56e2a910c56b74e85afc2726c959a334, type: 3}
+  matchControllerPrefab: {fileID: 3091365900613999505, guid: 183110669cf8f4f539a5ffd7acf3ac84, type: 3}
   createButton: {fileID: 2043568133}
   joinButton: {fileID: 220979732}
   lobbyView: {fileID: 1472680191}
