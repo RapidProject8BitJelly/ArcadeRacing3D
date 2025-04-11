@@ -8,7 +8,6 @@ using UnityEngine;
 public class CheckpointSystem : MonoBehaviour
 {
     [SerializeField] private List<Checkpoint> checkpoints;
-    [SerializeField] private TMP_Text backText;
 
     private void OnEnable()
     {
@@ -27,7 +26,6 @@ public class CheckpointSystem : MonoBehaviour
     
     public static class CheckpointSystemEvents
     {
-        public static Action<Checkpoint> CanBeCheckpointVisited;
         public static Func<List<Checkpoint>> GetCheckpointsList;
     }
 }
