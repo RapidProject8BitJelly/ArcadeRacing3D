@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CarCheckpointController : NetworkBehaviour
 {
@@ -13,8 +14,11 @@ public class CarCheckpointController : NetworkBehaviour
     private List<MyCheckpoint> myCheckpoints = new();
     private MatchController _matchController;
     private MyCheckpoint _currentCheckpoint;
-    private int _laps = 1;
+    
+    public int currentLap = 1;
     private const int LAPS = 3;
+    
+    private bool _isLastCheckpoint = false;
 
     private void Awake()
     {
@@ -54,6 +58,11 @@ public class CarCheckpointController : NetworkBehaviour
         {
             if (i == 0 && myCheckpoints[i].checkpoint == checkpoint)
             {
+                if (_isLastCheckpoint)
+                {
+                    CrossedFinishLine();
+                    _isLastCheckpoint = false;
+                }
                 myCheckpoints[i].isVisited = true;
                 _currentCheckpoint = myCheckpoints[i];
             }
@@ -64,7 +73,7 @@ public class CarCheckpointController : NetworkBehaviour
                 {
                     if (myCheckpoints[i].checkpoint.isFinish)
                     {
-                        CrossedFinishLine();
+                        _isLastCheckpoint = true;
                     }
                     else
                     {
@@ -80,18 +89,19 @@ public class CarCheckpointController : NetworkBehaviour
 
     private void CrossedFinishLine()
     {
-        if (_laps < LAPS)
+        if (currentLap < LAPS)
         {
-            _laps++;
+            currentLap++;
             foreach (MyCheckpoint checkpoint in myCheckpoints)
             {
                 checkpoint.isVisited = false;
             }
 
             _currentCheckpoint = myCheckpoints[0];
+            gameObject.GetComponent<RaceProgressTracker>().IncreaseLapCounter();
             CmdIncreaseLapCounter();
         }
-        else if (_laps == LAPS)
+        else if (currentLap == LAPS)
         {
             CmdSetFinishText();
         }
@@ -147,7 +157,7 @@ public class CarCheckpointController : NetworkBehaviour
     [TargetRpc]
     private void TargetIncreaseLapCounter(NetworkConnection conn)
     {
-        _matchController.lapCounterText.text = "Lap: " + _laps + "/" + LAPS;
+        _matchController.lapCounterText.text = "Lap: " + currentLap + "/" + LAPS;
     }
 
     [Command]
