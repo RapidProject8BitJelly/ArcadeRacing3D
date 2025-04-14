@@ -164,9 +164,9 @@ public class CarController : NetworkBehaviour
         return false;
     }
     
-    public void ResetRotation()
+    public void SetNewRotation(float rotationAngle)
     {
-        _rotationAngle = 0f;
+        _rotationAngle = rotationAngle;
     }
     
     public void StopCar()

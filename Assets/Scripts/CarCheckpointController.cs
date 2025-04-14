@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class CarCheckpointController : NetworkBehaviour
@@ -14,6 +16,7 @@ public class CarCheckpointController : NetworkBehaviour
     private List<MyCheckpoint> myCheckpoints = new();
     private MatchController _matchController;
     private MyCheckpoint _currentCheckpoint;
+    private PlayerInputActions _playerInputActions;
     
     public int currentLap = 1;
     private const int LAPS = 3;
@@ -23,20 +26,25 @@ public class CarCheckpointController : NetworkBehaviour
     private void Awake()
     {
         _matchController = FindObjectOfType<MatchController>();
+        _playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        _playerInputActions.PlayerControl.BackToCheckpoint.started += ResetPlayerPosition;
+        _playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _playerInputActions.PlayerControl.BackToCheckpoint.started -= ResetPlayerPosition;
+        _playerInputActions.Disable();
     }
 
     private void Start()
     {
         SetMyCheckpoints();
         CmdIncreaseLapCounter();
-    }
-
-    private void Update()
-    {
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.R))
-        {
-            CmdRequestReset();
-        }
     }
 
     private void SetMyCheckpoints()
@@ -62,28 +70,43 @@ public class CarCheckpointController : NetworkBehaviour
                 {
                     CrossedFinishLine();
                     _isLastCheckpoint = false;
+                    myCheckpoints[i].isVisited = true;
+                    _currentCheckpoint = myCheckpoints[i];
                 }
-                myCheckpoints[i].isVisited = true;
-                _currentCheckpoint = myCheckpoints[i];
+                else if (!_isLastCheckpoint && myCheckpoints[i].isVisited)
+                {
+                    CmdShowBackMessage();
+                }
+                else
+                {
+                    myCheckpoints[i].isVisited = true;
+                    _currentCheckpoint = myCheckpoints[i];
+                }
             }
             if (i != 0 && myCheckpoints[i].checkpoint == checkpoint)
             {
                 if (!myCheckpoints[i - 1].isVisited) CmdShowBackMessage();
                 else
                 {
-                    if (myCheckpoints[i].checkpoint.isFinish)
+                    if (i == myCheckpoints.Count-1)
                     {
                         _isLastCheckpoint = true;
                     }
-                    else
-                    {
-                        myCheckpoints[i].isVisited = true;
-                        _currentCheckpoint = myCheckpoints[i];
-                    }
+
+                    myCheckpoints[i].isVisited = true;
+                    _currentCheckpoint = myCheckpoints[i];
                 }
 
                 break;
             }
+        }
+    }
+
+    private void ResetPlayerPosition(InputAction.CallbackContext ctx)
+    {
+        if (isLocalPlayer)
+        {
+            CmdRequestReset();
         }
     }
 
@@ -143,8 +166,7 @@ public class CarCheckpointController : NetworkBehaviour
     private void TargetResetPosition(NetworkConnection conn)
     {
         transform.position = _currentCheckpoint.checkpoint.teleportPosition.transform.position;
-        gameObject.GetComponent<CarController>().ResetRotation();
-        transform.rotation = _currentCheckpoint.checkpoint.teleportPosition.transform.rotation;
+        gameObject.GetComponent<CarController>().SetNewRotation(-_currentCheckpoint.checkpoint.transform.rotation.eulerAngles.y);
         CmdHideBackMessage();
     }
     

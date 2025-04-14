@@ -35,7 +35,6 @@ public class RaceProgressTracker : NetworkBehaviour
     public void IncreaseLapCounter()
     {
         _currentLap++;
-        Debug.Log(_currentLap);
     }
 }
 
