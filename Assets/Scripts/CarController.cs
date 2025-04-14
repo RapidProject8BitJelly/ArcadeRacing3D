@@ -202,16 +202,16 @@ public class CarController : NetworkBehaviour
 
     private void CmdPlayAudio()
     {
-        PlayDriftAudio();
+        ClientPlayDriftAudio();
     }
 
     [ClientRpc]
-    private void PlayDriftAudio()
+    private void ClientPlayDriftAudio()
     {
-        StartCoroutine(TargetPlayAudio());
+        StartCoroutine(PlayDriftAudio());
     }
     
-    private IEnumerator TargetPlayAudio()
+    private IEnumerator PlayDriftAudio()
     {
         audioSource.clip = audioClips[0];
         audioSource.Play();
