@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInputActions",
+    "maps": [
+        {
+            "name": "PlayerControl",
+            "id": "b0fd244c-b850-47d0-9151-37c9639873b5",
+            "actions": [
+                {
+                    "name": "BackToCheckpoint",
+                    "type": "Button",
+                    "id": "3568142a-4271-41fb-96ae-7c0a89730a98",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "52aa9b93-5afd-413f-ac71-50aa030ed36c",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BackToCheckpoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

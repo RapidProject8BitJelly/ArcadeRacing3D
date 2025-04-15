@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class RaceProgressTracker : NetworkBehaviour
 {
+    
     private RacePath racePath;
     private float progress = 0f;
-    public float NormalizedProgress => progress / racePath.GetPathLength();
-    [Range(0f, 1f)]
+    private int _currentLap;
+    public float NormalizedProgress => progress / racePath.GetPathLength() + _currentLap;
+    [Range(0f, 3f)]
     [SerializeField] private float _debugProgress; // tylko do podglądu
 
     private NetworkConnection _ownerConnection;
+    
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -28,7 +31,10 @@ public class RaceProgressTracker : NetworkBehaviour
         progress = racePath.GetDistanceAlongPath(transform.position);
         _debugProgress = NormalizedProgress;
     }
-     
-   
+
+    public void IncreaseLapCounter()
+    {
+        _currentLap++;
+    }
 }
 
