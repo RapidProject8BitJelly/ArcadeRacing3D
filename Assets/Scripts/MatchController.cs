@@ -37,9 +37,12 @@ public class MatchController : NetworkBehaviour
     [Header("Player Starting Positions")]
     public Vector3[] startingPositions = new Vector3[]
     {
-        new Vector3(-4, 0, 0),
-        new Vector3(4, 0, 0)
+        new Vector3(-6, 0, 0),
+        new Vector3(6, 0, 0),
+        new Vector3(-3, 0, -3),
+        new Vector3(3, 0, -3)
     };
+
     #endregion
 
     #region Networking
@@ -170,17 +173,14 @@ public class MatchController : NetworkBehaviour
     [ClientRpc]
     private void RpcResetPlayerPositions()
     {
-        int index = 0;
-        foreach (var player in MatchPlayerData.Keys)
+        for (int i = 0; i < players.Count && i < startingPositions.Length; i++)
         {
-            if (index < startingPositions.Length)
-            {
-                player.transform.position = startingPositions[index];
-                player.transform.rotation = Quaternion.Euler(0, 0, 0);
-                index++;
-            }
+            var player = players[i];
+            player.transform.position = startingPositions[i];
+            player.transform.rotation = Quaternion.identity;
         }
     }
+
 
     // Assigned in inspector to BackButton::OnClick
     [Client]
@@ -200,9 +200,10 @@ public class MatchController : NetworkBehaviour
     [ServerCallback]
     public void OnPlayerDisconnected(NetworkConnectionToClient conn)
     {
-        // Handle player disconnection on the server
-        if (player1 == conn.identity || player2 == conn.identity)
+        if (players.Contains(conn.identity))
+        {
             StartCoroutine(ServerEndMatch(conn, true));
+        }
     }
 
     [ServerCallback]
@@ -215,23 +216,22 @@ public class MatchController : NetworkBehaviour
 
         if (!disconnected)
         {
-            NetworkServer.RemovePlayerForConnection(player1.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player1.connectionToClient);
-
-            NetworkServer.RemovePlayerForConnection(player2.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player2.connectionToClient);
+            foreach (var player in players)
+            {
+                NetworkServer.RemovePlayerForConnection(player.connectionToClient, RemovePlayerOptions.Destroy);
+                CanvasController.waitingConnections.Add(player.connectionToClient);
+            }
         }
-        else if (conn == player1.connectionToClient)
+        else
         {
-            // player1 has disconnected - send player2 back to Lobby
-            NetworkServer.RemovePlayerForConnection(player2.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player2.connectionToClient);
-        }
-        else if (conn == player2.connectionToClient)
-        {
-            // player2 has disconnected - send player1 back to Lobby
-            NetworkServer.RemovePlayerForConnection(player1.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player1.connectionToClient);
+            foreach (var player in players)
+            {
+                if (player.connectionToClient != conn)
+                {
+                    NetworkServer.RemovePlayerForConnection(player.connectionToClient, RemovePlayerOptions.Destroy);
+                    CanvasController.waitingConnections.Add(player.connectionToClient);
+                }
+            }
         }
 
         yield return null;
@@ -239,6 +239,7 @@ public class MatchController : NetworkBehaviour
         canvasController.SendMatchList();
         NetworkServer.Destroy(gameObject);
     }
+
 
     [ClientRpc]
     private void RpcExitGame()
