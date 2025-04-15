@@ -76,4 +76,12 @@ public class RaceManager : MonoBehaviour
             racerToText[racer] = text;
         }
     }
+    
+    public GameObject GetCurrentLeaderObject()
+    {
+        if (racers.Count == 0) return null;
+
+        var sorted = racers.OrderByDescending(r => r.NormalizedProgress).ToList();
+        return sorted[0].gameObject;
+    }
 }

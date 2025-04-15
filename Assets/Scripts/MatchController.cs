@@ -331,4 +331,27 @@ public class MatchController : NetworkBehaviour
         foreach (CarLapCounter carLapCounter in carLapCounters) carLapCounter.Reset();*/
     }
     #endregion
+    
+    public NetworkIdentity GetCurrentLeaderIdentity(NetworkIdentity excludePlayer)
+    {
+        RaceProgressTracker leaderTracker = null;
+        float bestProgress = float.MinValue;
+
+        foreach (var kvp in MatchPlayerData)
+        {
+            var identity = kvp.Key;
+            if (identity == excludePlayer) continue;
+
+            var tracker = identity.GetComponent<RaceProgressTracker>();
+            if (tracker == null || tracker.hasFinishedRace) continue;
+
+            if (tracker.NormalizedProgress > bestProgress)
+            {
+                bestProgress = tracker.NormalizedProgress;
+                leaderTracker = tracker;
+            }
+        }
+
+        return leaderTracker != null ? leaderTracker.GetComponent<NetworkIdentity>() : null;
+    }
 }
