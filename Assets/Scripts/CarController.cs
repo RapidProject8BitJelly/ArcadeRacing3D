@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Cinemachine;
 using DG.Tweening;
@@ -17,20 +18,37 @@ public class CarController : NetworkBehaviour
     //[SerializeField] private TMP_Text speedText;
     [SerializeField] private TrailRenderer[] trailsRenderer;
     [SerializeField] private ParticleSystem[] particleSystem;
+    [SerializeField] private AudioSource audioSource;
 
+    [SerializeField] private AudioClip[] audioClips;
+    
     private float _accelerationInput;
     private float _turnInput;
     private Rigidbody _rigidbody;
     private float _rotationAngle = 0f;
     private float _previousTurnInput;
+    private bool _previousIsBraking;
 
     public CinemachineVirtualCamera virtualCamera;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        
     }
-    
+
+    private void Start()
+    {
+        if (!isLocalPlayer)
+        {
+            GetComponent<AudioListener>().enabled = false;
+        }
+        else
+        {
+            GetComponent<AudioListener>().enabled = true;
+        }
+    }
+
     public override void OnStartLocalPlayer()
     {
         if (virtualCamera != null)
@@ -38,6 +56,7 @@ public class CarController : NetworkBehaviour
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
         }
+        GetComponent<AudioListener>().enabled = true;
     }
 
     private void FixedUpdate()
@@ -53,6 +72,7 @@ public class CarController : NetworkBehaviour
         float lateralVelocity;
         bool isBraking;
         bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
+        Debug.Log(isScreeching);
 
         SetTrailsRenderers(isScreeching);
         
@@ -153,26 +173,74 @@ public class CarController : NetworkBehaviour
         if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.velocity, transform.forward) > 0f)
         {
             isBraking = true;
-            return true;
         }
 
         if (Mathf.Abs(lateralVelocity) > 3f)
         {
-            return true;
+            isBraking = true;
         }
 
-        return false;
+        if (!_previousIsBraking && isBraking)
+        {
+            CmdPlayAudio();
+        }
+        else if (_previousIsBraking && !isBraking)
+        {
+            CmdPlayStopDriftAudio();
+        }
+        
+        _previousIsBraking = isBraking;
+        return isBraking;
     }
     
     public void ResetRotation()
     {
         _rotationAngle = 0f;
     }
+
+    [Command]
+
+    private void CmdPlayAudio()
+    {
+        ClientPlayDriftAudio();
+    }
+
+    [ClientRpc]
+    private void ClientPlayDriftAudio()
+    {
+        StartCoroutine(PlayDriftAudio());
+    }
+    
+    private IEnumerator PlayDriftAudio()
+    {
+        audioSource.clip = audioClips[0];
+        audioSource.Play();
+        yield return new WaitForSeconds(audioClips[0].length);
+        audioSource.clip = audioClips[1];
+        audioSource.Play();
+        audioSource.loop = true;
+    }
+
+    [Command]
+    private void CmdPlayStopDriftAudio()
+    {
+        ClientPlayStopDriftAudio();
+    }
+
+    [ClientRpc]
+    private void ClientPlayStopDriftAudio()
+    {
+        audioSource.clip = audioClips[2];
+        audioSource.loop = false;
+        audioSource.Play();
+    }
     
     public void StopCar()
     {
         //StartCoroutine(StopCarCoroutine());
     }
+    
+    
     //
     // IEnumerator StopCarCoroutine()
     // {
