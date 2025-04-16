@@ -23,6 +23,7 @@ public class CarCheckpointController : NetworkBehaviour
     
     private bool _isLastCheckpoint = false;
 
+    private bool hasFinishedRace = false;
     private void Awake()
     {
         _matchController = FindObjectOfType<MatchController>();
@@ -121,12 +122,38 @@ public class CarCheckpointController : NetworkBehaviour
             }
 
             _currentCheckpoint = myCheckpoints[0];
-            gameObject.GetComponent<RaceProgressTracker>().IncreaseLapCounter();
+            GetComponent<RaceProgressTracker>().IncreaseLapCounter();
             CmdIncreaseLapCounter();
         }
-        else if (currentLap == LAPS)
+        else if (currentLap == LAPS && !hasFinishedRace)
         {
+            hasFinishedRace = true;
             CmdSetFinishText();
+            CmdRequestSpectateLeader();
+            GetComponent<RaceProgressTracker>().hasFinishedRace = true;
+
+        }
+    }
+    
+    [Command]
+    private void CmdRequestSpectateLeader()
+    {
+        var myIdentity = GetComponent<NetworkIdentity>();
+        NetworkIdentity leader = MatchController.Instance.GetCurrentLeaderIdentity(myIdentity);
+        if (leader == null) return;
+
+        TargetStartSpectatingLeader(connectionToClient, leader);
+    }
+
+    [TargetRpc]
+    private void TargetStartSpectatingLeader(NetworkConnection conn, NetworkIdentity leader)
+    {
+        if (leader == null) return;
+
+        CarController carController = GetComponent<CarController>();
+        if (carController != null)
+        {
+            carController.SetSpectateTarget(leader.transform);
         }
     }
 
@@ -170,7 +197,7 @@ public class CarCheckpointController : NetworkBehaviour
         CmdHideBackMessage();
     }
     
-    [Command]
+    [Command(requiresAuthority = false)]
     private void CmdIncreaseLapCounter()
     {
         TargetIncreaseLapCounter(connectionToClient);

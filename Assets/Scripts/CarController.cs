@@ -58,6 +58,14 @@ public class CarController : NetworkBehaviour
         }
         GetComponent<AudioListener>().enabled = true;
     }
+    
+    public void SetSpectateTarget(Transform target)
+    {
+        if (!isLocalPlayer || virtualCamera == null) return;
+
+        virtualCamera.Follow = target;
+        virtualCamera.LookAt = target;
+    }
 
     private void FixedUpdate()
     {
