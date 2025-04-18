@@ -583,7 +583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &529898687339078173
 Transform:
   m_ObjectHideFlags: 0
@@ -615,8 +615,8 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 0
+  prewarm: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -5612,7 +5612,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &4445899647552176976
@@ -5697,6 +5697,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  hasFinishedRace: 0
   _debugProgress: 0
 --- !u!114 &415228609934061168
 MonoBehaviour:
@@ -5730,8 +5731,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   wheels:
-  - {fileID: 1665526942129059845}
-  - {fileID: 91224401627874847}
   - {fileID: 3431501229961503669}
   - {fileID: 2336946358403015341}
   carBase: {fileID: 7646098135032238269}
@@ -5739,6 +5738,7 @@ MonoBehaviour:
   maxSpeed: 30
   turnFactor: 2
   driftFactor: 0.95
+  minSpeedToShowTrails: 10
   trailsRenderer:
   - {fileID: 4431674237969246447}
   - {fileID: 6331494900035283708}
@@ -6022,7 +6022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1417609276961390756
 Transform:
   m_ObjectHideFlags: 0
@@ -6054,8 +6054,8 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 0
+  prewarm: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

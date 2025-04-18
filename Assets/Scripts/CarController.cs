@@ -15,6 +15,8 @@ public class CarController : NetworkBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float turnFactor;
     [SerializeField] private float driftFactor;
+
+    [SerializeField] private float minSpeedToShowTrails;
     //[SerializeField] private TMP_Text speedText;
     [SerializeField] private TrailRenderer[] trailsRenderer;
     [SerializeField] private ParticleSystem[] particleSystem;
@@ -34,7 +36,6 @@ public class CarController : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        
     }
 
     private void Start()
@@ -76,16 +77,14 @@ public class CarController : NetworkBehaviour
         AddSpeed();
         Drift();
         Turn();
-        
         float lateralVelocity;
         bool isBraking;
         bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
-        Debug.Log(isScreeching);
 
         SetTrailsRenderers(isScreeching);
         
-
         float speed = _rigidbody.velocity.magnitude * 3.6f;
+        Debug.Log(_rigidbody.velocity.magnitude);
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
 
@@ -96,7 +95,7 @@ public class CarController : NetworkBehaviour
         
         if (_accelerationInput == 0f)
         {
-            _rigidbody.drag = Mathf.Lerp(_rigidbody.drag, 3.0f, Time.fixedDeltaTime * 3);
+            _rigidbody.drag = Mathf.Lerp(_rigidbody.drag, 0.3f, Time.fixedDeltaTime * 3);
         }
         else
         {
@@ -161,14 +160,9 @@ public class CarController : NetworkBehaviour
         {
             if (particle != null)
             {
-                if (screeching)
-                {
-                    particle.Play();
-                }
-                else
-                {
-                    particle.Stop();
-                }
+                if(!particle.gameObject.activeSelf) particle.gameObject.SetActive(true);
+                var emission = particle.emission;
+                emission.enabled = screeching;
             }
         }
     }
@@ -178,7 +172,8 @@ public class CarController : NetworkBehaviour
         lateralVelocity = Vector3.Dot(_rigidbody.velocity, transform.right);
         isBraking = false;
 
-        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.velocity, transform.forward) > 0f)
+        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.velocity, transform.forward) > 0f 
+                                   && _rigidbody.velocity.magnitude > minSpeedToShowTrails)
         {
             isBraking = true;
         }
