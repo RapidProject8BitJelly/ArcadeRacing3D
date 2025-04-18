@@ -3,6 +3,7 @@ using System.Collections;
 using Cinemachine;
 using DG.Tweening;
 using Mirror;
+using Mirror.BouncyCastle.Crypto;
 using TMPro;
 using UnityEngine;
 
@@ -30,6 +31,8 @@ public class CarController : NetworkBehaviour
     private float _rotationAngle = 0f;
     private float _previousTurnInput;
     private bool _previousIsBraking;
+    
+    private Coroutine _driftCoroutine;
 
     public CinemachineVirtualCamera virtualCamera;
     private void Awake()
@@ -84,7 +87,6 @@ public class CarController : NetworkBehaviour
         SetTrailsRenderers(isScreeching);
         
         float speed = _rigidbody.velocity.magnitude * 3.6f;
-        Debug.Log(_rigidbody.velocity.magnitude);
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
 
@@ -148,23 +150,7 @@ public class CarController : NetworkBehaviour
 
     private void SetTrailsRenderers(bool screeching)
     {
-        foreach (var trail in trailsRenderer)
-        {
-            if (trail != null)
-            {
-                trail.emitting = screeching;
-            }
-        }
-        
-        foreach (var particle in particleSystem)
-        {
-            if (particle != null)
-            {
-                if(!particle.gameObject.activeSelf) particle.gameObject.SetActive(true);
-                var emission = particle.emission;
-                emission.enabled = screeching;
-            }
-        }
+        CmdDrawTrails(screeching);
     }
 
     private bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
@@ -211,7 +197,7 @@ public class CarController : NetworkBehaviour
     [ClientRpc]
     private void ClientPlayDriftAudio()
     {
-        StartCoroutine(PlayDriftAudio());
+        _driftCoroutine = StartCoroutine(PlayDriftAudio());
     }
     
     private IEnumerator PlayDriftAudio()
@@ -222,6 +208,7 @@ public class CarController : NetworkBehaviour
         audioSource.clip = audioClips[1];
         audioSource.Play();
         audioSource.loop = true;
+        _driftCoroutine = null;
     }
 
     [Command]
@@ -233,9 +220,39 @@ public class CarController : NetworkBehaviour
     [ClientRpc]
     private void ClientPlayStopDriftAudio()
     {
+        audioSource.Stop();
+        if (_driftCoroutine != null)
+        {
+            StopCoroutine(_driftCoroutine);
+            _driftCoroutine = null;
+        }
         audioSource.clip = audioClips[2];
         audioSource.loop = false;
         audioSource.Play();
+    }
+
+    [Command]
+    private void CmdDrawTrails(bool screeching)
+    {
+        ClientDrawTrails(screeching);
+    }
+
+    [ClientRpc]
+    private void ClientDrawTrails(bool screeching)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (trailsRenderer[i] != null)
+            {
+                trailsRenderer[i].emitting = screeching;
+            }
+            if (particleSystem[i] != null)
+            {
+                if(!particleSystem[i].gameObject.activeSelf) particleSystem[i].gameObject.SetActive(true);
+                var emission = particleSystem[i].emission;
+                emission.enabled = screeching;
+            }
+        }
     }
     
     public void StopCar()
