@@ -3,6 +3,7 @@ using System.Collections;
 using Cinemachine;
 using DG.Tweening;
 using Mirror;
+using Mirror.BouncyCastle.Crypto;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class CarController : NetworkBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float turnFactor;
     [SerializeField] private float driftFactor;
+
+    [SerializeField] private float minSpeedToShowTrails;
     //[SerializeField] private TMP_Text speedText;
     [SerializeField] private TrailRenderer[] trailsRenderer;
     [SerializeField] private ParticleSystem[] particleSystem;
@@ -28,13 +31,14 @@ public class CarController : NetworkBehaviour
     private float _rotationAngle = 0f;
     private float _previousTurnInput;
     private bool _previousIsBraking;
+    
+    private Coroutine _driftCoroutine;
 
     public CinemachineVirtualCamera virtualCamera;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        
     }
 
     private void Start()
@@ -76,15 +80,12 @@ public class CarController : NetworkBehaviour
         AddSpeed();
         Drift();
         Turn();
-        
         float lateralVelocity;
         bool isBraking;
         bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
-        Debug.Log(isScreeching);
 
         SetTrailsRenderers(isScreeching);
         
-
         float speed = _rigidbody.velocity.magnitude * 3.6f;
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
@@ -96,7 +97,7 @@ public class CarController : NetworkBehaviour
         
         if (_accelerationInput == 0f)
         {
-            _rigidbody.drag = Mathf.Lerp(_rigidbody.drag, 3.0f, Time.fixedDeltaTime * 3);
+            _rigidbody.drag = Mathf.Lerp(_rigidbody.drag, 0.3f, Time.fixedDeltaTime * 3);
         }
         else
         {
@@ -149,28 +150,7 @@ public class CarController : NetworkBehaviour
 
     private void SetTrailsRenderers(bool screeching)
     {
-        foreach (var trail in trailsRenderer)
-        {
-            if (trail != null)
-            {
-                trail.emitting = screeching;
-            }
-        }
-        
-        foreach (var particle in particleSystem)
-        {
-            if (particle != null)
-            {
-                if (screeching)
-                {
-                    particle.Play();
-                }
-                else
-                {
-                    particle.Stop();
-                }
-            }
-        }
+        CmdDrawTrails(screeching);
     }
 
     private bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
@@ -178,7 +158,8 @@ public class CarController : NetworkBehaviour
         lateralVelocity = Vector3.Dot(_rigidbody.velocity, transform.right);
         isBraking = false;
 
-        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.velocity, transform.forward) > 0f)
+        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.velocity, transform.forward) > 0f 
+                                   && _rigidbody.velocity.magnitude > minSpeedToShowTrails)
         {
             isBraking = true;
         }
@@ -216,7 +197,7 @@ public class CarController : NetworkBehaviour
     [ClientRpc]
     private void ClientPlayDriftAudio()
     {
-        StartCoroutine(PlayDriftAudio());
+        _driftCoroutine = StartCoroutine(PlayDriftAudio());
     }
     
     private IEnumerator PlayDriftAudio()
@@ -227,6 +208,7 @@ public class CarController : NetworkBehaviour
         audioSource.clip = audioClips[1];
         audioSource.Play();
         audioSource.loop = true;
+        _driftCoroutine = null;
     }
 
     [Command]
@@ -238,9 +220,39 @@ public class CarController : NetworkBehaviour
     [ClientRpc]
     private void ClientPlayStopDriftAudio()
     {
+        audioSource.Stop();
+        if (_driftCoroutine != null)
+        {
+            StopCoroutine(_driftCoroutine);
+            _driftCoroutine = null;
+        }
         audioSource.clip = audioClips[2];
         audioSource.loop = false;
         audioSource.Play();
+    }
+
+    [Command]
+    private void CmdDrawTrails(bool screeching)
+    {
+        ClientDrawTrails(screeching);
+    }
+
+    [ClientRpc]
+    private void ClientDrawTrails(bool screeching)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (trailsRenderer[i] != null)
+            {
+                trailsRenderer[i].emitting = screeching;
+            }
+            if (particleSystem[i] != null)
+            {
+                if(!particleSystem[i].gameObject.activeSelf) particleSystem[i].gameObject.SetActive(true);
+                var emission = particleSystem[i].emission;
+                emission.enabled = screeching;
+            }
+        }
     }
     
     public void StopCar()

@@ -313,8 +313,8 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
-      key1: {r: 0.3207547, g: 0.3192417, b: 0.3192417, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key1: {r: 0.3207547, g: 0.3192417, b: 0.3192417, a: 0.6509804}
+      key2: {r: 0, g: 0, b: 0, a: 0.39117435}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -329,9 +329,9 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
+      atime1: 22552
+      atime2: 45104
+      atime3: 65535
       atime4: 0
       atime5: 0
       atime6: 0
@@ -339,7 +339,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 4
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 1
@@ -583,7 +583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &529898687339078173
 Transform:
   m_ObjectHideFlags: 0
@@ -592,13 +592,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3549052329146795083}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000059604638, y: 0.5923819, z: -0.0000002980232, w: 0.80565727}
-  m_LocalPosition: {x: -0.11999726, y: 0.01, z: 0.30000013}
+  m_LocalRotation: {x: 0, y: 0.9063079, z: 0, w: 0.42261827}
+  m_LocalPosition: {x: -0.019, y: 0.01, z: 0.466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1210296246536835260}
-  m_LocalEulerAnglesHint: {x: 0, y: 72.652, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 130, z: 0}
 --- !u!198 &5052857338408365422
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -615,8 +615,8 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 0
+  prewarm: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -682,8 +682,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
-      minScalar: 1
+      scalar: 0.7
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -853,7 +853,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
+      scalar: 0.8
       minScalar: 0.4
       maxCurve:
         serializedVersion: 2
@@ -1436,7 +1436,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 80
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5363,7 +5363,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 4
   m_MeshDistribution: 1
   m_SortMode: 0
@@ -5493,8 +5493,8 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
-      key1: {r: 0.3207547, g: 0.3192417, b: 0.3192417, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key1: {r: 0.3207547, g: 0.3192417, b: 0.3192417, a: 0.6509804}
+      key2: {r: 0.3207547, g: 0.3192417, b: 0.3192417, a: 0.39117435}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -5502,16 +5502,16 @@ TrailRenderer:
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
-      ctime2: 0
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
+      atime1: 22552
+      atime2: 45104
+      atime3: 65535
       atime4: 0
       atime5: 0
       atime6: 0
@@ -5519,7 +5519,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 4
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 1
@@ -5612,7 +5612,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &4445899647552176976
@@ -5697,6 +5697,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  hasFinishedRace: 0
   _debugProgress: 0
 --- !u!114 &415228609934061168
 MonoBehaviour:
@@ -5730,8 +5731,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   wheels:
-  - {fileID: 1665526942129059845}
-  - {fileID: 91224401627874847}
   - {fileID: 3431501229961503669}
   - {fileID: 2336946358403015341}
   carBase: {fileID: 7646098135032238269}
@@ -5739,6 +5738,7 @@ MonoBehaviour:
   maxSpeed: 30
   turnFactor: 2
   driftFactor: 0.95
+  minSpeedToShowTrails: 10
   trailsRenderer:
   - {fileID: 4431674237969246447}
   - {fileID: 6331494900035283708}
@@ -6022,7 +6022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1417609276961390756
 Transform:
   m_ObjectHideFlags: 0
@@ -6031,13 +6031,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9212434392665259735}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000044703484, y: 0.5923819, z: -0.00000029802322, w: 0.8056573}
-  m_LocalPosition: {x: -0.11999726, y: -0.28, z: 0.30000013}
+  m_LocalRotation: {x: 0, y: 0.9063079, z: 0, w: 0.42261827}
+  m_LocalPosition: {x: 0.011, y: -0.28, z: 0.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5619558604636763791}
-  m_LocalEulerAnglesHint: {x: 0, y: 72.652, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 130, z: 0}
 --- !u!198 &5897739825442829877
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -6054,8 +6054,8 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 0
+  prewarm: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -6121,8 +6121,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
-      minScalar: 1
+      scalar: 0.7
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6292,7 +6292,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
+      scalar: 0.8
       minScalar: 0.4
       maxCurve:
         serializedVersion: 2
@@ -6875,7 +6875,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 80
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -10802,7 +10802,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 4
   m_MeshDistribution: 1
   m_SortMode: 0
