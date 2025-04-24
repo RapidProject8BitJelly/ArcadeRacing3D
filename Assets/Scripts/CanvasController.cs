@@ -238,6 +238,14 @@ public class CanvasController : MonoBehaviour
             InitializeData();
             NetworkServer.RegisterHandler<ServerMatchMessage>(OnServerMatchMessage);
             NetworkServer.RegisterHandler<CreateMatchMessage>(OnCreateLobbyMessage);
+            NetworkServer.RegisterHandler<SetPlayerNickname>(OnSetPlayerNickname);
+        }
+
+        private void OnSetPlayerNickname(NetworkConnectionToClient conn, SetPlayerNickname msg)
+        {
+            var playerInfo = playerInfos[conn];
+            playerInfo.playerName = msg.nickname;
+            playerInfos[conn] = playerInfo;
         }
 
         [ServerCallback]

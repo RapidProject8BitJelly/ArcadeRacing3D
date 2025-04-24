@@ -290,7 +290,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 60672138}
   m_TextViewport: {fileID: 1880955667}
   m_TextComponent: {fileID: 792612552}
@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 164300780}
   - component: {fileID: 164300779}
   - component: {fileID: 164300778}
+  - component: {fileID: 164300781}
   m_Layer: 5
   m_Name: PlayerNicknamePanel
   m_TagString: Untagged
@@ -553,6 +554,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 164300776}
   m_CullTransparentMesh: 1
+--- !u!114 &164300781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164300776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f620465554e7a42b27c84e50899d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nicknameInput: {fileID: 597440601}
+  uiElements:
+  - {fileID: 220979732}
+  - {fileID: 60672137}
+  - {fileID: 1610772026}
+  - {fileID: 2043568133}
+  uiPanels:
+  - {fileID: 1061987896}
+  - {fileID: 1427054987}
+  - {fileID: 1358502217}
+  normalColor: {r: 0, g: 0, b: 0, a: 0.19607843}
+  nonInteractableColor: {r: 0, g: 0, b: 0, a: 0.5882353}
 --- !u!1 &174237104
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,11 +724,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 220979733}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 164300781}
+        m_TargetAssemblyTypeName: PlayerNicknamePanel, Assembly-CSharp
+        m_MethodName: SetNickInMatch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1168255949}
         m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
         m_MethodName: RequestJoinMatch
@@ -3203,7 +3240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3792,7 +3829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3953,7 +3990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4859,7 +4896,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1610772027}
   m_Template: {fileID: 961464242}
   m_CaptionText: {fileID: 877354312}
@@ -5950,11 +5987,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2043568131}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 164300781}
+        m_TargetAssemblyTypeName: PlayerNicknamePanel, Assembly-CSharp
+        m_MethodName: SetNickInMatch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1358502219}
         m_TargetAssemblyTypeName: CreateLobbyPanel, Assembly-CSharp
         m_MethodName: CreateLobby
