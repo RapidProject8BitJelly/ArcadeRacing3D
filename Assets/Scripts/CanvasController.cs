@@ -67,6 +67,9 @@ public class CanvasController : MonoBehaviour
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
         public CreateLobbyPanel createLobbyPanel;
+
+        private string matchName;
+        private byte maxPlayers;
         //public GameObject minimap; 
         
         private Vector3[] startingPositions = new Vector3[]
@@ -153,7 +156,6 @@ public class CanvasController : MonoBehaviour
         public void RequestCreateMatch()
         {
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Create });
-            createLobbyPanel = FindObjectOfType<CreateLobbyPanel>();
         }
 
         /// <summary>
@@ -235,6 +237,7 @@ public class CanvasController : MonoBehaviour
         {
             InitializeData();
             NetworkServer.RegisterHandler<ServerMatchMessage>(OnServerMatchMessage);
+            NetworkServer.RegisterHandler<CreateMatchMessage>(OnCreateLobbyMessage);
         }
 
         [ServerCallback]
@@ -318,6 +321,12 @@ public class CanvasController : MonoBehaviour
             NetworkClient.RegisterHandler<ClientMatchMessage>(OnClientMatchMessage);
         }
 
+        private void OnCreateLobbyMessage(NetworkConnectionToClient conn, CreateMatchMessage msg)
+        {
+            matchName = msg.matchName;
+            maxPlayers = msg.maxPlayers;
+        }
+
         [ClientCallback]
         internal void OnClientDisconnect()
         {
@@ -386,16 +395,16 @@ public class CanvasController : MonoBehaviour
             matchConnections.Add(newMatchId, new HashSet<NetworkConnectionToClient>());
             matchConnections[newMatchId].Add(conn);
             playerMatches.Add(conn, newMatchId);
-            openMatches.Add(newMatchId, new MatchInfo { matchName = createLobbyPanel.matchName, matchId = newMatchId, 
-                maxPlayers = (byte)createLobbyPanel.playerLimit, players = 1 });
-
+            openMatches.Add(newMatchId, new MatchInfo { matchName = matchName, matchId = newMatchId, 
+                maxPlayers = maxPlayers, players = 1 });
+            
             PlayerInfo playerInfo = playerInfos[conn];
             playerInfo.ready = false;
             playerInfo.matchId = newMatchId;
             playerInfos[conn] = playerInfo;
 
             PlayerInfo[] infos = matchConnections[newMatchId].Select(playerConn => playerInfos[playerConn]).ToArray();
-
+            
             conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Created, matchId = newMatchId, playerInfos = infos });
 
             SendMatchList();
@@ -586,7 +595,9 @@ public class CanvasController : MonoBehaviour
                     {
                         openMatches.Clear();
                         foreach (MatchInfo matchInfo in msg.matchInfos)
+                        {
                             openMatches.Add(matchInfo.matchId, matchInfo);
+                        }
 
                         RefreshMatchList();
                         break;
@@ -662,8 +673,10 @@ public class CanvasController : MonoBehaviour
                 Destroy(child.gameObject);
 
             joinButton.interactable = false;
-
-            foreach (MatchInfo matchInfo in openMatches.Values)
+            
+            List<MatchInfo> matchInfos = openMatches.OrderByDescending(pair => pair.Value.maxPlayers - pair.Value.players).Select(pair => pair.Value).ToList();
+            
+            foreach (MatchInfo matchInfo in matchInfos)
             {
                 GameObject newMatch = Instantiate(matchPrefab, Vector3.zero, Quaternion.identity);
                 newMatch.transform.SetParent(matchList.transform, false);

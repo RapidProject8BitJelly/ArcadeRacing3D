@@ -22,6 +22,12 @@ public struct ClientMatchMessage : NetworkMessage
     public PlayerInfo[] playerInfos;
 }
 
+public struct CreateMatchMessage : NetworkMessage
+{
+    public string matchName;
+    public byte maxPlayers;
+}
+
 /// <summary>
 /// Information about a match
 /// </summary>
