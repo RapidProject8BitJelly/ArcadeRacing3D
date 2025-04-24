@@ -22,12 +22,24 @@ public struct ClientMatchMessage : NetworkMessage
     public PlayerInfo[] playerInfos;
 }
 
+public struct CreateMatchMessage : NetworkMessage
+{
+    public string matchName;
+    public byte maxPlayers;
+}
+
+public struct SetPlayerNickname : NetworkMessage
+{
+    public string nickname;
+}
+
 /// <summary>
 /// Information about a match
 /// </summary>
 [Serializable]
 public struct MatchInfo
 {
+    public string matchName;
     public Guid matchId;
     public byte players;
     public byte maxPlayers;
@@ -39,6 +51,7 @@ public struct MatchInfo
 [Serializable]
 public struct PlayerInfo
 {
+    public string playerName;
     public int playerIndex;
     public bool ready;
     public Guid matchId;

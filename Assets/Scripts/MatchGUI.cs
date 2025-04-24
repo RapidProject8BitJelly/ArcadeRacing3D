@@ -12,6 +12,10 @@ public class MatchGUI : MonoBehaviour
     public Toggle toggleButton;
     public Text matchName;
     public Text playerCount;
+    public Image lobbyAvailableImage;
+    
+    [SerializeField] private Color lobbyAvailableColor;
+    [SerializeField] private Color lobbyUnavailableColor;
 
     [Header("Diagnostics")]
     [ReadOnly, SerializeField] internal CanvasController canvasController;
@@ -35,7 +39,15 @@ public class MatchGUI : MonoBehaviour
     public void SetMatchInfo(MatchInfo infos)
     {
         matchId = infos.matchId;
-        matchName.text = $"Match {infos.matchId.ToString().Substring(0, 8)}";
+        matchName.text = infos.matchName;
         playerCount.text = $"{infos.players} / {infos.maxPlayers}";
+        if (infos.players < infos.maxPlayers)
+        {
+            lobbyAvailableImage.color = lobbyAvailableColor;
+        }
+        else
+        {
+            lobbyAvailableImage.color = lobbyUnavailableColor;
+        }
     }
 }

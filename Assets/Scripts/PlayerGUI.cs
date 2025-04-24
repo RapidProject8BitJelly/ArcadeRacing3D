@@ -9,7 +9,7 @@ public class PlayerGUI : MonoBehaviour
     [ClientCallback]
     public void SetPlayerInfo(PlayerInfo info)
     {
-        playerName.text = $"Player {info.playerIndex}";
+        playerName.text = info.playerName;
         playerName.color = info.ready ? Color.green : Color.red;
     }
 }
