@@ -66,6 +66,7 @@ public class CanvasController : MonoBehaviour
         public GameObject roomView;
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
+        public CreateLobbyPanel createLobbyPanel;
         //public GameObject minimap; 
         
         private Vector3[] startingPositions = new Vector3[]
@@ -152,6 +153,7 @@ public class CanvasController : MonoBehaviour
         public void RequestCreateMatch()
         {
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Create });
+            createLobbyPanel = FindObjectOfType<CreateLobbyPanel>();
         }
 
         /// <summary>
@@ -384,7 +386,8 @@ public class CanvasController : MonoBehaviour
             matchConnections.Add(newMatchId, new HashSet<NetworkConnectionToClient>());
             matchConnections[newMatchId].Add(conn);
             playerMatches.Add(conn, newMatchId);
-            openMatches.Add(newMatchId, new MatchInfo { matchId = newMatchId, maxPlayers = 4, players = 1 });
+            openMatches.Add(newMatchId, new MatchInfo { matchName = createLobbyPanel.matchName, matchId = newMatchId, 
+                maxPlayers = (byte)createLobbyPanel.playerLimit, players = 1 });
 
             PlayerInfo playerInfo = playerInfos[conn];
             playerInfo.ready = false;

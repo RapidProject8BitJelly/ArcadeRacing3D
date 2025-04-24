@@ -28,6 +28,7 @@ public struct ClientMatchMessage : NetworkMessage
 [Serializable]
 public struct MatchInfo
 {
+    public string matchName;
     public Guid matchId;
     public byte players;
     public byte maxPlayers;

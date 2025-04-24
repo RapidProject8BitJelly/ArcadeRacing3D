@@ -35,7 +35,7 @@ public class MatchGUI : MonoBehaviour
     public void SetMatchInfo(MatchInfo infos)
     {
         matchId = infos.matchId;
-        matchName.text = $"Match {infos.matchId.ToString().Substring(0, 8)}";
+        matchName.text = infos.matchName;
         playerCount.text = $"{infos.players} / {infos.maxPlayers}";
     }
 }
