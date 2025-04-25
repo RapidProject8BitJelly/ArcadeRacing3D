@@ -190,20 +190,7 @@ public class CanvasController : MonoBehaviour
 
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Leave, matchId = localJoinedMatch });
         }
-
-        /// <summary>
-        /// Assigned in inspector to Ready button
-        /// </summary>
-        [ClientCallback]
-        public void RequestReadyChange()
-        {
-            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
-
-            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
-
-            NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Ready, matchId = matchId });
-        }
-
+        
         /// <summary>
         /// Assigned in inspector to Start button
         /// </summary>
@@ -239,8 +226,19 @@ public class CanvasController : MonoBehaviour
             NetworkServer.RegisterHandler<ServerMatchMessage>(OnServerMatchMessage);
             NetworkServer.RegisterHandler<CreateMatchMessage>(OnCreateLobbyMessage);
             NetworkServer.RegisterHandler<SetPlayerNickname>(OnSetPlayerNickname);
+            NetworkServer.RegisterHandler<ReadyToMatchMessage>(OnReadyToMatchMessage);
         }
 
+        private void OnReadyToMatchMessage(NetworkConnectionToClient conn, ReadyToMatchMessage msg)
+        {
+            if (playerInfos[conn].playerIndex != msg.playerIndex) return;
+            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
+
+            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
+
+            OnServerPlayerReady(conn, matchId);
+        }
+        
         private void OnSetPlayerNickname(NetworkConnectionToClient conn, SetPlayerNickname msg)
         {
             var playerInfo = playerInfos[conn];

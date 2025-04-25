@@ -22,6 +22,11 @@ public struct ClientMatchMessage : NetworkMessage
     public PlayerInfo[] playerInfos;
 }
 
+public struct ReadyToMatchMessage : NetworkMessage
+{
+    public int playerIndex;
+}
+
 public struct CreateMatchMessage : NetworkMessage
 {
     public string matchName;
