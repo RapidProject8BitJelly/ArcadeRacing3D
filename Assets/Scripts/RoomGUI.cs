@@ -7,7 +7,7 @@ public class RoomGUI : MonoBehaviour
     public GameObject playerList;
     public GameObject playerPrefab;
     public GameObject cancelButton;
-    public GameObject leaveButton;
+    //public GameObject leaveButton;
     public Button startButton;
     public bool owner;
 
@@ -38,6 +38,6 @@ public class RoomGUI : MonoBehaviour
     {
         this.owner = owner;
         cancelButton.SetActive(owner);
-        leaveButton.SetActive(!owner);
+        //leaveButton.SetActive(!owner);
     }
 }

@@ -1,11 +1,16 @@
+using System;
 using Mirror;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerGUI : MonoBehaviour
 {
-    public Text playerName;
-
+    [SerializeField] private Button readyButton;
+    
+    public TextMeshProUGUI playerName;
+    
+    
     [ClientCallback]
     public void SetPlayerInfo(PlayerInfo info)
     {
