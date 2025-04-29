@@ -1464,6 +1464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7032856933449649701}
+  - component: {fileID: 6420853646466228765}
   m_Layer: 5
   m_Name: PreviewManager
   m_TagString: Untagged
@@ -1493,6 +1494,20 @@ RectTransform:
   m_AnchoredPosition: {x: 290.9248, y: 443.77127}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6420853646466228765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4363400779347390811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5edfd1ec897568b478ead6914a3220d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 2395179846245608639}
+  rawImage: {fileID: 6052711102024770974}
 --- !u!1 &4458076801776712069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,7 +1638,16 @@ MonoBehaviour:
   nextCarButton: {fileID: 6397394108587778810}
   previousCarButton: {fileID: 3747630772510202741}
   carCustomization: {fileID: 2251209985678004299}
+  playerGUI: {fileID: 4115232918911052915}
+  currentCar: 0
   currentCarGameObject: {fileID: 1858748276352964588}
+  playerInfo:
+    playerName: 
+    playerIndex: 0
+    ready: 0
+    carID: 0
+    colorIndex: 0
+    accessoriesIndex: 0
 --- !u!1 &5728944266289237019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,6 +1738,9 @@ MonoBehaviour:
   accessoriesText: {fileID: 6011790238130846398}
   nextAccessoriesButton: {fileID: 6340139499675430918}
   previousAccessoriesButton: {fileID: 1345872115789230010}
+  playerGUI: {fileID: 4115232918911052915}
+  currentColorIndex: 0
+  currentAccessoriesIndex: 0
   currentCarAccessories: {fileID: 5972706588737864539}
   currentCar: {fileID: 1858748276352964588}
 --- !u!1 &5836771063819672302
@@ -2974,11 +3001,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readyButton: {fileID: 2321169355330006967}
+  chooseCarPanel: {fileID: 9148144630601504275}
+  carCustomization: {fileID: 2251209985678004299}
   playerName: {fileID: 3719133944229400714}
   player:
     playerName: 
     playerIndex: 0
     ready: 0
+    carID: 0
+    colorIndex: 0
+    accessoriesIndex: 0
 --- !u!1001 &2056614159228222534
 PrefabInstance:
   m_ObjectHideFlags: 0

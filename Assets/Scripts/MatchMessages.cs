@@ -27,6 +27,22 @@ public struct ReadyToMatchMessage : NetworkMessage
     public int playerIndex;
 }
 
+public struct CheckIfGoodPlayerMessage : NetworkMessage
+{
+    public int playerIndex;
+    public int buttonIndex;
+    public int value;
+    public GameObject customizationObject;
+}
+
+public struct UpdatePlayerCarChoiceMessage : NetworkMessage
+{
+    public int carIndex;
+    public int colourIndex;
+    public int accessoriesIndex;
+    public int playerIndex;
+}
+
 public struct CreateMatchMessage : NetworkMessage
 {
     public string matchName;
@@ -60,6 +76,9 @@ public struct PlayerInfo
     public int playerIndex;
     public bool ready;
     public Guid matchId;
+    public int carID;
+    public int colorIndex;
+    public int accessoriesIndex;
 }
 
 [Serializable]
@@ -96,5 +115,6 @@ public enum ClientMatchOperation : byte
     Joined,
     Departed,
     UpdateRoom,
+    UpdateCars,
     Started
 }

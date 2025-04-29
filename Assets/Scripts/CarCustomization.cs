@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,29 +19,44 @@ public class CarCustomization : MonoBehaviour
     [SerializeField] private Button nextAccessoriesButton;
     [SerializeField] private Button previousAccessoriesButton;
     
-    private int currentColorIndex;
-    private int currentAccessoriesIndex;
+    [SerializeField] private PlayerGUI playerGUI;
+
+    public int currentColorIndex;
+    public int currentAccessoriesIndex;
     public GameObject currentCarAccessories;
     public GameObject currentCar;
+    public bool isGoodPlayer;
 
+    private void Awake()
+    {
+        //ChooseColor(0);
+    }
+    
     private void OnEnable()
     {
-        nextColorButton.onClick.AddListener(() => ChooseColor(1));
-        previousColorButton.onClick.AddListener(() => ChooseColor(-1));
-        nextAccessoriesButton.onClick.AddListener(() => ChooseAccessories(1));
-        previousAccessoriesButton.onClick.AddListener(() => ChooseAccessories(-1));
+        nextColorButton.onClick.AddListener(() => CheckIfGoodPlayer(1, 0));
+        //nextColorButton.onClick.AddListener(() => ChooseColor(1));
+        previousColorButton.onClick.AddListener(() => CheckIfGoodPlayer(-1, 0));
+        //previousColorButton.onClick.AddListener(() => ChooseColor(-1));
+        nextAccessoriesButton.onClick.AddListener(() => CheckIfGoodPlayer(1, 1));
+        //nextAccessoriesButton.onClick.AddListener(() => ChooseAccessories(1));
+        previousAccessoriesButton.onClick.AddListener(() => CheckIfGoodPlayer(-1, 1));
+        //previousAccessoriesButton.onClick.AddListener(() => ChooseAccessories(-1));
     }
 
-    private void ChooseColor(int value)
+    [ClientCallback]
+    public void ChooseColor(int value)
     {
         if (currentColorIndex + value < colors.Length && currentColorIndex + value >= 0) currentColorIndex += value;
         else if (currentColorIndex + value >= colors.Length) currentColorIndex = 0;
         else if(currentColorIndex + value < 0) currentColorIndex = colors.Length - 1;
+        playerGUI.UpdatePlayerCar();
 
         colorImage.color = colors[currentColorIndex];
         currentCar.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
     }
 
+    [ClientCallback]
     public void SetCurrentCar(GameObject car)
     {
         currentCar = car;
@@ -48,18 +64,39 @@ public class CarCustomization : MonoBehaviour
         ChooseColor(-currentColorIndex);
         ChooseAccessories(-currentAccessoriesIndex);
     }
-
-    private void ChooseAccessories(int value)
+    
+    [ClientCallback]
+    public void ChooseAccessories(int value)
     {
         if (currentAccessoriesIndex + value < currentCarAccessories.transform.childCount && currentAccessoriesIndex + value >= 0) 
             currentAccessoriesIndex += value;
         else if(currentAccessoriesIndex + value >= currentCarAccessories.transform.childCount) currentAccessoriesIndex = 0;
-        else if (currentAccessoriesIndex + value < 0) currentAccessoriesIndex = 3;
+        else if (currentAccessoriesIndex + value < 0) currentAccessoriesIndex = 2;
+        playerGUI.UpdatePlayerCar();
         
         accessoriesText.text = (currentAccessoriesIndex+1).ToString();
         for (int i = 0; i < currentCarAccessories.transform.childCount; i++)
         {
             if (i == currentAccessoriesIndex)
+            {
+                    currentCarAccessories.transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else
+            {
+                    currentCarAccessories.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void UpdateCarView(int colourIndex, int accessoriesIndex)
+    {
+        colorImage.color = colors[colourIndex];
+        currentCar.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = colors[colourIndex];
+        
+        accessoriesText.text = (accessoriesIndex+1).ToString();
+        for (int i = 0; i < currentCarAccessories.transform.childCount; i++)
+        {
+            if (i == accessoriesIndex)
             {
                 currentCarAccessories.transform.GetChild(i).gameObject.SetActive(true);
             }
@@ -68,5 +105,16 @@ public class CarCustomization : MonoBehaviour
                 currentCarAccessories.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+    }
+
+    private void CheckIfGoodPlayer(int value, int buttonIndex)
+    {
+        NetworkClient.Send(new CheckIfGoodPlayerMessage
+        {
+            playerIndex = playerGUI.player.playerIndex,
+            value = value,
+            buttonIndex = buttonIndex,
+            customizationObject = gameObject
+        });
     }
 }

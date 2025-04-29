@@ -29,8 +29,37 @@ public class RoomGUI : MonoBehaviour
             if (!playerInfo.ready)
                 everyoneReady = false;
         }
-
         startButton.interactable = everyoneReady && owner && (playerInfos.Length > 1);
+    }
+
+    public void RefreshPlayersCars(PlayerInfo[] playerInfos)
+    {
+        for (int i = 0; i < playerInfos.Length; i++)
+        {
+            playerList.transform.GetChild(i).GetComponent<PlayerGUI>().SetPlayerCar(playerInfos[i]);
+        }
+    }
+
+    [ClientCallback]
+    public void CheckGoodPlayer(int playerIndex, int buttonIndex, int value)
+    {
+        for (int i = 0; i < playerList.transform.childCount; i++)
+        {
+            if (playerList.transform.GetChild(i).GetComponent<PlayerGUI>().player.playerIndex == playerIndex)
+            {
+                GameObject playerCard = playerList.transform.GetChild(i).gameObject;
+                switch (buttonIndex)
+                {
+                    case 0:
+                        playerCard.GetComponentInChildren<CarCustomization>().ChooseColor(value);
+                        break;
+                    case 1:
+                        playerCard.GetComponentInChildren<CarCustomization>().ChooseAccessories(value);
+                        break;
+                }
+                break;
+            }
+        }
     }
 
     [ClientCallback]
