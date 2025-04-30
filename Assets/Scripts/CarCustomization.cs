@@ -107,6 +107,6 @@ public class CarCustomization : MonoBehaviour
 
     private void CheckIfGoodPlayer(int value, int buttonIndex)
     {
-        FindObjectOfType<CanvasController>().RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex);
+        FindObjectOfType<CanvasController>().RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex, -1);
     }
 }

@@ -39,7 +39,7 @@ public class PlayerGUI : MonoBehaviour
 
     public void SetPlayerCar(PlayerInfo info)
     {
-        chooseCarPanel.UpdateCarView(info.carID);
+        chooseCarPanel.UpdateCarView(info.carID, info.rotationAngle);
         carCustomization.UpdateCarView(info.colorIndex, info.accessoriesIndex);
     }
 }

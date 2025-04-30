@@ -1712,8 +1712,10 @@ MonoBehaviour:
   carNode: {fileID: 3258478190780088159}
   nextCarButton: {fileID: 6397394108587778810}
   previousCarButton: {fileID: 3747630772510202741}
+  rotateButton: {fileID: 7656597060807614729}
   carCustomization: {fileID: 2251209985678004299}
   playerGUI: {fileID: 4115232918911052915}
+  rotationAngle: 30
   currentCar: 0
   currentCarGameObject: {fileID: 1858748276352964588}
   playerInfo:
@@ -1723,6 +1725,8 @@ MonoBehaviour:
     carID: 0
     colorIndex: 0
     accessoriesIndex: 0
+    rotationAngle: 0
+  currentRotation: 90
 --- !u!1 &5728944266289237019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,7 +2802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000047684, y: 14.061}
+  m_AnchoredPosition: {x: 0, y: 14.061}
   m_SizeDelta: {x: 115.9928, y: 105.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5024354182570450230
@@ -3052,11 +3056,11 @@ RectTransform:
   m_Children:
   - {fileID: 7070114738174852593}
   - {fileID: 342744603756214574}
+  - {fileID: 1752406634196323328}
   - {fileID: 179286558009836713}
   - {fileID: 701742998876481545}
   - {fileID: 566227852010801090}
   - {fileID: 4719784813629173657}
-  - {fileID: 1752406634196323328}
   - {fileID: 1213715892991840935}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3089,6 +3093,7 @@ MonoBehaviour:
     carID: 0
     colorIndex: 0
     accessoriesIndex: 0
+    rotationAngle: 0
   canvasController: {fileID: 0}
 --- !u!1001 &2056614159228222534
 PrefabInstance:

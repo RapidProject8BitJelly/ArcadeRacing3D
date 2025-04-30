@@ -44,6 +44,7 @@ public struct UpdatePlayerCarMessage : NetworkMessage
     public int carIndex;
     public int colourIndex;
     public int accessoriesIndex;
+    public int rotationAngle;
 }
 
 public struct CreateMatchMessage : NetworkMessage
@@ -82,6 +83,7 @@ public struct PlayerInfo
     public int carID;
     public int colorIndex;
     public int accessoriesIndex;
+    public int rotationAngle;
 }
 
 [Serializable]
