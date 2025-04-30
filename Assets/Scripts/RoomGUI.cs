@@ -10,7 +10,8 @@ public class RoomGUI : MonoBehaviour
     //public GameObject leaveButton;
     public Button startButton;
     public bool owner;
-
+    public int localPlayerIndex;
+    
     [ClientCallback]
     public void RefreshRoomPlayers(PlayerInfo[] playerInfos)
     {

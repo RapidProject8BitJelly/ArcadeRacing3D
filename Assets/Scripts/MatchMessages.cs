@@ -9,6 +9,8 @@ public struct ServerMatchMessage : NetworkMessage
 {
     public ServerMatchOperation serverMatchOperation;
     public Guid matchId;
+    public int test;
+    public int test2;
 }
 
 /// <summary>
@@ -20,6 +22,7 @@ public struct ClientMatchMessage : NetworkMessage
     public Guid matchId;
     public MatchInfo[] matchInfos;
     public PlayerInfo[] playerInfos;
+    public int myPlayerIndex;
 }
 
 public struct ReadyToMatchMessage : NetworkMessage
@@ -35,12 +38,12 @@ public struct CheckIfGoodPlayerMessage : NetworkMessage
     public GameObject customizationObject;
 }
 
-public struct UpdatePlayerCarChoiceMessage : NetworkMessage
+public struct UpdatePlayerCarMessage : NetworkMessage
 {
+    public Guid matchId;
     public int carIndex;
     public int colourIndex;
     public int accessoriesIndex;
-    public int playerIndex;
 }
 
 public struct CreateMatchMessage : NetworkMessage
@@ -100,7 +103,8 @@ public enum ServerMatchOperation : byte
     Start,
     Join,
     Leave,
-    Ready
+    Ready,
+    UpdateCar
 }
 
 /// <summary>

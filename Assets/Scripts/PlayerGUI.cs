@@ -9,13 +9,17 @@ public class PlayerGUI : MonoBehaviour
     [SerializeField] private Button readyButton;
     [SerializeField] private ChooseCarPanel chooseCarPanel;
     [SerializeField] private CarCustomization carCustomization;
+    [SerializeField] private GameObject blockPanel;
     
     public TextMeshProUGUI playerName;
     public PlayerInfo player;
+    public CanvasController canvasController;
 
     private void OnEnable()
     {
+        canvasController = FindObjectOfType<CanvasController>();
         readyButton.onClick.AddListener(ClickReadyButton);
+        //readyButton.onClick.AddListener(canvasController.RequestReadyChange);
     }
     
     [ClientCallback]
@@ -24,33 +28,18 @@ public class PlayerGUI : MonoBehaviour
         playerName.text = info.playerName;
         playerName.color = info.ready ? Color.green : Color.red;
         player = info;
-        //chooseCarPanel.ChooseCar(info.carID);
-        //carCustomization.ChooseColor(info.colorIndex);
-        //carCustomization.ChooseAccessories(info.accessoriesIndex);
+        blockPanel.SetActive(info.playerIndex != FindObjectOfType<RoomGUI>().localPlayerIndex);
+        SetPlayerCar(info);
     }
 
     private void ClickReadyButton()
     {
-        NetworkClient.Send(new ReadyToMatchMessage
-        {
-            playerIndex = player.playerIndex
-        });
+        canvasController.RequestReadyChange(player.playerIndex);
     }
 
     public void SetPlayerCar(PlayerInfo info)
     {
         chooseCarPanel.UpdateCarView(info.carID);
         carCustomization.UpdateCarView(info.colorIndex, info.accessoriesIndex);
-    }
-
-    public void UpdatePlayerCar()
-    {
-        NetworkClient.Send(new UpdatePlayerCarChoiceMessage
-        {
-            carIndex = chooseCarPanel.currentCar,
-            colourIndex = carCustomization.currentColorIndex,
-            accessoriesIndex = carCustomization.currentAccessoriesIndex,
-            playerIndex = player.playerIndex
-        });
     }
 }

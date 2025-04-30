@@ -24,7 +24,9 @@ public class ChooseCarPanel : MonoBehaviour
    private void OnEnable()
    {
       nextCarButton.onClick.AddListener(() => ChooseCar(1));
+      nextCarButton.onClick.AddListener(CheckIfGoodPlayer);
       previousCarButton.onClick.AddListener(() => ChooseCar(-1));
+      previousCarButton.onClick.AddListener(CheckIfGoodPlayer);
    }
 
    [ClientCallback]
@@ -33,7 +35,7 @@ public class ChooseCarPanel : MonoBehaviour
       if(currentCar+value < 4 && currentCar+value >= 0) currentCar += value;
       else if (currentCar + value >= 4) currentCar = 0;
       else if (currentCar + value < 0) currentCar = 3;
-      playerGUI.UpdatePlayerCar();
+      //playerGUI.UpdatePlayerCar();
       
       for (int i = 0; i < carNode.transform.childCount; i++)
       {
@@ -55,8 +57,16 @@ public class ChooseCarPanel : MonoBehaviour
          {
             currentCarGameObject = carNode.transform.GetChild(i).gameObject;
             carNode.transform.GetChild(i).gameObject.SetActive(true);
+            carCustomization.currentCar = currentCarGameObject;
+            carCustomization.currentCarAccessories = currentCarGameObject.transform
+               .GetChild(currentCarGameObject.transform.childCount - 1).gameObject;
          }
          else carNode.transform.GetChild(i).gameObject.SetActive(false);
       }
+   }
+   
+   private void CheckIfGoodPlayer()
+   {
+      FindObjectOfType<CanvasController>().RequestCarCustomization(currentCar, 0, 0);
    }
 }

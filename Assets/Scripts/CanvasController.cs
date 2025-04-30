@@ -67,9 +67,11 @@ public class CanvasController : MonoBehaviour
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
         public CreateLobbyPanel createLobbyPanel;
-
+        
         private string matchName;
         private byte maxPlayers;
+
+        private int currentPlayer;
         //public GameObject minimap; 
         
         private Vector3[] startingPositions = new Vector3[]
@@ -202,6 +204,22 @@ public class CanvasController : MonoBehaviour
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Start });
         }
 
+        public void RequestReadyChange(int playerInd)
+        {
+            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
+            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
+            
+            NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Ready, matchId = matchId });
+        }
+
+        public void RequestCarCustomization(int carIndex, int colourIndex, int accessoriesIndex)
+        {
+            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
+            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
+            
+            NetworkClient.Send(new UpdatePlayerCarMessage {matchId = matchId, carIndex = carIndex, colourIndex = colourIndex, accessoriesIndex = accessoriesIndex});
+        }
+        
         /// <summary>
         /// Called from <see cref="newScripts.MatchController.RpcExitGame"/>
         /// </summary>
@@ -227,7 +245,7 @@ public class CanvasController : MonoBehaviour
             NetworkServer.RegisterHandler<CreateMatchMessage>(OnCreateLobbyMessage);
             NetworkServer.RegisterHandler<SetPlayerNickname>(OnSetPlayerNickname);
             NetworkServer.RegisterHandler<ReadyToMatchMessage>(OnReadyToMatchMessage);
-            NetworkServer.RegisterHandler<UpdatePlayerCarChoiceMessage>(OnUpdatePlayerCarChoice);
+            NetworkServer.RegisterHandler<UpdatePlayerCarMessage>(OnUpdatePlayerCar);
             NetworkServer.RegisterHandler<CheckIfGoodPlayerMessage>(OnCheckIfGoodPlayerMessage);
         }
 
@@ -248,33 +266,9 @@ public class CanvasController : MonoBehaviour
             roomGUI.CheckGoodPlayer(msg.playerIndex, msg.buttonIndex, msg.value);
         }
 
-        private void OnUpdatePlayerCarChoice(NetworkConnectionToClient conn, UpdatePlayerCarChoiceMessage msg)
+        private void OnUpdatePlayerCar(NetworkConnectionToClient conn, UpdatePlayerCarMessage msg)
         {
-            PlayerInfo playerInfo = new PlayerInfo();
-            for (int i = 0; i < playerInfos.Count; i++)
-            {
-                if (playerInfos.Values.ElementAt(i).playerIndex == msg.playerIndex)
-                {
-                    playerInfo = playerInfos.Values.ElementAt(i);
-                    playerInfo.carID = msg.carIndex;
-                    playerInfo.colorIndex = msg.colourIndex;
-                    playerInfo.accessoriesIndex = msg.accessoriesIndex;
-                    playerInfos[playerInfos.ElementAt(i).Key] = playerInfo;
-                    if (playerInfos[playerInfos.ElementAt(i).Key].playerName == null)
-                    {
-                        playerInfos[conn] = playerInfo;
-                    }
-                    break;
-                }
-            }
-            
-            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
-            
-            HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
-            PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
-
-            foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
-                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateCars, playerInfos = infos });
+            OnServerCarUpdate(conn, msg.matchId, msg.carIndex, msg.colourIndex, msg.accessoriesIndex);
         }
         
         private void OnSetPlayerNickname(NetworkConnectionToClient conn, SetPlayerNickname msg)
@@ -334,7 +328,7 @@ public class CanvasController : MonoBehaviour
 
                     foreach (NetworkConnectionToClient playerConn in matchConnections[playerInfo.matchId])
                         if (playerConn != conn)
-                            playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
+                            playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
                 }
             }
 
@@ -449,7 +443,7 @@ public class CanvasController : MonoBehaviour
 
             PlayerInfo[] infos = matchConnections[newMatchId].Select(playerConn => playerInfos[playerConn]).ToArray();
             
-            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Created, matchId = newMatchId, playerInfos = infos });
+            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Created, matchId = newMatchId, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
 
             SendMatchList();
         }
@@ -498,7 +492,7 @@ public class CanvasController : MonoBehaviour
             PlayerInfo[] infos = matchConnections[matchId].Select(playerConn => playerInfos[playerConn]).ToArray();
             SendMatchList();
 
-            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Joined, matchId = matchId, playerInfos = infos });
+            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Joined, matchId = matchId, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
 
             foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
                 playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
@@ -523,7 +517,7 @@ public class CanvasController : MonoBehaviour
             PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
 
             foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
-                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
+                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
 
             SendMatchList();
 
@@ -542,6 +536,21 @@ public class CanvasController : MonoBehaviour
 
             foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
                 playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
+        }
+
+        [ServerCallback]
+        void OnServerCarUpdate(NetworkConnectionToClient conn, Guid matchId, int carIndex, int colourIndex, int accessoriesIndex)
+        {
+            PlayerInfo playerInfo = playerInfos[conn];
+            if(carIndex >= 0) playerInfo.carID = carIndex; 
+            if(colourIndex >= 0) playerInfo.colorIndex = colourIndex;
+            if(accessoriesIndex >= 0) playerInfo.accessoriesIndex = accessoriesIndex;
+            playerInfos[conn] = playerInfo;
+            HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
+            PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
+
+            foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
+                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateCars, playerInfos = infos });
         }
 
         [ServerCallback]
@@ -650,6 +659,7 @@ public class CanvasController : MonoBehaviour
                     {
                         localPlayerMatch = msg.matchId;
                         ShowRoomView();
+                        roomGUI.localPlayerIndex = msg.myPlayerIndex;
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         roomGUI.SetOwner(true);
                         break;
@@ -664,6 +674,7 @@ public class CanvasController : MonoBehaviour
                     {
                         localJoinedMatch = msg.matchId;
                         ShowRoomView();
+                        roomGUI.localPlayerIndex = msg.myPlayerIndex;
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         roomGUI.SetOwner(false);
                         break;
@@ -676,6 +687,7 @@ public class CanvasController : MonoBehaviour
                     }
                 case ClientMatchOperation.UpdateRoom:
                     {
+                        //roomGUI.localPlayerIndex = msg.myPlayerIndex;
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         break;
                     }
