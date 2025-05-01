@@ -127,9 +127,19 @@ public class RadioManager : MonoBehaviour
         isPlaying = false;
     }
     
-    public void StopRadio()
+    public void ToggleRadio()
     {
-        SaveStationState();
-        audioSource.Stop();
+        if (audioSource.isPlaying)
+        {
+            // WYŁĄCZ radio
+            SaveStationState();
+            audioSource.Stop();
+            isPlaying = false;
+        }
+        else
+        {
+            // WŁĄCZ radio i graj dalej od poprzedniego miejsca
+            PlayCurrentStation();
+        }
     }
 }

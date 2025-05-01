@@ -3034,7 +3034,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4267688071184955326}
         m_TargetAssemblyTypeName: RadioManager, Assembly-CSharp
-        m_MethodName: StopRadio
+        m_MethodName: ToggleRadio
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
