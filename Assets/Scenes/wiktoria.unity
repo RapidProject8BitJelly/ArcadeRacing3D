@@ -365,7 +365,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 675f306f39809e044a19593a90aa7c77, type: 3}
---- !u!1001 &3391820619356546807
 --- !u!1001 &2076153838494344252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1044,7 +1043,6 @@ SceneRoots:
   - {fileID: 6397259747399809954}
   - {fileID: 6242430165969489822}
   - {fileID: 8018172894681657525}
-  - {fileID: 3391820619356546807}
   - {fileID: 8310371290832251454}
   - {fileID: 7233137823550285952}
   - {fileID: 6210636366151706556}
