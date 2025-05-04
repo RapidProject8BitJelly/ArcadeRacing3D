@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9210096052462287244}
+  - component: {fileID: 1465200242718726546}
   m_Layer: 0
   m_Name: crossroadsX_01Prefab_01
   m_TagString: Untagged
@@ -32,6 +33,28 @@ Transform:
   - {fileID: 8191651509461856543}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1465200242718726546
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752525771930705831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9018587045063619171, guid: 531b20561e6eda640b765dd4cdc6286b, type: 3}
 --- !u!1001 &8512980705045206772
 PrefabInstance:
   m_ObjectHideFlags: 0
