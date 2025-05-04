@@ -26,11 +26,6 @@ public class CarCustomization : MonoBehaviour
     public GameObject currentCarAccessories;
     public GameObject currentCar;
     public bool isGoodPlayer;
-
-    private void Awake()
-    {
-        //ChooseColor(0);
-    }
     
     private void OnEnable()
     {
@@ -107,6 +102,6 @@ public class CarCustomization : MonoBehaviour
 
     private void CheckIfGoodPlayer(int value, int buttonIndex)
     {
-        FindObjectOfType<CanvasController>().RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex, -1);
+        FindObjectOfType<CanvasController>().RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex);
     }
 }

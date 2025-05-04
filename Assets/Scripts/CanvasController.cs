@@ -212,13 +212,13 @@ public class CanvasController : MonoBehaviour
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Ready, matchId = matchId });
         }
 
-        public void RequestCarCustomization(int carIndex, int colourIndex, int accessoriesIndex, int rotationAngle)
+        public void RequestCarCustomization(int carIndex, int colourIndex, int accessoriesIndex)
         {
             if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
             Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
             
             NetworkClient.Send(new UpdatePlayerCarMessage {matchId = matchId, carIndex = carIndex, 
-                colourIndex = colourIndex, accessoriesIndex = accessoriesIndex, rotationAngle = rotationAngle});
+                colourIndex = colourIndex, accessoriesIndex = accessoriesIndex});
         }
         
         /// <summary>
@@ -247,7 +247,6 @@ public class CanvasController : MonoBehaviour
             NetworkServer.RegisterHandler<SetPlayerNickname>(OnSetPlayerNickname);
             NetworkServer.RegisterHandler<ReadyToMatchMessage>(OnReadyToMatchMessage);
             NetworkServer.RegisterHandler<UpdatePlayerCarMessage>(OnUpdatePlayerCar);
-            NetworkServer.RegisterHandler<CheckIfGoodPlayerMessage>(OnCheckIfGoodPlayerMessage);
         }
 
         private void OnReadyToMatchMessage(NetworkConnectionToClient conn, ReadyToMatchMessage msg)
@@ -260,16 +259,9 @@ public class CanvasController : MonoBehaviour
             OnServerPlayerReady(conn, matchId);
         }
 
-        private void OnCheckIfGoodPlayerMessage(NetworkConnectionToClient conn, CheckIfGoodPlayerMessage msg)
-        {
-            if(playerInfos[conn].playerIndex != msg.playerIndex) return;
-            Debug.Log("Checking if player " + msg.playerIndex + " is good");
-            roomGUI.CheckGoodPlayer(msg.playerIndex, msg.buttonIndex, msg.value);
-        }
-
         private void OnUpdatePlayerCar(NetworkConnectionToClient conn, UpdatePlayerCarMessage msg)
         {
-            OnServerCarUpdate(conn, msg.matchId, msg.carIndex, msg.colourIndex, msg.accessoriesIndex, msg.rotationAngle);
+            OnServerCarUpdate(conn, msg.matchId, msg.carIndex, msg.colourIndex, msg.accessoriesIndex);
         }
         
         private void OnSetPlayerNickname(NetworkConnectionToClient conn, SetPlayerNickname msg)
@@ -540,13 +532,12 @@ public class CanvasController : MonoBehaviour
         }
 
         [ServerCallback]
-        void OnServerCarUpdate(NetworkConnectionToClient conn, Guid matchId, int carIndex, int colourIndex, int accessoriesIndex, int rotationAngle)
+        void OnServerCarUpdate(NetworkConnectionToClient conn, Guid matchId, int carIndex, int colourIndex, int accessoriesIndex)
         {
             PlayerInfo playerInfo = playerInfos[conn];
             if(carIndex >= 0) playerInfo.carID = carIndex; 
             if(colourIndex >= 0) playerInfo.colorIndex = colourIndex;
             if(accessoriesIndex >= 0) playerInfo.accessoriesIndex = accessoriesIndex;
-            if(rotationAngle >= 0) playerInfo.rotationAngle = rotationAngle;
             playerInfos[conn] = playerInfo;
             HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
             PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();

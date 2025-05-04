@@ -31,7 +31,6 @@ public class ChooseCarPanel : MonoBehaviour
       previousCarButton.onClick.AddListener(() => ChooseCar(-1));
       previousCarButton.onClick.AddListener(CheckIfGoodPlayer);
       rotateButton.onClick.AddListener(RotateCar);
-      rotateButton.onClick.AddListener(CheckIfGoodPlayer);
    }
 
    [ClientCallback]
@@ -81,6 +80,6 @@ public class ChooseCarPanel : MonoBehaviour
    
    private void CheckIfGoodPlayer()
    {
-      FindObjectOfType<CanvasController>().RequestCarCustomization(currentCar, 0, 0, currentRotation);
+      FindObjectOfType<CanvasController>().RequestCarCustomization(currentCar, 0, 0);
    }
 }
