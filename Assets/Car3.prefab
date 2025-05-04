@@ -435,6 +435,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6828447835176297089}
+  - component: {fileID: 5219680789501779675}
   m_Layer: 0
   m_Name: Car3
   m_TagString: Untagged
@@ -464,6 +465,22 @@ Transform:
   - {fileID: 5083771569652140585}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &5219680789501779675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859410180208964476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2af5ccf8868fb34aad48c952da19cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carParameters: {fileID: 11400000, guid: d386a6c58688fbd40924adcc44c7d81e, type: 2}
+  elementsToChangeColor:
+  - {fileID: 8677037328191451529}
+  carAccessories: {fileID: 4774966469763917561}
 --- !u!1 &4315755334038350930
 GameObject:
   m_ObjectHideFlags: 0
