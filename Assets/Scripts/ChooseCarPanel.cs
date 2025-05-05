@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ChooseCarPanel : MonoBehaviour
@@ -14,14 +11,16 @@ public class ChooseCarPanel : MonoBehaviour
    [SerializeField] private CarCustomization carCustomization;
    [SerializeField] private PlayerGUI playerGUI;
    [SerializeField] private int rotationAngle;
+   [SerializeField] private SetCarInfo setCarInfo;
    public int currentCar;
    public GameObject currentCarGameObject;
    public PlayerInfo playerInfo;
    public int currentRotation = 90;
 
-   private void Start()
+   private void Awake()
    {
       playerInfo = playerGUI.player;
+      ChooseCar(0);
    }
    
    private void OnEnable()
@@ -50,6 +49,8 @@ public class ChooseCarPanel : MonoBehaviour
          }
          else carNode.transform.GetChild(i).gameObject.SetActive(false);
       }
+      
+      setCarInfo.UpdateCarInfo(currentCarGameObject.GetComponent<CarType>().GetCarParameters());
    }
 
    public void UpdateCarView(int value, int rotationAngleValue)
@@ -67,6 +68,7 @@ public class ChooseCarPanel : MonoBehaviour
          }
          else carNode.transform.GetChild(i).gameObject.SetActive(false);
       }
+      setCarInfo.UpdateCarInfo(currentCarGameObject.GetComponent<CarType>().GetCarParameters());
    }
 
    [ClientCallback]

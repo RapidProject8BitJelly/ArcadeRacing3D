@@ -1716,6 +1716,7 @@ MonoBehaviour:
   carCustomization: {fileID: 2251209985678004299}
   playerGUI: {fileID: 4115232918911052915}
   rotationAngle: 30
+  setCarInfo: {fileID: 4410514038474908354}
   currentCar: 0
   currentCarGameObject: {fileID: 1858748276352964588}
   playerInfo:
@@ -1805,12 +1806,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorImage: {fileID: 1378279488660032013}
-  colors:
-  - {r: 0.74509805, g: 0.41960785, b: 0.41960785, a: 1}
-  - {r: 0.6792453, g: 0.5118449, b: 0.086507656, a: 1}
-  - {r: 0.3343853, g: 0.8113208, b: 0.08802067, a: 1}
-  - {r: 0.8113208, g: 0.38652548, b: 0.7887011, a: 1}
-  - {r: 0.21052866, g: 0.6902032, b: 0.7830189, a: 1}
   nextColorButton: {fileID: 7867619557210071401}
   previousColorButton: {fileID: 3800442736214104332}
   carNode: {fileID: 3258478190780088159}
@@ -2418,6 +2413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 566227852010801090}
   - component: {fileID: 4739760126610173560}
+  - component: {fileID: 4410514038474908354}
   m_Layer: 5
   m_Name: CarInfo
   m_TagString: Untagged
@@ -2472,6 +2468,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4410514038474908354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040146745005212088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6013f5a648bb5f54e9dc34671ccbbc0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedText: {fileID: 6972661611836760485}
+  specialAbilityText: {fileID: 17096207904590842}
 --- !u!1 &7311342957550522465
 GameObject:
   m_ObjectHideFlags: 0

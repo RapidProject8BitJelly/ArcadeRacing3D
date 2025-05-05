@@ -5,6 +5,8 @@ public class CarType : MonoBehaviour
     [SerializeField] private CarParameters carParameters;
     [SerializeField] private GameObject[] elementsToChangeColor;
     [SerializeField] private GameObject carAccessories;
+    [SerializeField] private TrailRenderer[] trailsRenderer;
+    [SerializeField] private ParticleSystem[] particleSystems;
 
     public CarParameters GetCarParameters()
     {
@@ -19,6 +21,16 @@ public class CarType : MonoBehaviour
     public GameObject GetCarAccessories()
     {
         return carAccessories;
+    }
+
+    public TrailRenderer[] GetTrailsRenderer()
+    {
+        return trailsRenderer;
+    }
+
+    public ParticleSystem[] GetParticleSystems()
+    {
+        return particleSystems;
     }
     
     public void UseSpecialAbility()

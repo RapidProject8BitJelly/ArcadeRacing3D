@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class CarCustomization : MonoBehaviour
 {
     [SerializeField] private Image colorImage;
-    [SerializeField] private Color[] colors;
+    
     [SerializeField] private Button nextColorButton;
     [SerializeField] private Button previousColorButton;
     [SerializeField] private GameObject carNode;
@@ -26,7 +26,15 @@ public class CarCustomization : MonoBehaviour
     public GameObject currentCarAccessories;
     public GameObject currentCar;
     public bool isGoodPlayer;
-    
+
+    private GameObject[] elementsToChangeColor;
+    private Color[] colors;
+
+    private void Awake()
+    {
+        colors = carNode.transform.GetChild(0).GetComponent<CarType>().GetCarParameters().CarColors;
+    }
+
     private void OnEnable()
     {
         nextColorButton.onClick.AddListener(() => ChooseColor(1));
@@ -47,14 +55,20 @@ public class CarCustomization : MonoBehaviour
         else if(currentColorIndex + value < 0) currentColorIndex = colors.Length - 1;
 
         colorImage.color = colors[currentColorIndex];
-        currentCar.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
+
+        for (int i = 0; i < elementsToChangeColor.Length; i++)
+        {
+            elementsToChangeColor[i].GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
+        }
     }
 
     [ClientCallback]
     public void SetCurrentCar(GameObject car)
     {
         currentCar = car;
-        currentCarAccessories = currentCar.transform.GetChild(currentCar.transform.childCount - 1).gameObject;
+        currentCarAccessories = car.GetComponent<CarType>().GetCarAccessories();
+        colors = car.GetComponent<CarType>().GetCarParameters().CarColors;
+        elementsToChangeColor = car.GetComponent<CarType>().GetElementsToChangeColor();
         ChooseColor(-currentColorIndex);
         ChooseAccessories(-currentAccessoriesIndex);
     }
@@ -83,6 +97,7 @@ public class CarCustomization : MonoBehaviour
 
     public void UpdateCarView(int colourIndex, int accessoriesIndex)
     {
+        colors = currentCar.GetComponent<CarType>().GetCarParameters().CarColors;
         colorImage.color = colors[colourIndex];
         currentCar.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = colors[colourIndex];
         
