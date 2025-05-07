@@ -3,7 +3,6 @@ using System.Collections;
 using Cinemachine;
 using DG.Tweening;
 using Mirror;
-using Mirror.BouncyCastle.Crypto;
 using TMPro;
 using UnityEngine;
 
@@ -35,6 +34,11 @@ public class CarController : NetworkBehaviour
     private Coroutine _driftCoroutine;
 
     public CinemachineVirtualCamera virtualCamera;
+    
+    private float _pitchAngle = 0f; // używane przez AlignToGround
+    private float _currentPitch = 0f;
+
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -77,6 +81,7 @@ public class CarController : NetworkBehaviour
         
         _accelerationInput = Input.GetAxis("Vertical");
         _turnInput = Input.GetAxis("Horizontal");
+        AlignToGround();
         AddSpeed();
         Drift();
         Turn();
@@ -107,6 +112,34 @@ public class CarController : NetworkBehaviour
         Vector3 engineForce = transform.forward * (acceleration * _accelerationInput);
         _rigidbody.AddForce(engineForce, ForceMode.Force);
     }
+    
+    private void AlignToGround()
+    {
+        float raycastDistance = 5f;
+
+        Vector3 front = transform.position + transform.forward * 1.5f + Vector3.up * 1.0f;
+        Vector3 back = transform.position - transform.forward * 1.5f + Vector3.up * 1.0f;
+
+        if (Physics.Raycast(front, Vector3.down, out RaycastHit hitFront, raycastDistance) &&
+            Physics.Raycast(back, Vector3.down, out RaycastHit hitBack, raycastDistance))
+        {
+            Vector3 slopeDirection = (hitFront.point - hitBack.point).normalized;
+            Vector3 surfaceNormal = Vector3.Cross(slopeDirection, transform.right);
+
+            // Oblicz docelową rotację pitch względem terenu
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, surfaceNormal), surfaceNormal);
+            float targetPitch = targetRotation.eulerAngles.x;
+
+            // Poprawka dla kąta (360 → -180/+180)
+            if (targetPitch > 180f) targetPitch -= 360f;
+
+            // Ogranicz pitch do przedziału -15° do 15°
+            targetPitch = Mathf.Clamp(targetPitch, -15f, 15f);
+
+            // Płynne przejście
+            _currentPitch = Mathf.LerpAngle(_currentPitch, targetPitch, Time.fixedDeltaTime * 5f);
+        }
+    }
 
     private void Turn()
     {
@@ -118,7 +151,7 @@ public class CarController : NetworkBehaviour
             }
             carBase.transform.DOLocalRotate(new Vector3(0, 90, 0), 0.5f);
         }
-        else if (_turnInput != 0 && _previousTurnInput == 0 || _turnInput > 0 && _previousTurnInput < 0 || _turnInput < 0 && _previousTurnInput > 0) 
+        else if (_turnInput != 0 && _previousTurnInput == 0 || _turnInput > 0 && _previousTurnInput < 0 || _turnInput < 0 && _previousTurnInput > 0)
         {
             foreach (var wheel in wheels)
             {
@@ -132,14 +165,18 @@ public class CarController : NetworkBehaviour
                 }
             }
         }
+
         float minSpeedBeforeAllowTurningFactor = (_rigidbody.velocity.magnitude / 8);
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
         _rotationAngle -= _turnInput * turnFactor * minSpeedBeforeAllowTurningFactor;
-        Quaternion deltaRotation = Quaternion.Euler(0f, -_rotationAngle, 0f);
-        
-        _rigidbody.MoveRotation(deltaRotation);
+
+        // Nowa rotacja: pitch z AlignToGround + yaw z Turn
+        Quaternion combinedRotation = Quaternion.Euler(_currentPitch, -_rotationAngle, 0f);
+        _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, combinedRotation, Time.fixedDeltaTime * 100f));
+
         _previousTurnInput = _turnInput;
     }
+
     private void Drift()
     {
         Vector3 forwardVelocity = transform.forward * Vector3.Dot(_rigidbody.velocity, transform.forward);

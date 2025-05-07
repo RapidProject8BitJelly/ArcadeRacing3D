@@ -5549,7 +5549,6 @@ GameObject:
   - component: {fileID: 8183359915625273975}
   - component: {fileID: 415228609934061168}
   - component: {fileID: 2839871721833175121}
-  - component: {fileID: 5743082009844775887}
   - component: {fileID: 5163725487726656247}
   m_Layer: 0
   m_Name: Car
@@ -5613,8 +5612,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
-  m_CollisionDetection: 0
+  m_Constraints: 64
+  m_CollisionDetection: 1
 --- !u!114 &4445899647552176976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5751,27 +5750,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 404ab3fb315ccb944b5f373d27d486ff, type: 3}
   - {fileID: 8300000, guid: 50539806eae6c7a4c9d37458f4709864, type: 3}
   virtualCamera: {fileID: 0}
---- !u!65 &5743082009844775887
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7172262971620463697}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.2070427, y: 1.7161021, z: 3.5139618}
-  m_Center: {x: -0.7764764, y: 0.35805106, z: 0.2543106}
 --- !u!114 &5163725487726656247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5905,7 +5883,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
