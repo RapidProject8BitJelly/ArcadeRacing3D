@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7783422176424920498}
+  - component: {fileID: 5216942397950416723}
   m_Layer: 0
   m_Name: straight_01Prefab_01
   m_TagString: Untagged
@@ -32,6 +33,28 @@ Transform:
   - {fileID: 7648009731543083297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &5216942397950416723
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8245615855831411879}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3276699155546210339, guid: b71d457afb5f3294f85a0ced8748fee3, type: 3}
 --- !u!1001 &7901997830550998730
 PrefabInstance:
   m_ObjectHideFlags: 0

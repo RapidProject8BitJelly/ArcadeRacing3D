@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7372578779515954155}
+  - component: {fileID: 6067574290826067513}
   m_Layer: 0
   m_Name: viaduct_01Prefab_01
   m_TagString: Untagged
@@ -32,6 +33,28 @@ Transform:
   - {fileID: 7687670713066067586}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &6067574290826067513
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429741782505974173}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3196808562146619726, guid: c2062156dec7f3449a8cc18af17d6254, type: 3}
 --- !u!1001 &7870795391946944873
 PrefabInstance:
   m_ObjectHideFlags: 0
