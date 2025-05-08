@@ -101,8 +101,7 @@ public class PlayerCarSettings : NetworkBehaviour
         driftFactor = carParams.DriftFactor;
         minSpeedToShowTrails = carParams.MinSpeedToShowTrails;
         
-        _carController.ApplySettingsFrom(this);
-        //audioSource = _playerCar.GetComponent<CarType>().GetCarAudioSource();
+        audioSource = _playerCar.GetComponent<CarType>().GetCarAudioSource();
     }
 
     private void OnCarIDChanged(int oldValue, int newValue)

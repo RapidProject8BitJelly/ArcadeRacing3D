@@ -593,6 +593,13 @@ public class CanvasController : MonoBehaviour
                     
                     NetworkServer.AddPlayerForConnection(playerConn, player);
 
+                    PlayerCarSettings playerCarSettings = player.GetComponent<PlayerCarSettings>();
+                    
+                    playerCarSettings.carID = playerInfo.carID;
+                    playerCarSettings.colorID = playerInfo.colorIndex;
+                    playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
+                    playerCarSettings.CmdSetPlayerCar(playerInfo.carID, playerInfo.colorIndex, playerInfo.accessoriesIndex);
+                    
                     // if (matchController.player1 == null)
                     // {
                     //     matchController.player1 = playerConn.identity;
@@ -703,6 +710,7 @@ public class CanvasController : MonoBehaviour
                 case ClientMatchOperation.Started:
                     {
                         //minimap.SetActive(true);
+                        Debug.Log("testowyLog");
                         SavePlayersCars(msg.playerInfos);
                         lobbyView.SetActive(false);
                         roomView.SetActive(false);
@@ -735,6 +743,7 @@ public class CanvasController : MonoBehaviour
         [ClientCallback]
         void SavePlayersCars(PlayerInfo[] playerInfos)
         {
+            Debug.Log("testowyLog2");
             for (int i = 0; i < players.Count; i++)
             {
                 PlayerCarSettings playerCarSettings = players[i].GetComponent<PlayerCarSettings>();
