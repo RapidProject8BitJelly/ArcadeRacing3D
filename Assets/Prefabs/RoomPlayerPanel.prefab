@@ -3095,6 +3095,7 @@ MonoBehaviour:
   chooseCarPanel: {fileID: 9148144630601504275}
   carCustomization: {fileID: 2251209985678004299}
   blockPanel: {fileID: 29504587168634412}
+  cars: {fileID: 3258478190780088159}
   playerName: {fileID: 3719133944229400714}
   player:
     playerName: 

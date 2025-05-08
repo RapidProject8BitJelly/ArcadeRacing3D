@@ -7,6 +7,9 @@ public class CarType : MonoBehaviour
     [SerializeField] private GameObject carAccessories;
     [SerializeField] private TrailRenderer[] trailsRenderer;
     [SerializeField] private ParticleSystem[] particleSystems;
+    [SerializeField] private GameObject[] wheels;
+    [SerializeField] private GameObject carBase;
+    [SerializeField] private AudioSource carAudioSource;
 
     public CarParameters GetCarParameters()
     {
@@ -31,6 +34,21 @@ public class CarType : MonoBehaviour
     public ParticleSystem[] GetParticleSystems()
     {
         return particleSystems;
+    }
+
+    public GameObject[] GetWheels()
+    {
+        return wheels;
+    }
+
+    public GameObject GetCarBase()
+    {
+        return carBase;
+    }
+
+    public AudioSource GetCarAudioSource()
+    {
+        return carAudioSource;
     }
     
     public void UseSpecialAbility()

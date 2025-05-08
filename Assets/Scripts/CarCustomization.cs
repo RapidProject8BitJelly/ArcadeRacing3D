@@ -99,7 +99,11 @@ public class CarCustomization : MonoBehaviour
     {
         colors = currentCar.GetComponent<CarType>().GetCarParameters().CarColors;
         colorImage.color = colors[colourIndex];
-        currentCar.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = colors[colourIndex];
+        
+        for (int i = 0; i < elementsToChangeColor.Length; i++)
+        {
+            elementsToChangeColor[i].GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
+        }
         
         accessoriesText.text = (accessoriesIndex+1).ToString();
         for (int i = 0; i < currentCarAccessories.transform.childCount; i++)

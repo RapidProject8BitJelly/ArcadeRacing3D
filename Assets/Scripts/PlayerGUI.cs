@@ -10,6 +10,7 @@ public class PlayerGUI : MonoBehaviour
     [SerializeField] private ChooseCarPanel chooseCarPanel;
     [SerializeField] private CarCustomization carCustomization;
     [SerializeField] private GameObject blockPanel;
+    [SerializeField] private GameObject cars;
     
     public TextMeshProUGUI playerName;
     public PlayerInfo player;
@@ -37,6 +38,20 @@ public class PlayerGUI : MonoBehaviour
         canvasController.RequestReadyChange(player.playerIndex);
     }
 
+    public GameObject GetChosenCar()
+    {
+        for (int i = 0; i < cars.transform.childCount; i++)
+        {
+            if (cars.transform.GetChild(i).gameObject.activeSelf)
+            {
+                return cars.transform.GetChild(i).gameObject;
+                //cars.transform.GetChild(i).gameObject.transform.SetParent(FindObjectOfType<CustomNetworkManager>().playerPrefab.transform);
+                break;
+            }
+        }
+        return null;
+    }
+    
     public void SetPlayerCar(PlayerInfo info)
     {
         chooseCarPanel.UpdateCarView(info.carID, info.rotationAngle);

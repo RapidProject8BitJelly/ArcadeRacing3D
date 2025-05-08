@@ -67,6 +67,8 @@ public class CanvasController : MonoBehaviour
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
         public CreateLobbyPanel createLobbyPanel;
+        public List<GameObject> chosenCars;
+        public List<GameObject> players;
         
         private string matchName;
         private byte maxPlayers;
@@ -552,21 +554,28 @@ public class CanvasController : MonoBehaviour
             if (!playerMatches.ContainsKey(conn)) return;
 
             Guid matchId;
+            int carIndex = 0;
             if (playerMatches.TryGetValue(conn, out matchId))
             {
+                chosenCars = roomGUI.SaveChosenCar();
                 GameObject matchControllerObject = Instantiate(matchControllerPrefab);
                 matchControllerObject.GetComponent<NetworkMatch>().matchId = matchId;
                 NetworkServer.Spawn(matchControllerObject);
 
                 MatchController matchController = matchControllerObject.GetComponent<MatchController>();
 
+                HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
+                PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
+                    
                 int playerPositionCount = 0;
                 foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
                 {
-                    playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Started });
-
+                    PlayerInfo playerInfo = playerInfos[playerConn];
+                    playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Started, playerInfos = infos});
+                    
                     GameObject player = Instantiate(NetworkManager.singleton.playerPrefab);
                     player.GetComponent<NetworkMatch>().matchId = matchId;
+                    players.Add(player);
                     
                     // int playerInt = matchController.player1 == null ? 0 : 1; // Pierwszy gracz to 0, drugi to 1
                     // if (playerInt < startingPositions.Length)
@@ -593,11 +602,13 @@ public class CanvasController : MonoBehaviour
                     //     matchController.player2 = playerConn.identity;
                     // }
                     matchController.players.Add(playerConn.identity);
-
+                    
+                    //playerCarSettings.CmdSetPlayerCar(playerInfo.carID, playerInfo.colorIndex, playerInfo.accessoriesIndex, playerConn);
+                    
                     /* Reset ready state for after the match. */
-                    PlayerInfo playerInfo = playerInfos[playerConn];
                     playerInfo.ready = false;
                     playerInfos[playerConn] = playerInfo;
+                    carIndex++;
                 }
 
                 playerMatches.Remove(conn);
@@ -692,6 +703,7 @@ public class CanvasController : MonoBehaviour
                 case ClientMatchOperation.Started:
                     {
                         //minimap.SetActive(true);
+                        SavePlayersCars(msg.playerInfos);
                         lobbyView.SetActive(false);
                         roomView.SetActive(false);
                         break;
@@ -718,6 +730,20 @@ public class CanvasController : MonoBehaviour
         {
             lobbyView.SetActive(false);
             roomView.SetActive(true);
+        }
+
+        [ClientCallback]
+        void SavePlayersCars(PlayerInfo[] playerInfos)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                PlayerCarSettings playerCarSettings = players[i].GetComponent<PlayerCarSettings>();
+                PlayerInfo playerInfo = playerInfos[i];
+                
+                playerCarSettings.carID = playerInfo.carID;
+                playerCarSettings.colorID = playerInfo.colorIndex;
+                playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
+            }
         }
 
         [ClientCallback]

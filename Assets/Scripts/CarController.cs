@@ -11,8 +11,10 @@ public class CarController : NetworkBehaviour
 {
     [SerializeField] private GameObject[] wheels;
     [SerializeField] private GameObject carBase;
+    [SerializeField] private PlayerCarSettings _playerCarSettings;
     
-    [SerializeField] private float acceleration;
+    //[SerializeField] private float acceleration;
+    private float acceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float turnFactor;
     [SerializeField] private float driftFactor;
@@ -104,7 +106,8 @@ public class CarController : NetworkBehaviour
             _rigidbody.drag = 0f;
         }
         
-        Vector3 engineForce = transform.forward * (acceleration * _accelerationInput);
+        Debug.Log(_playerCarSettings.acceleration);
+        Vector3 engineForce = transform.forward * (_playerCarSettings.acceleration * _accelerationInput);
         _rigidbody.AddForce(engineForce, ForceMode.Force);
     }
 
@@ -260,6 +263,17 @@ public class CarController : NetworkBehaviour
         //StartCoroutine(StopCarCoroutine());
     }
     
+    public void ApplySettingsFrom(PlayerCarSettings settings)
+    {
+        acceleration = settings.acceleration;
+        maxSpeed = settings.maxSpeed;
+        turnFactor = settings.turnFactor;
+        driftFactor = settings.driftFactor;
+        minSpeedToShowTrails = settings.minSpeedToShowTrails;
+        Debug.Log(settings.acceleration);
+
+        Debug.Log("Zastosowano parametry z PlayerCarSettings w CarController.");
+    }
     
     //
     // IEnumerator StopCarCoroutine()

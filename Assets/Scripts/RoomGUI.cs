@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class RoomGUI : MonoBehaviour
     public Button startButton;
     public bool owner;
     public int localPlayerIndex;
+    private List<GameObject> chosenCars = new();
     
     [ClientCallback]
     public void RefreshRoomPlayers(PlayerInfo[] playerInfos)
@@ -41,26 +43,15 @@ public class RoomGUI : MonoBehaviour
         }
     }
 
-    [ClientCallback]
-    public void CheckGoodPlayer(int playerIndex, int buttonIndex, int value)
+    public List<GameObject> SaveChosenCar()
     {
+        // Debug.Log("Saving chosen car");
+        // Debug.Log(playerList.transform.childCount);
         for (int i = 0; i < playerList.transform.childCount; i++)
         {
-            if (playerList.transform.GetChild(i).GetComponent<PlayerGUI>().player.playerIndex == playerIndex)
-            {
-                GameObject playerCard = playerList.transform.GetChild(i).gameObject;
-                switch (buttonIndex)
-                {
-                    case 0:
-                        playerCard.GetComponentInChildren<CarCustomization>().ChooseColor(value);
-                        break;
-                    case 1:
-                        playerCard.GetComponentInChildren<CarCustomization>().ChooseAccessories(value);
-                        break;
-                }
-                break;
-            }
+            chosenCars.Add(playerList.transform.GetChild(i).GetComponent<PlayerGUI>().GetChosenCar());
         }
+        return chosenCars;
     }
 
     [ClientCallback]
