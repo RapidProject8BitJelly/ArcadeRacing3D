@@ -106,7 +106,6 @@ public class CarController : NetworkBehaviour
             _rigidbody.drag = 0f;
         }
         
-        Debug.Log(_playerCarSettings.acceleration);
         Vector3 engineForce = transform.forward * (_playerCarSettings.acceleration * _accelerationInput);
         _rigidbody.AddForce(engineForce, ForceMode.Force);
     }
@@ -270,9 +269,6 @@ public class CarController : NetworkBehaviour
         turnFactor = settings.turnFactor;
         driftFactor = settings.driftFactor;
         minSpeedToShowTrails = settings.minSpeedToShowTrails;
-        Debug.Log(settings.acceleration);
-
-        Debug.Log("Zastosowano parametry z PlayerCarSettings w CarController.");
     }
     
     //

@@ -743,6 +743,7 @@ public class CanvasController : MonoBehaviour
                 playerCarSettings.carID = playerInfo.carID;
                 playerCarSettings.colorID = playerInfo.colorIndex;
                 playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
+                playerCarSettings.CmdSetPlayerCar(playerInfo.carID, playerInfo.colorIndex, playerInfo.accessoriesIndex);
             }
         }
 

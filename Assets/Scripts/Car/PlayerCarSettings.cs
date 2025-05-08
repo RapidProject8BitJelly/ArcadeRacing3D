@@ -1,3 +1,4 @@
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ public class PlayerCarSettings : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        SetupPlayerAuto(0, 0, 0); // z colorID = 0
+        StartCoroutine(DelayedSetup());
     }
     
     public override void OnStartLocalPlayer()
@@ -62,10 +63,6 @@ public class PlayerCarSettings : NetworkBehaviour
 
     private void SetupPlayerAuto(int carId, int colorId, int accessoriesId)
     {
-        carID = carId;
-        colorID = colorId;
-        accessoriesID = accessoriesId;
-        
         for (int i = 0; i < _cars.Length; i++)
         {
             if (carID == i)
@@ -127,7 +124,6 @@ public class PlayerCarSettings : NetworkBehaviour
 
     private void OnColorChanged(int oldValue, int newValue)
     {
-        Debug.Log(newValue);
         for (int i = 0; i < elementsToChangeColor.Length; i++)
         {
             elementsToChangeColor[i].GetComponent<Renderer>().material.color = carParams.CarColors[colorID];
@@ -141,5 +137,11 @@ public class PlayerCarSettings : NetworkBehaviour
             if(i==accessoriesID) carAccessories.transform.GetChild(i).gameObject.SetActive(true);
             else carAccessories.transform.GetChild(i).gameObject.SetActive(false);
         }
+    }
+    
+    private IEnumerator DelayedSetup()
+    {
+        yield return null; // 1 frame później, po SyncVarach
+        SetupPlayerAuto(carID, colorID, accessoriesID);
     }
 }
