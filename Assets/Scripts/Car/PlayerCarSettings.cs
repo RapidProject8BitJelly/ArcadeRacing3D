@@ -89,8 +89,7 @@ public class PlayerCarSettings : NetworkBehaviour
         }
         
         
-        //_playerCar.transform.position = new Vector3(0, 0, 0);
-        _playerCar.transform.rotation = Quaternion.Euler(0, 0, 0);
+        //_playerCar.transform.position = new Vector3(0, 0, 0)
         trails = _playerCar.GetComponent<CarType>().GetTrailsRenderer();
         particles = _playerCar.GetComponent<CarType>().GetParticleSystems();
         wheels = _playerCar.GetComponent<CarType>().GetWheels();
@@ -120,6 +119,7 @@ public class PlayerCarSettings : NetworkBehaviour
         elementsToChangeColor = _playerCar.GetComponent<CarType>().GetElementsToChangeColor();
         carParams = _playerCar.GetComponent<CarType>().GetCarParameters();
         carAccessories = _playerCar.GetComponent<CarType>().GetCarAccessories();
+        _playerCar.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void OnColorChanged(int oldValue, int newValue)

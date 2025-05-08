@@ -10453,7 +10453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carParameters: {fileID: 11400000, guid: 510544977abe6394c8a467c8944943ce, type: 2}
   elementsToChangeColor:
-  - {fileID: 0}
+  - {fileID: 8691068996574869389}
   carAccessories: {fileID: 8691068996574869389}
   trailsRenderer:
   - {fileID: 4020538934666043237}
