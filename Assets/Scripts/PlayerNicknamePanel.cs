@@ -13,6 +13,8 @@ public class PlayerNicknamePanel : MonoBehaviour
     [SerializeField] private Image[] uiPanels;
     [SerializeField] private Color normalColor;
     [SerializeField] private Color nonInteractableColor;
+    
+    public string playerNickname;
 
     private void OnEnable()
     {
@@ -21,6 +23,7 @@ public class PlayerNicknamePanel : MonoBehaviour
 
     private void OnNicknameChanged(string value)
     {
+        playerNickname = value;
         bool canInteract = !string.IsNullOrEmpty(value);
         foreach (Selectable uiElement in uiElements)
         {
