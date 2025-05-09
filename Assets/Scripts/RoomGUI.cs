@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,10 +8,12 @@ public class RoomGUI : MonoBehaviour
     public GameObject playerList;
     public GameObject playerPrefab;
     public GameObject cancelButton;
-    public GameObject leaveButton;
+    //public GameObject leaveButton;
     public Button startButton;
     public bool owner;
-
+    public int localPlayerIndex;
+    private List<GameObject> chosenCars = new();
+    
     [ClientCallback]
     public void RefreshRoomPlayers(PlayerInfo[] playerInfos)
     {
@@ -29,8 +32,15 @@ public class RoomGUI : MonoBehaviour
             if (!playerInfo.ready)
                 everyoneReady = false;
         }
-
         startButton.interactable = everyoneReady && owner && (playerInfos.Length > 1);
+    }
+
+    public void RefreshPlayersCars(PlayerInfo[] playerInfos)
+    {
+        for (int i = 0; i < playerInfos.Length; i++)
+        {
+            playerList.transform.GetChild(i).GetComponent<PlayerGUI>().SetPlayerCar(playerInfos[i]);
+        }
     }
 
     [ClientCallback]
@@ -38,6 +48,6 @@ public class RoomGUI : MonoBehaviour
     {
         this.owner = owner;
         cancelButton.SetActive(owner);
-        leaveButton.SetActive(!owner);
+        //leaveButton.SetActive(!owner);
     }
 }
