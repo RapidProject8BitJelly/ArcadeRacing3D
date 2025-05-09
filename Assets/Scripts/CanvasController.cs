@@ -67,6 +67,7 @@ public class CanvasController : MonoBehaviour
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
         public List<GameObject> players;
+        public LobbySearch lobbySearch;
         
         private string matchName;
         private byte maxPlayers;
@@ -784,6 +785,7 @@ public class CanvasController : MonoBehaviour
                 if (matchInfo.matchId == selectedMatch)
                     toggle.isOn = true;
             }
+            
         }
 
         #endregion
