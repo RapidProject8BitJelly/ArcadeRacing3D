@@ -249,17 +249,16 @@ MonoBehaviour:
   carID: 0
   colorID: 0
   accessoriesID: 0
-  _carController: {fileID: 2839871721833175121}
+  cars:
+  - {fileID: 6724829036432956007}
+  - {fileID: 7078689643126448069}
+  - {fileID: 1339544941763454791}
+  - {fileID: 8756268742166269344}
   wheels: []
   carBase: {fileID: 0}
   trails: []
   particles: []
   audioSource: {fileID: 0}
-  _cars:
-  - {fileID: 6724829036432956007}
-  - {fileID: 7078689643126448069}
-  - {fileID: 1339544941763454791}
-  - {fileID: 8756268742166269344}
   acceleration: 0
   maxSpeed: 0
   turnFactor: 0

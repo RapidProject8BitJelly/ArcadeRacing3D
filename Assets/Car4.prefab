@@ -10454,7 +10454,7 @@ MonoBehaviour:
   carParameters: {fileID: 11400000, guid: 510544977abe6394c8a467c8944943ce, type: 2}
   elementsToChangeColor:
   - {fileID: 8691068996574869389}
-  carAccessories: {fileID: 8691068996574869389}
+  carAccessories: {fileID: 759798078705231614}
   trailsRenderer:
   - {fileID: 4020538934666043237}
   - {fileID: 4903059239510506689}

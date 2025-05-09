@@ -1,4 +1,3 @@
-using System;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -10,6 +9,7 @@ public class PlayerGUI : MonoBehaviour
     [SerializeField] private ChooseCarPanel chooseCarPanel;
     [SerializeField] private CarCustomization carCustomization;
     [SerializeField] private GameObject blockPanel;
+    [SerializeField] private GameObject blockCarChoosePanel;
     [SerializeField] private GameObject cars;
     
     public TextMeshProUGUI playerName;
@@ -19,8 +19,7 @@ public class PlayerGUI : MonoBehaviour
     private void OnEnable()
     {
         canvasController = FindObjectOfType<CanvasController>();
-        readyButton.onClick.AddListener(ClickReadyButton);
-        //readyButton.onClick.AddListener(canvasController.RequestReadyChange);
+        readyButton.onClick.AddListener(canvasController.RequestReadyChange);
     }
     
     [ClientCallback]
@@ -30,31 +29,13 @@ public class PlayerGUI : MonoBehaviour
         playerName.color = info.ready ? Color.green : Color.red;
         player = info;
         blockPanel.SetActive(info.playerIndex != FindObjectOfType<RoomGUI>().localPlayerIndex);
+        blockCarChoosePanel.SetActive(info.ready);
         SetPlayerCar(info);
-    }
-
-    private void ClickReadyButton()
-    {
-        canvasController.RequestReadyChange(player.playerIndex);
-    }
-
-    public GameObject GetChosenCar()
-    {
-        for (int i = 0; i < cars.transform.childCount; i++)
-        {
-            if (cars.transform.GetChild(i).gameObject.activeSelf)
-            {
-                return cars.transform.GetChild(i).gameObject;
-                //cars.transform.GetChild(i).gameObject.transform.SetParent(FindObjectOfType<CustomNetworkManager>().playerPrefab.transform);
-                break;
-            }
-        }
-        return null;
     }
     
     public void SetPlayerCar(PlayerInfo info)
     {
-        chooseCarPanel.UpdateCarView(info.carID, info.rotationAngle);
+        chooseCarPanel.UpdateCarView(info.carID);
         carCustomization.UpdateCarView(info.colorIndex, info.accessoriesIndex);
     }
 }

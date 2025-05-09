@@ -66,8 +66,6 @@ public class CanvasController : MonoBehaviour
         public GameObject roomView;
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
-        public CreateLobbyPanel createLobbyPanel;
-        public List<GameObject> chosenCars;
         public List<GameObject> players;
         
         private string matchName;
@@ -206,7 +204,7 @@ public class CanvasController : MonoBehaviour
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Start });
         }
 
-        public void RequestReadyChange(int playerInd)
+        public void RequestReadyChange()
         {
             if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
             Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
@@ -557,11 +555,12 @@ public class CanvasController : MonoBehaviour
             int carIndex = 0;
             if (playerMatches.TryGetValue(conn, out matchId))
             {
-                chosenCars = roomGUI.SaveChosenCar();
                 GameObject matchControllerObject = Instantiate(matchControllerPrefab);
                 matchControllerObject.GetComponent<NetworkMatch>().matchId = matchId;
                 NetworkServer.Spawn(matchControllerObject);
 
+                if(players.Count > 0) players.Clear();
+                
                 MatchController matchController = matchControllerObject.GetComponent<MatchController>();
 
                 HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
@@ -598,7 +597,7 @@ public class CanvasController : MonoBehaviour
                     playerCarSettings.carID = playerInfo.carID;
                     playerCarSettings.colorID = playerInfo.colorIndex;
                     playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
-                    playerCarSettings.CmdSetPlayerCar(playerInfo.carID, playerInfo.colorIndex, playerInfo.accessoriesIndex);
+                    playerCarSettings.CmdSetPlayerCar();
                     
                     // if (matchController.player1 == null)
                     // {
@@ -698,7 +697,6 @@ public class CanvasController : MonoBehaviour
                     }
                 case ClientMatchOperation.UpdateRoom:
                     {
-                        //roomGUI.localPlayerIndex = msg.myPlayerIndex;
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         break;
                     }
@@ -710,7 +708,6 @@ public class CanvasController : MonoBehaviour
                 case ClientMatchOperation.Started:
                     {
                         //minimap.SetActive(true);
-                        Debug.Log("testowyLog");
                         SavePlayersCars(msg.playerInfos);
                         lobbyView.SetActive(false);
                         roomView.SetActive(false);
@@ -743,16 +740,24 @@ public class CanvasController : MonoBehaviour
         [ClientCallback]
         void SavePlayersCars(PlayerInfo[] playerInfos)
         {
-            Debug.Log("testowyLog2");
             for (int i = 0; i < players.Count; i++)
             {
-                PlayerCarSettings playerCarSettings = players[i].GetComponent<PlayerCarSettings>();
-                PlayerInfo playerInfo = playerInfos[i];
-                
-                playerCarSettings.carID = playerInfo.carID;
-                playerCarSettings.colorID = playerInfo.colorIndex;
-                playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
-                playerCarSettings.CmdSetPlayerCar(playerInfo.carID, playerInfo.colorIndex, playerInfo.accessoriesIndex);
+                var obj = players[i];
+
+                if (obj == null || obj.Equals(null))
+                {
+                    continue;
+                }
+
+                if (!obj.TryGetComponent<PlayerCarSettings>(out var settings))
+                {
+                    continue;
+                }
+
+                var info = playerInfos[i];
+                settings.carID = info.carID;
+                settings.colorID = info.colorIndex;
+                settings.accessoriesID = info.accessoriesIndex;
             }
         }
 

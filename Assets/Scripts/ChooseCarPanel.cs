@@ -4,84 +4,96 @@ using UnityEngine.UI;
 
 public class ChooseCarPanel : MonoBehaviour
 {
+   #region Variables
+
    [SerializeField] private GameObject carNode;
    [SerializeField] private Button nextCarButton;
    [SerializeField] private Button previousCarButton;
    [SerializeField] private Button rotateButton;
    [SerializeField] private CarCustomization carCustomization;
    [SerializeField] private PlayerGUI playerGUI;
-   [SerializeField] private int rotationAngle;
    [SerializeField] private SetCarInfo setCarInfo;
-   public int currentCar;
-   public GameObject currentCarGameObject;
-   public PlayerInfo playerInfo;
-   public int currentRotation = 90;
+   
+   [SerializeField] private int rotationAngle;
+   
+   private GameObject currentCar;
+   private CanvasController canvasController;
+   private int currentCarIndex;
+   private int currentRotation = 90;
 
+   #endregion
+   
    private void Awake()
    {
-      playerInfo = playerGUI.player;
       ChooseCar(0);
+      canvasController = FindObjectOfType<CanvasController>();
    }
    
    private void OnEnable()
    {
       nextCarButton.onClick.AddListener(() => ChooseCar(1));
-      nextCarButton.onClick.AddListener(CheckIfGoodPlayer);
+      nextCarButton.onClick.AddListener(RequestCarCustomization);
       previousCarButton.onClick.AddListener(() => ChooseCar(-1));
-      previousCarButton.onClick.AddListener(CheckIfGoodPlayer);
+      previousCarButton.onClick.AddListener(RequestCarCustomization);
       rotateButton.onClick.AddListener(RotateCar);
    }
 
-   [ClientCallback]
-   public void ChooseCar(int value)
+   private void OnDisable()
    {
-      if(currentCar+value < 4 && currentCar+value >= 0) currentCar += value;
-      else if (currentCar + value >= 4) currentCar = 0;
-      else if (currentCar + value < 0) currentCar = 3;
+      nextCarButton.onClick.RemoveAllListeners();
+      previousCarButton.onClick.RemoveAllListeners();
+      rotateButton.onClick.RemoveAllListeners();
+   }
+
+   #region  Car Selection
+
+   [ClientCallback]
+   private void ChooseCar(int value)
+   {
+      if(currentCarIndex+value < 4 && currentCarIndex+value >= 0) currentCarIndex += value;
+      else if (currentCarIndex + value >= 4) currentCarIndex = 0;
+      else if (currentCarIndex + value < 0) currentCarIndex = 3;
       
+      SetCarRef();
+      carCustomization.SetCurrentCar(currentCar);
+   }
+
+   public void UpdateCarView(int value)
+   {
+      currentCarIndex = value;
+      SetCarRef();
+      carCustomization.currentCarAccessories = currentCar.GetComponent<CarType>().GetCarAccessories();
+      carCustomization.currentCar = currentCar;
+   }
+
+   private void SetCarRef()
+   {
       for (int i = 0; i < carNode.transform.childCount; i++)
       {
-         if (i == currentCar)
+         if (i == currentCarIndex)
          {
-            currentCarGameObject = carNode.transform.GetChild(i).gameObject;
+            currentCar = carNode.transform.GetChild(i).gameObject;
             carNode.transform.GetChild(i).gameObject.SetActive(true);
-            carCustomization.SetCurrentCar(currentCarGameObject);
          }
          else carNode.transform.GetChild(i).gameObject.SetActive(false);
       }
       
-      setCarInfo.UpdateCarInfo(currentCarGameObject.GetComponent<CarType>().GetCarParameters());
+      setCarInfo.UpdateCarInfo(currentCar.GetComponent<CarType>().GetCarParameters());
    }
-
-   public void UpdateCarView(int value, int rotationAngleValue)
+   
+   private void RequestCarCustomization()
    {
-      for (int i = 0; i < carNode.transform.childCount; i++)
-      {
-         if (i == value)
-         {
-            currentCarGameObject = carNode.transform.GetChild(i).gameObject;
-            carNode.transform.GetChild(i).gameObject.SetActive(true);
-            carCustomization.currentCar = currentCarGameObject;
-            carCustomization.currentCarAccessories = currentCarGameObject.transform
-               .GetChild(currentCarGameObject.transform.childCount - 1).gameObject;
-            currentCarGameObject.transform.rotation = Quaternion.Euler(0, rotationAngleValue, 0);
-         }
-         else carNode.transform.GetChild(i).gameObject.SetActive(false);
-      }
-      setCarInfo.UpdateCarInfo(currentCarGameObject.GetComponent<CarType>().GetCarParameters());
+      canvasController.RequestCarCustomization(currentCarIndex, 0, 0);
    }
 
+   #endregion
+   
    [ClientCallback]
-   public void RotateCar()
+   private void RotateCar()
    {
       if (currentRotation + rotationAngle <= 360) currentRotation += rotationAngle;
       else currentRotation = 0;
       
-      currentCarGameObject.transform.rotation = Quaternion.Euler(0, currentRotation, 0);
-   }
-   
-   private void CheckIfGoodPlayer()
-   {
-      FindObjectOfType<CanvasController>().RequestCarCustomization(currentCar, 0, 0);
+      currentCar.transform.rotation = Quaternion.Euler(0, currentRotation, 0);
    }
 }

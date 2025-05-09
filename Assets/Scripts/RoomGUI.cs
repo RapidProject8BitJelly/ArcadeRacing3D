@@ -43,17 +43,6 @@ public class RoomGUI : MonoBehaviour
         }
     }
 
-    public List<GameObject> SaveChosenCar()
-    {
-        // Debug.Log("Saving chosen car");
-        // Debug.Log(playerList.transform.childCount);
-        for (int i = 0; i < playerList.transform.childCount; i++)
-        {
-            chosenCars.Add(playerList.transform.GetChild(i).GetComponent<PlayerGUI>().GetChosenCar());
-        }
-        return chosenCars;
-    }
-
     [ClientCallback]
     public void SetOwner(bool owner)
     {

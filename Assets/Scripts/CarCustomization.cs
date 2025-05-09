@@ -1,67 +1,113 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CarCustomization : MonoBehaviour
 {
+    #region Variables
+
     [SerializeField] private Image colorImage;
-    
+    [SerializeField] private GameObject carNode;
+    [SerializeField] private TextMeshProUGUI accessoriesText;
     [SerializeField] private Button nextColorButton;
     [SerializeField] private Button previousColorButton;
-    [SerializeField] private GameObject carNode;
-    
-    [SerializeField] private TextMeshProUGUI accessoriesText;
     [SerializeField] private Button nextAccessoriesButton;
     [SerializeField] private Button previousAccessoriesButton;
     
     [SerializeField] private PlayerGUI playerGUI;
 
-    public int currentColorIndex;
-    public int currentAccessoriesIndex;
     public GameObject currentCarAccessories;
     public GameObject currentCar;
-    public bool isGoodPlayer;
-
+    
     private GameObject[] elementsToChangeColor;
-    private Color[] colors;
-
+    public Color[] colors;
+    
+    private CanvasController canvasController;
+    
+    private int currentColorIndex;
+    private int currentAccessoriesIndex;
+    
+    #endregion
     private void Awake()
     {
         colors = carNode.transform.GetChild(0).GetComponent<CarType>().GetCarParameters().CarColors;
+        canvasController = FindObjectOfType<CanvasController>();
     }
 
     private void OnEnable()
     {
-        nextColorButton.onClick.AddListener(() => ChooseColor(1));
-        nextColorButton.onClick.AddListener(() => CheckIfGoodPlayer(1, 0));
-        previousColorButton.onClick.AddListener(() => ChooseColor(-1));
-        previousColorButton.onClick.AddListener(() => CheckIfGoodPlayer(-1, 0));
-        nextAccessoriesButton.onClick.AddListener(() => ChooseAccessories(1));
-        nextAccessoriesButton.onClick.AddListener(() => CheckIfGoodPlayer(1, 1));
-        previousAccessoriesButton.onClick.AddListener(() => ChooseAccessories(-1));
-        previousAccessoriesButton.onClick.AddListener(() => CheckIfGoodPlayer(-1, 1));
+        AddButtonCallbacks(nextColorButton, () => ChooseColor(1));
+        AddButtonCallbacks(previousColorButton, () => ChooseColor(-1));
+        AddButtonCallbacks(nextAccessoriesButton, () => ChooseAccessories(1));
+        AddButtonCallbacks(previousAccessoriesButton, () => ChooseAccessories(-1));
+    }
+    
+    private void AddButtonCallbacks(Button button, UnityAction action)
+    {
+        button.onClick.AddListener(action);
+        button.onClick.AddListener(RequestCarCustomization);
     }
 
+    private void OnDisable()
+    { 
+        nextColorButton.onClick.RemoveAllListeners();
+        previousColorButton.onClick.RemoveAllListeners();
+        nextAccessoriesButton.onClick.RemoveAllListeners();
+        previousAccessoriesButton.onClick.RemoveAllListeners();
+    }
+
+    #region Colour
+    
     [ClientCallback]
-    public void ChooseColor(int value)
+    private void ChooseColor(int value)
     {
         if (currentColorIndex + value < colors.Length && currentColorIndex + value >= 0) currentColorIndex += value;
         else if (currentColorIndex + value >= colors.Length) currentColorIndex = 0;
         else if(currentColorIndex + value < 0) currentColorIndex = colors.Length - 1;
-
+    
+        ChangeColor();
+    }
+    
+    private void ChangeColor()
+    {
         colorImage.color = colors[currentColorIndex];
 
-        for (int i = 0; i < elementsToChangeColor.Length; i++)
+        foreach (var obj in elementsToChangeColor)
         {
-            elementsToChangeColor[i].GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
+            obj.GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
+        }
+    }
+    
+    #endregion
+
+    #region Accessories
+
+    [ClientCallback]
+    private void ChooseAccessories(int value)
+    {
+        if (currentAccessoriesIndex + value < currentCarAccessories.transform.childCount && currentAccessoriesIndex + value >= 0) 
+            currentAccessoriesIndex += value;
+        else if(currentAccessoriesIndex + value >= currentCarAccessories.transform.childCount) currentAccessoriesIndex = 0;
+        else if (currentAccessoriesIndex + value < 0) currentAccessoriesIndex = currentCarAccessories.transform.childCount-1;
+        
+        ChangeAccessories();
+    }
+    
+    private void ChangeAccessories()
+    {
+        accessoriesText.text = (currentAccessoriesIndex+1).ToString();
+        for (int i = 0; i < currentCarAccessories.transform.childCount; i++)
+        {
+            currentCarAccessories.transform.GetChild(i).gameObject.SetActive(i == currentAccessoriesIndex);
         }
     }
 
+    #endregion
+    
+    #region CarUpdate
+    
     [ClientCallback]
     public void SetCurrentCar(GameObject car)
     {
@@ -73,54 +119,22 @@ public class CarCustomization : MonoBehaviour
         ChooseAccessories(-currentAccessoriesIndex);
     }
     
-    [ClientCallback]
-    public void ChooseAccessories(int value)
-    {
-        if (currentAccessoriesIndex + value < currentCarAccessories.transform.childCount && currentAccessoriesIndex + value >= 0) 
-            currentAccessoriesIndex += value;
-        else if(currentAccessoriesIndex + value >= currentCarAccessories.transform.childCount) currentAccessoriesIndex = 0;
-        else if (currentAccessoriesIndex + value < 0) currentAccessoriesIndex = 2;
-        
-        accessoriesText.text = (currentAccessoriesIndex+1).ToString();
-        for (int i = 0; i < currentCarAccessories.transform.childCount; i++)
-        {
-            if (i == currentAccessoriesIndex)
-            {
-                currentCarAccessories.transform.GetChild(i).gameObject.SetActive(true);
-            }
-            else
-            {
-                currentCarAccessories.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
-    }
-
     public void UpdateCarView(int colourIndex, int accessoriesIndex)
     {
+        currentColorIndex = colourIndex;
+        currentAccessoriesIndex = accessoriesIndex;
         colors = currentCar.GetComponent<CarType>().GetCarParameters().CarColors;
+        elementsToChangeColor = currentCar.GetComponent<CarType>().GetElementsToChangeColor();
         colorImage.color = colors[colourIndex];
         
-        for (int i = 0; i < elementsToChangeColor.Length; i++)
-        {
-            elementsToChangeColor[i].GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
-        }
-        
-        accessoriesText.text = (accessoriesIndex+1).ToString();
-        for (int i = 0; i < currentCarAccessories.transform.childCount; i++)
-        {
-            if (i == accessoriesIndex)
-            {
-                currentCarAccessories.transform.GetChild(i).gameObject.SetActive(true);
-            }
-            else
-            {
-                currentCarAccessories.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
+        ChangeColor();
+        ChangeAccessories();
+    }
+    
+    private void RequestCarCustomization()
+    {
+        canvasController.RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex);
     }
 
-    private void CheckIfGoodPlayer(int value, int buttonIndex)
-    {
-        FindObjectOfType<CanvasController>().RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex);
-    }
+    #endregion
 }

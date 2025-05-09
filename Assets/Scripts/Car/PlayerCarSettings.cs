@@ -4,29 +4,35 @@ using UnityEngine;
 
 public class PlayerCarSettings : NetworkBehaviour
 {
-    [SyncVar (hook = nameof(OnCarIDChanged))] public int carID = -1;
-    [SyncVar (hook = nameof(OnColorChanged))] public int colorID = -1;
-    [SyncVar (hook = nameof(OnAccessoriesChanged))] public int accessoriesID = -1;
+    #region Variables
+
+    [SyncVar (hook = nameof(OnCarIDChanged))] 
+    public int carID;
+    [SyncVar (hook = nameof(OnColorChanged))] 
+    public int colorID;
+    [SyncVar(hook = nameof(OnAccessoriesChanged))]
+    public int accessoriesID;
     
+    [SerializeField] private GameObject[] cars;
+    
+    private GameObject[] elementsToChangeColor;
+    private CarParameters carParams;
+    private GameObject carAccessories;
     private GameObject _playerCar;
-    [SerializeField] private CarController _carController;
+    
     public GameObject[] wheels;
     public GameObject carBase;
     public TrailRenderer[] trails;
     public ParticleSystem[] particles;
     public AudioSource audioSource;
-
-    [SerializeField] private GameObject[] _cars;
-
-    private GameObject[] elementsToChangeColor;
-    private CarParameters carParams;
-    private GameObject carAccessories;
     
     public float acceleration;
     public float maxSpeed;
     public float turnFactor;
     public float driftFactor;
     public float minSpeedToShowTrails;
+
+    #endregion
     
     public override void OnStartClient()
     {
@@ -36,111 +42,120 @@ public class PlayerCarSettings : NetworkBehaviour
     
     public override void OnStartLocalPlayer()
     {
-        CmdSetPlayerCar(carID, colorID, accessoriesID);
+        CmdSetPlayerCar();
     }
     
-    
     [Command]
-    public void CmdSetPlayerCar(int carId, int colorId, int accessoriesId, NetworkConnectionToClient client = null)
+    public void CmdSetPlayerCar(NetworkConnectionToClient client = null)
     {
         if (isLocalPlayer)
         {
-            // Host – wywołujemy bez sieci
-            SetupPlayerAuto(carId, colorId, accessoriesId);
+            SetupPlayerCar();
         }
         else
         {
-            // Klient – wyślij ClientRpc
-            TargetSetPlayerAuto(carId, colorId, accessoriesId);
+            TargetSetPlayerAuto();
         }
     }
 
     [ClientRpc]
-    private void TargetSetPlayerAuto(int carId, int colorId, int accessoriesId)
+    private void TargetSetPlayerAuto()
     {
-        SetupPlayerAuto(carId, colorId, accessoriesId);
+        SetupPlayerCar();
     }
 
-    private void SetupPlayerAuto(int carId, int colorId, int accessoriesId)
+    #region CarSelection
+
+    private void ApplyCarSelection()
     {
-        for (int i = 0; i < _cars.Length; i++)
+        for (int i = 0; i < cars.Length; i++)
         {
             if (carID == i)
             {
-                _cars[i].SetActive(true);
-                _playerCar = _cars[i];
+                cars[i].SetActive(true);
+                _playerCar = cars[i];
             }
-            else _cars[i].SetActive(false);
+            else Destroy(cars[i]);
         }
 
-        GameObject[] elementsToChangeColor = _playerCar.GetComponent<CarType>().GetElementsToChangeColor();
-        CarParameters carParams = _playerCar.GetComponent<CarType>().GetCarParameters();
-        GameObject carAccessories = _playerCar.GetComponent<CarType>().GetCarAccessories();
-        
+        elementsToChangeColor = _playerCar.GetComponent<CarType>().GetElementsToChangeColor();
+        carParams = _playerCar.GetComponent<CarType>().GetCarParameters();
+        carAccessories = _playerCar.GetComponent<CarType>().GetCarAccessories();
+        _playerCar.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+    
+    private void OnCarIDChanged(int oldValue, int newValue)
+    {
+        ApplyCarSelection();
+    }
+
+    #endregion
+
+    #region CarColor
+    
+    private void ApplyCarColor()
+    {
         for (int i = 0; i < elementsToChangeColor.Length; i++)
         {
             elementsToChangeColor[i].GetComponent<Renderer>().material.color = carParams.CarColors[colorID];
         }
+    }
 
+    private void OnColorChanged(int oldValue, int newValue)
+    {
+        ApplyCarColor();
+    }
+    
+    #endregion
+
+    #region CarAccessory
+
+    private void ApplyCarAccessories()
+    {
         for (int i = 0; i < carAccessories.transform.childCount; i++)
         {
             if(i==accessoriesID) carAccessories.transform.GetChild(i).gameObject.SetActive(true);
             else carAccessories.transform.GetChild(i).gameObject.SetActive(false);
         }
-        
-        
-        //_playerCar.transform.position = new Vector3(0, 0, 0)
+    }
+    
+    private void OnAccessoriesChanged(int oldValue, int newValue)
+    {
+        ApplyCarAccessories();
+    }
+
+    #endregion
+
+    #region CarSetup
+
+    private void SetupPlayerCar()
+    {
+        ApplyCarSelection();
+        ApplyCarColor();
+        ApplyCarAccessories();
+        ApplyCarParameters();
+    }
+    
+    private void ApplyCarParameters()
+    {
         trails = _playerCar.GetComponent<CarType>().GetTrailsRenderer();
         particles = _playerCar.GetComponent<CarType>().GetParticleSystems();
         wheels = _playerCar.GetComponent<CarType>().GetWheels();
         carBase = _playerCar.GetComponent<CarType>().GetCarBase();
+        audioSource = _playerCar.GetComponent<CarType>().GetCarAudioSource();
         
         acceleration = carParams.Acceleration;
         maxSpeed = carParams.MaxSpeed;
         turnFactor = carParams.TurnFactor;
         driftFactor = carParams.DriftFactor;
         minSpeedToShowTrails = carParams.MinSpeedToShowTrails;
-        
-        audioSource = _playerCar.GetComponent<CarType>().GetCarAudioSource();
-    }
-
-    private void OnCarIDChanged(int oldValue, int newValue)
-    {
-        for (int i = 0; i < _cars.Length; i++)
-        {
-            if (carID == i)
-            {
-                _cars[i].SetActive(true);
-                _playerCar = _cars[i];
-            }
-            else _cars[i].SetActive(false);
-        }
-        elementsToChangeColor = _playerCar.GetComponent<CarType>().GetElementsToChangeColor();
-        carParams = _playerCar.GetComponent<CarType>().GetCarParameters();
-        carAccessories = _playerCar.GetComponent<CarType>().GetCarAccessories();
-        _playerCar.transform.rotation = Quaternion.Euler(0, 0, 0);
-    }
-
-    private void OnColorChanged(int oldValue, int newValue)
-    {
-        for (int i = 0; i < elementsToChangeColor.Length; i++)
-        {
-            elementsToChangeColor[i].GetComponent<Renderer>().material.color = carParams.CarColors[colorID];
-        }
-    }
-
-    private void OnAccessoriesChanged(int oldValue, int newValue)
-    {
-        for (int i = 0; i < carAccessories.transform.childCount; i++)
-        {
-            if(i==accessoriesID) carAccessories.transform.GetChild(i).gameObject.SetActive(true);
-            else carAccessories.transform.GetChild(i).gameObject.SetActive(false);
-        }
     }
     
     private IEnumerator DelayedSetup()
     {
-        yield return null; // 1 frame później, po SyncVarach
-        SetupPlayerAuto(carID, colorID, accessoriesID);
+        yield return null; 
+        SetupPlayerCar();
     }
+
+    #endregion
 }
