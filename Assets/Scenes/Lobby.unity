@@ -672,6 +672,7 @@ MonoBehaviour:
   - {fileID: 1358502217}
   normalColor: {r: 0, g: 0, b: 0, a: 0.19607843}
   nonInteractableColor: {r: 0, g: 0, b: 0, a: 0.5882353}
+  playerNickname: 
 --- !u!1 &174237104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,7 +2113,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.000015258789}
-  m_SizeDelta: {x: -263, y: -234.102}
+  m_SizeDelta: {x: 0, y: -234.102}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &777768153
 MonoBehaviour:
@@ -3261,7 +3262,7 @@ MonoBehaviour:
   roomGUI: {fileID: 89964249}
   toggleGroup: {fileID: 777768153}
   players: []
-  lobbySearch: {fileID: 0}
+  playerNicknamePanel: {fileID: 164300781}
 --- !u!114 &1168255950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4829,8 +4830,6 @@ MonoBehaviour:
     m_Options:
     - m_Text: Player limit
       m_Image: {fileID: 0}
-    - m_Text: 1
-      m_Image: {fileID: 0}
     - m_Text: 2
       m_Image: {fileID: 0}
     - m_Text: 3
@@ -5167,19 +5166,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1682184391}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1168255949}
-        m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
-        m_MethodName: RequestJoinMatch
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1682184391
 MonoBehaviour:
   m_ObjectHideFlags: 0

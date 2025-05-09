@@ -67,7 +67,7 @@ public class CanvasController : MonoBehaviour
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
         public List<GameObject> players;
-        public LobbySearch lobbySearch;
+        public PlayerNicknamePanel playerNicknamePanel;
         
         private string matchName;
         private byte maxPlayers;
@@ -148,7 +148,7 @@ public class CanvasController : MonoBehaviour
 
                 selectedMatch = matchId;
                 MatchInfo infos = openMatches[matchId];
-                joinButton.interactable = infos.players < infos.maxPlayers;
+                joinButton.interactable = infos.players < infos.maxPlayers && playerNicknamePanel.playerNickname.Length > 0;
             }
         }
 

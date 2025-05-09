@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -18,7 +16,7 @@ public class CreateLobbyPanel : MonoBehaviour
     {
         matchNameInput.onValueChanged.AddListener(SetMatchName);
         playerLimitDropdown.onValueChanged.AddListener(SetPlayerLimit);
-        createButton.interactable = false;
+        createButton.interactable = playerLimitDropdown.value>0;
     }
 
     private void OnDisable()
@@ -56,7 +54,7 @@ public class CreateLobbyPanel : MonoBehaviour
         NetworkClient.Send(new CreateMatchMessage
         {
             matchName = matchNameInput.text,
-            maxPlayers = (byte)playerLimit,
+            maxPlayers = (byte)(playerLimit+1),
         });
     }
 }
