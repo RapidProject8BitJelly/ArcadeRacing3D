@@ -163,6 +163,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   hasFinishedRace: 0
+  playerNickname: 
   _debugProgress: 0
 --- !u!114 &415228609934061168
 MonoBehaviour:
@@ -197,9 +198,9 @@ MonoBehaviour:
   syncInterval: 0
   _playerCarSettings: {fileID: 5582105475410058801}
   audioClips:
-  - {fileID: 8300000, guid: 47caa060f77b6ac44907bffb985c2675, type: 3}
-  - {fileID: 8300000, guid: 404ab3fb315ccb944b5f373d27d486ff, type: 3}
-  - {fileID: 8300000, guid: 50539806eae6c7a4c9d37458f4709864, type: 3}
+  - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
+  - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
+  - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
   virtualCamera: {fileID: 0}
 --- !u!114 &5163725487726656247
 MonoBehaviour:
@@ -249,6 +250,7 @@ MonoBehaviour:
   carID: 0
   colorID: 0
   accessoriesID: 0
+  nickname: 
   cars:
   - {fileID: 6724829036432956007}
   - {fileID: 7078689643126448069}
