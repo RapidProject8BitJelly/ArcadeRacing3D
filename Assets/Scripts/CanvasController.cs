@@ -66,10 +66,12 @@ public class CanvasController : MonoBehaviour
         public GameObject roomView;
         public RoomGUI roomGUI;
         public ToggleGroup toggleGroup;
-        public CreateLobbyPanel createLobbyPanel;
-
+        public List<GameObject> players;
+        
         private string matchName;
         private byte maxPlayers;
+
+        private int currentPlayer;
         //public GameObject minimap; 
         
         private Vector3[] startingPositions = new Vector3[]
@@ -190,20 +192,7 @@ public class CanvasController : MonoBehaviour
 
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Leave, matchId = localJoinedMatch });
         }
-
-        /// <summary>
-        /// Assigned in inspector to Ready button
-        /// </summary>
-        [ClientCallback]
-        public void RequestReadyChange()
-        {
-            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
-
-            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
-
-            NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Ready, matchId = matchId });
-        }
-
+        
         /// <summary>
         /// Assigned in inspector to Start button
         /// </summary>
@@ -215,6 +204,23 @@ public class CanvasController : MonoBehaviour
             NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Start });
         }
 
+        public void RequestReadyChange()
+        {
+            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
+            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
+            
+            NetworkClient.Send(new ServerMatchMessage { serverMatchOperation = ServerMatchOperation.Ready, matchId = matchId });
+        }
+
+        public void RequestCarCustomization(int carIndex, int colourIndex, int accessoriesIndex)
+        {
+            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
+            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
+            
+            NetworkClient.Send(new UpdatePlayerCarMessage {matchId = matchId, carIndex = carIndex, 
+                colourIndex = colourIndex, accessoriesIndex = accessoriesIndex});
+        }
+        
         /// <summary>
         /// Called from <see cref="newScripts.MatchController.RpcExitGame"/>
         /// </summary>
@@ -239,8 +245,25 @@ public class CanvasController : MonoBehaviour
             NetworkServer.RegisterHandler<ServerMatchMessage>(OnServerMatchMessage);
             NetworkServer.RegisterHandler<CreateMatchMessage>(OnCreateLobbyMessage);
             NetworkServer.RegisterHandler<SetPlayerNickname>(OnSetPlayerNickname);
+            NetworkServer.RegisterHandler<ReadyToMatchMessage>(OnReadyToMatchMessage);
+            NetworkServer.RegisterHandler<UpdatePlayerCarMessage>(OnUpdatePlayerCar);
         }
 
+        private void OnReadyToMatchMessage(NetworkConnectionToClient conn, ReadyToMatchMessage msg)
+        {
+            if (playerInfos[conn].playerIndex != msg.playerIndex) return;
+            if (localPlayerMatch == Guid.Empty && localJoinedMatch == Guid.Empty) return;
+
+            Guid matchId = localPlayerMatch == Guid.Empty ? localJoinedMatch : localPlayerMatch;
+
+            OnServerPlayerReady(conn, matchId);
+        }
+
+        private void OnUpdatePlayerCar(NetworkConnectionToClient conn, UpdatePlayerCarMessage msg)
+        {
+            OnServerCarUpdate(conn, msg.matchId, msg.carIndex, msg.colourIndex, msg.accessoriesIndex);
+        }
+        
         private void OnSetPlayerNickname(NetworkConnectionToClient conn, SetPlayerNickname msg)
         {
             var playerInfo = playerInfos[conn];
@@ -252,7 +275,7 @@ public class CanvasController : MonoBehaviour
         internal void OnServerReady(NetworkConnectionToClient conn)
         {
             waitingConnections.Add(conn);
-            playerInfos.Add(conn, new PlayerInfo { playerIndex = this.playerIndex, ready = false });
+            playerInfos.Add(conn, new PlayerInfo { playerIndex = this.playerIndex, ready = false, rotationAngle = 90});
             playerIndex++;
 
             SendMatchList();
@@ -298,7 +321,7 @@ public class CanvasController : MonoBehaviour
 
                     foreach (NetworkConnectionToClient playerConn in matchConnections[playerInfo.matchId])
                         if (playerConn != conn)
-                            playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
+                            playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
                 }
             }
 
@@ -316,7 +339,7 @@ public class CanvasController : MonoBehaviour
         [ClientCallback]
         internal void OnClientConnect()
         {
-            playerInfos.Add(NetworkClient.connection, new PlayerInfo { playerIndex = this.playerIndex, ready = false });
+            playerInfos.Add(NetworkClient.connection, new PlayerInfo { playerIndex = this.playerIndex, ready = false, rotationAngle = 90});
         }
 
         [ClientCallback]
@@ -413,7 +436,7 @@ public class CanvasController : MonoBehaviour
 
             PlayerInfo[] infos = matchConnections[newMatchId].Select(playerConn => playerInfos[playerConn]).ToArray();
             
-            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Created, matchId = newMatchId, playerInfos = infos });
+            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Created, matchId = newMatchId, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
 
             SendMatchList();
         }
@@ -462,7 +485,7 @@ public class CanvasController : MonoBehaviour
             PlayerInfo[] infos = matchConnections[matchId].Select(playerConn => playerInfos[playerConn]).ToArray();
             SendMatchList();
 
-            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Joined, matchId = matchId, playerInfos = infos });
+            conn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Joined, matchId = matchId, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
 
             foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
                 playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
@@ -487,7 +510,7 @@ public class CanvasController : MonoBehaviour
             PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
 
             foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
-                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos });
+                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateRoom, playerInfos = infos, myPlayerIndex = playerInfos[conn].playerIndex });
 
             SendMatchList();
 
@@ -509,26 +532,49 @@ public class CanvasController : MonoBehaviour
         }
 
         [ServerCallback]
+        void OnServerCarUpdate(NetworkConnectionToClient conn, Guid matchId, int carIndex, int colourIndex, int accessoriesIndex)
+        {
+            PlayerInfo playerInfo = playerInfos[conn];
+            if(carIndex >= 0) playerInfo.carID = carIndex; 
+            if(colourIndex >= 0) playerInfo.colorIndex = colourIndex;
+            if(accessoriesIndex >= 0) playerInfo.accessoriesIndex = accessoriesIndex;
+            playerInfos[conn] = playerInfo;
+            HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
+            PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
+
+            foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
+                playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.UpdateCars, playerInfos = infos });
+        }
+
+        [ServerCallback]
         void OnServerStartMatch(NetworkConnectionToClient conn)
         {
             if (!playerMatches.ContainsKey(conn)) return;
 
             Guid matchId;
+            int carIndex = 0;
             if (playerMatches.TryGetValue(conn, out matchId))
             {
                 GameObject matchControllerObject = Instantiate(matchControllerPrefab);
                 matchControllerObject.GetComponent<NetworkMatch>().matchId = matchId;
                 NetworkServer.Spawn(matchControllerObject);
 
+                if(players.Count > 0) players.Clear();
+                
                 MatchController matchController = matchControllerObject.GetComponent<MatchController>();
 
+                HashSet<NetworkConnectionToClient> connections = matchConnections[matchId];
+                PlayerInfo[] infos = connections.Select(playerConn => playerInfos[playerConn]).ToArray();
+                    
                 int playerPositionCount = 0;
                 foreach (NetworkConnectionToClient playerConn in matchConnections[matchId])
                 {
-                    playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Started });
-
+                    PlayerInfo playerInfo = playerInfos[playerConn];
+                    playerConn.Send(new ClientMatchMessage { clientMatchOperation = ClientMatchOperation.Started, playerInfos = infos});
+                    
                     GameObject player = Instantiate(NetworkManager.singleton.playerPrefab);
                     player.GetComponent<NetworkMatch>().matchId = matchId;
+                    players.Add(player);
                     
                     // int playerInt = matchController.player1 == null ? 0 : 1; // Pierwszy gracz to 0, drugi to 1
                     // if (playerInt < startingPositions.Length)
@@ -546,6 +592,14 @@ public class CanvasController : MonoBehaviour
                     
                     NetworkServer.AddPlayerForConnection(playerConn, player);
 
+                    PlayerCarSettings playerCarSettings = player.GetComponent<PlayerCarSettings>();
+                    
+                    playerCarSettings.carID = playerInfo.carID;
+                    playerCarSettings.colorID = playerInfo.colorIndex;
+                    playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
+                    playerCarSettings.nickname = playerInfo.playerName;
+                    playerCarSettings.CmdSetPlayerCar();
+                    
                     // if (matchController.player1 == null)
                     // {
                     //     matchController.player1 = playerConn.identity;
@@ -555,11 +609,13 @@ public class CanvasController : MonoBehaviour
                     //     matchController.player2 = playerConn.identity;
                     // }
                     matchController.players.Add(playerConn.identity);
-
+                    
+                    //playerCarSettings.CmdSetPlayerCar(playerInfo.carID, playerInfo.colorIndex, playerInfo.accessoriesIndex, playerConn);
+                    
                     /* Reset ready state for after the match. */
-                    PlayerInfo playerInfo = playerInfos[playerConn];
                     playerInfo.ready = false;
                     playerInfos[playerConn] = playerInfo;
+                    carIndex++;
                 }
 
                 playerMatches.Remove(conn);
@@ -614,6 +670,7 @@ public class CanvasController : MonoBehaviour
                     {
                         localPlayerMatch = msg.matchId;
                         ShowRoomView();
+                        roomGUI.localPlayerIndex = msg.myPlayerIndex;
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         roomGUI.SetOwner(true);
                         break;
@@ -628,6 +685,7 @@ public class CanvasController : MonoBehaviour
                     {
                         localJoinedMatch = msg.matchId;
                         ShowRoomView();
+                        roomGUI.localPlayerIndex = msg.myPlayerIndex;
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         roomGUI.SetOwner(false);
                         break;
@@ -643,9 +701,15 @@ public class CanvasController : MonoBehaviour
                         roomGUI.RefreshRoomPlayers(msg.playerInfos);
                         break;
                     }
+                case ClientMatchOperation.UpdateCars:
+                    {
+                        roomGUI.RefreshPlayersCars(msg.playerInfos);
+                        break;
+                    }
                 case ClientMatchOperation.Started:
                     {
                         //minimap.SetActive(true);
+                        SavePlayersCars(msg.playerInfos);
                         lobbyView.SetActive(false);
                         roomView.SetActive(false);
                         break;
@@ -672,6 +736,31 @@ public class CanvasController : MonoBehaviour
         {
             lobbyView.SetActive(false);
             roomView.SetActive(true);
+        }
+
+        [ClientCallback]
+        void SavePlayersCars(PlayerInfo[] playerInfos)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                var obj = players[i];
+
+                if (obj == null || obj.Equals(null))
+                {
+                    continue;
+                }
+
+                if (!obj.TryGetComponent<PlayerCarSettings>(out var settings))
+                {
+                    continue;
+                }
+
+                var info = playerInfos[i];
+                settings.carID = info.carID;
+                settings.colorID = info.colorIndex;
+                settings.accessoriesID = info.accessoriesIndex;
+                settings.nickname = info.playerName;
+            }
         }
 
         [ClientCallback]

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class RaceProgressTracker : NetworkBehaviour
 {
-    
     private RacePath racePath;
     private float progress = 0f;
     private int _currentLap;
@@ -12,6 +11,7 @@ public class RaceProgressTracker : NetworkBehaviour
     public bool hasFinishedRace = false;
 
     public float NormalizedProgress => progress / racePath.GetPathLength() + _currentLap;
+    public string playerNickname;
     [Range(0f, 3f)]
     [SerializeField] private float _debugProgress; // tylko do podglądu
     private void Start()

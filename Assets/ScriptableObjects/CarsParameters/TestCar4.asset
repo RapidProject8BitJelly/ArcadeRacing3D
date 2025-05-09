@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2e575e4ae10b843a4b9bd35ad79c10, type: 3}
+  m_Name: TestCar4
+  m_EditorClassIdentifier: 
+  acceleration: 20
+  maxSpeed: 45
+  turnFactor: 2
+  driftFactor: 0.95
+  minSpeedToShowTrails: 10
+  specialAbility: {fileID: 11400000, guid: 15748dc44d946f1418b17a87d087203a, type: 2}
+  carColors:
+  - {r: 1, g: 0.41960785, b: 0, a: 1}
+  - {r: 0.18431373, g: 0.28235295, b: 0.34509805, a: 1}
+  - {r: 0.42352942, g: 0.45882353, b: 0.49019608, a: 1}
+  - {r: 0.69803923, g: 0.13333334, b: 0.13333334, a: 1}
