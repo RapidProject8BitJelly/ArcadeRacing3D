@@ -12,6 +12,8 @@ public class PlayerCarSettings : NetworkBehaviour
     public int colorID;
     [SyncVar(hook = nameof(OnAccessoriesChanged))]
     public int accessoriesID;
+    [SyncVar(hook = nameof(OnNicknameChanged))]
+    public string nickname;
     
     [SerializeField] private GameObject[] cars;
     
@@ -95,6 +97,7 @@ public class PlayerCarSettings : NetworkBehaviour
     
     private void ApplyCarColor()
     {
+        if(_playerCar == null) ApplyCarSelection();
         for (int i = 0; i < elementsToChangeColor.Length; i++)
         {
             elementsToChangeColor[i].GetComponent<Renderer>().material.color = carParams.CarColors[colorID];
@@ -112,6 +115,7 @@ public class PlayerCarSettings : NetworkBehaviour
 
     private void ApplyCarAccessories()
     {
+        if(_playerCar == null) ApplyCarSelection();
         for (int i = 0; i < carAccessories.transform.childCount; i++)
         {
             if(i==accessoriesID) carAccessories.transform.GetChild(i).gameObject.SetActive(true);
@@ -158,4 +162,9 @@ public class PlayerCarSettings : NetworkBehaviour
     }
 
     #endregion
+
+    private void OnNicknameChanged(string oldValue, string newValue)
+    {
+        GetComponent<RaceProgressTracker>().playerNickname = newValue;
+    }
 }

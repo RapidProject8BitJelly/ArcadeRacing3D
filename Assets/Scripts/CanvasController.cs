@@ -597,6 +597,7 @@ public class CanvasController : MonoBehaviour
                     playerCarSettings.carID = playerInfo.carID;
                     playerCarSettings.colorID = playerInfo.colorIndex;
                     playerCarSettings.accessoriesID = playerInfo.accessoriesIndex;
+                    playerCarSettings.nickname = playerInfo.playerName;
                     playerCarSettings.CmdSetPlayerCar();
                     
                     // if (matchController.player1 == null)
@@ -758,6 +759,7 @@ public class CanvasController : MonoBehaviour
                 settings.carID = info.carID;
                 settings.colorID = info.colorIndex;
                 settings.accessoriesID = info.accessoriesIndex;
+                settings.nickname = info.playerName;
             }
         }
 

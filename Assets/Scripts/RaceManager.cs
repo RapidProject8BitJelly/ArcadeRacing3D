@@ -47,7 +47,7 @@ public class RaceManager : MonoBehaviour
         {
             var racer = sorted[i];
             var text = racerToText[racer];
-            text.text = $"{i + 1}. {racer.name}";
+            text.text = $"{i + 1}. {racer.playerNickname}";
 
             Vector2 targetPos = new Vector2(text.rectTransform.anchoredPosition.x, -i * verticalSpacing - 20);
 
