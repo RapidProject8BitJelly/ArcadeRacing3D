@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2839871721833175121}
   - component: {fileID: 5163725487726656247}
   - component: {fileID: 5582105475410058801}
+  - component: {fileID: 1599330418665805307}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -266,6 +267,27 @@ MonoBehaviour:
   turnFactor: 0
   driftFactor: 0
   minSpeedToShowTrails: 0
+--- !u!65 &1599330418665805307
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7172262971620463697}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.090891, y: 1.1934824, z: 2.1277618}
+  m_Center: {x: 0.026541233, y: -0.0967412, z: -0.012992859}
 --- !u!1001 &2817111632429896763
 PrefabInstance:
   m_ObjectHideFlags: 0
