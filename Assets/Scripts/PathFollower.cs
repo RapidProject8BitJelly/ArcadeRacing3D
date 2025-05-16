@@ -8,6 +8,7 @@ public class PathFollower : MonoBehaviour
 {
     [SerializeField] private GameObject path;
     [SerializeField] private float speed;
+    [SerializeField] private GameObject barrelModel;
     public bool isMoving;
 
     private void Start()
@@ -43,6 +44,18 @@ public class PathFollower : MonoBehaviour
                 Quaternion targetRot = Quaternion.LookRotation(forwardDir, Vector3.up);
                 transform.DORotateQuaternion(targetRot, duration).SetEase(Ease.Linear);
             }
+            
+            float radius = barrelModel.transform.lossyScale.z * 0.5f; // zakładamy że toczy się po osi X
+
+            // 🔁 Oblicz obrót wokół osi X (toczenie)
+            float obwod = 2 * Mathf.PI * radius;
+            float rollAngle = (distance / obwod) * 360f;
+
+            // 🔄 Dodaj lokalny obrót toczenia
+            
+            
+            barrelModel.transform.DOLocalRotate(new Vector3(rollAngle, 0, 90), duration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+
             
             yield return transform.DOMove(currentTarget, duration).SetEase(Ease.Linear).WaitForCompletion();
         }
