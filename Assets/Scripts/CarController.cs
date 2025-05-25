@@ -1,386 +1,304 @@
+using System;
 using System.Collections;
-using UnityEngine;
+using Cinemachine;
+using DG.Tweening;
 using Mirror;
-//using Cinemachine;
+using TMPro;
+using UnityEngine;
 
 public class CarController : NetworkBehaviour
 {
-    #region CarSettings
-    [Header("Car Settings")]
-    [Tooltip("Coefficient of drift applied to lateral velocity")]
-    public float driftFactor = 0.95f;
-    [Tooltip("Acceleration multiplier")]
-    public float accelerationFactor = 30.0f;
-    [Tooltip("Steering sensitivity")]
-    public float turnFactor = 3.5f;
-    [Tooltip("Maximum car speed")]
-    public float maxSpeed = 20.0f;
-    #endregion
+    [SerializeField] private PlayerCarSettings _playerCarSettings;
+
+    [SerializeField] private AudioClip[] audioClips;
     
-    #region Variables
-    private float _accelerationInput = 0f;
-    private float _steeringInput = 0f;
+    private float _accelerationInput;
+    private float _turnInput;
+    private Rigidbody _rigidbody;
     private float _rotationAngle = 0f;
-    private float _velocityVsUp = 0f; // Velocity component in the direction of the car's front
-    #endregion
+    private float _previousTurnInput;
+    private bool _previousIsBraking;
     
-    #region Network Variables
-    // Store whether the tires are screeching
-    [SyncVar]
-    public bool isTireScreeching;
+    private Coroutine _driftCoroutine;
 
-    // Store the emission rate
-    [SyncVar]
-    public float particleEmissionRate = 0f;
-
-    // Store whether the player is on overpass
-    [SyncVar]
-    public bool isOverpassEmitter = false;
-    #endregion
+    public CinemachineVirtualCamera virtualCamera;
     
-    #region Properties
-    //public CinemachineVirtualCamera virtualCamera;
-    public TrailRenderer[] trailRenderers;
-    public TrailRenderer[] overpassTrailRenderers;
-    public ParticleSystem[] particleSystems;
+    private float _pitchAngle = 0f; // używane przez AlignToGround
+    private float _currentPitch = 0f;
     
-    private Rigidbody2D _rb;
-    //private CarLayerHandler _carLayerHandler;
-    #endregion
-    
-    #region Unity Callbacks
-
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        //_carLayerHandler = GetComponent<CarLayerHandler>();
+        _rigidbody = GetComponent<Rigidbody>();
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+    }
+
+    private void Start()
+    {
+        if (!isLocalPlayer)
+        {
+            GetComponent<AudioListener>().enabled = false;
+        }
+        else
+        {
+            GetComponent<AudioListener>().enabled = true;
+        }
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        if (virtualCamera != null)
+        {
+            virtualCamera.Follow = transform;
+            virtualCamera.LookAt = transform;
+        }
+        GetComponent<AudioListener>().enabled = true;
+    }
+    
+    public void SetSpectateTarget(Transform target)
+    {
+        if (!isLocalPlayer || virtualCamera == null) return;
+
+        virtualCamera.Follow = target;
+        virtualCamera.LookAt = target;
     }
 
     private void FixedUpdate()
     {
         if (!isLocalPlayer) return;
-
+        
         _accelerationInput = Input.GetAxis("Vertical");
-        _steeringInput = Input.GetAxis("Horizontal");
+        _turnInput = Input.GetAxis("Horizontal");
+        AlignToGround();
+        AddSpeed();
+        Drift();
+        Turn();
+        float lateralVelocity;
+        bool isBraking;
+        bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
 
-        // Apply forces and steering based on player input
-        ApplyEngineForce();
-        KillOrthogonalVelocity();
-        ApplySteering();
-
-        // Check if the tires are screeching and notify the server
-        CheckTireScreeching();
+        SetTrailsRenderers(isScreeching);
         
-        // Check if the smoke is emitting and notify the server
-        CheckSmokeEmission();
+        float speed = _rigidbody.linearVelocity.magnitude * 3.6f;
+        //speedText.SetText(Mathf.RoundToInt(speed).ToString());
+    }
+
+    private void AddSpeed()
+    {
+        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
+        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
-        // Check if the car is driving on an overpass and update trail renderers accordingly
-        UpdateOverpassState();
-    }
-    #endregion
-    
-    #region Networking
-    public override void OnStartLocalPlayer()
-    {
-        // Assign the virtual camera to follow the local player's car
-        /*if (virtualCamera != null)
-        {
-            virtualCamera.Follow = transform;
-        }*/
-
-        SetTrailRenderers(false);
-        isTireScreeching = false;
-        CmdSetTireScreeching(false);
-
-        foreach (var particle in particleSystems)
-        {
-            if (particle != null)
-            {
-                var particleEmission = particle.emission;
-                particleEmission.enabled = true;
-                particleEmission.rateOverTime = 0;
-            }
-        }
-    }
-    
-    [Command]
-    private void CmdSetTireScreeching(bool screeching)
-    {
-        // Update the state on the server
-        isTireScreeching = screeching;
-
-        // Notify all clients about the change
-        RpcSetTireScreeching(screeching);
-    }
-
-    [ClientRpc]
-    private void RpcSetTireScreeching(bool screeching)
-    {
-        // Update the trail renderers for all clients
-        SetTrailRenderers(screeching);
-    }
-
-    [Command]
-    private void CmdSetOverpassEmitter(bool overpassEmitter)
-    {
-        // Propagate overpass emitter state to all clients
-        isOverpassEmitter = overpassEmitter;
-        RpcSetOverpassEmitter(overpassEmitter);
-    }
-
-    [ClientRpc]
-    private void RpcSetOverpassEmitter(bool overpassEmitter)
-    {
-        // Update trail renderers based on overpass state and tire screeching
-        isOverpassEmitter = overpassEmitter;
-        SetTrailRenderers(isTireScreeching);
-    }
-    
-    [Command]
-    private void CmdUpdateParticleEmissionRate(float rate)
-    {
-        // Update the state on the server
-        particleEmissionRate = rate;
-        
-        // Notify all clients about the change
-        RpcUpdateParticleEmissionRate(rate);
-    }
-
-    [ClientRpc]
-    private void RpcUpdateParticleEmissionRate(float rate)
-    {
-        // Update the particle systems for all clients  
-        foreach (var particle in particleSystems)
-        {
-            if (particle != null)
-            {
-                var particleEmission = particle.emission;
-                particleEmission.enabled = true;
-                particleEmission.rateOverTime = rate;
-            }
-        }
-    }
-    
-    [Command(requiresAuthority = false)]
-    private void CmdStopAllParticlesAndTrailRenderers()
-    {
-        RpcStopAllParticlesAndTrailRenderers();
-    }
-
-    [ClientRpc]
-    private void RpcStopAllParticlesAndTrailRenderers()
-    {
-        
-        foreach (var trail in trailRenderers)
-        {
-            trail.emitting = false;
-            trail.Clear();
-        }
-
-        foreach (var trail in overpassTrailRenderers)
-        {
-            trail.emitting = false;
-            trail.Clear();
-        }
-
-        foreach (var particle in particleSystems)
-        {
-            var particleEmission = particle.emission;
-            particleEmission.enabled = false;
-            particle.Clear();
-        }
-    }
-    #endregion
-
-    #region Methods
-    private void UpdateOverpassState()
-    {
-        /*if (_carLayerHandler != null)
-        {
-            bool isOnOverpass = _carLayerHandler.IsDrivingOnOverpass();
-
-            if (isOverpassEmitter != isOnOverpass)
-            {
-                isOverpassEmitter = isOnOverpass;
-                
-                // Notify the server about the overpass state change
-                CmdSetOverpassEmitter(isOverpassEmitter);
-            }
-        }*/
-    }
-
-    private void CheckTireScreeching()
-    {
-        // Calculate if the tires are screeching locally
-        if (IsTireScreeching(out float lateralVelocity, out bool isBraking))
-        {
-            if (!isTireScreeching)
-            {
-                isTireScreeching = true;
-                CmdSetTireScreeching(true);
-            }
-        }
-        else
-        {
-            if (isTireScreeching)
-            {
-                isTireScreeching = false;
-                CmdSetTireScreeching(false);
-            }
-        }
-    }
-
-    private void SetTrailRenderers(bool screeching)
-    {
-        // Choose the correct set of trail renderers based on the overpass state
-        TrailRenderer[] activeRenderers = isOverpassEmitter ? overpassTrailRenderers : trailRenderers;
-
-        // Disable all trail renderers first
-        foreach (var trail in trailRenderers)
-        {
-            if (trail != null)
-            {
-                trail.emitting = false;
-            }
-        }
-
-        foreach (var trail in overpassTrailRenderers)
-        {
-            if (trail != null)
-            {
-                trail.emitting = false;
-            }
-        }
-
-        // Enable the selected trail renderers
-        foreach (var trail in activeRenderers)
-        {
-            if (trail != null)
-            {
-                trail.emitting = screeching;
-            }
-        }
-    }
-
-    private void CheckSmokeEmission()
-    {
-        // Calculate smoke emission rate
-        if (isTireScreeching)
-        {
-            particleEmissionRate = Mathf.Lerp(particleEmissionRate, 30, Time.deltaTime * 5);
-        }
-        else
-        {
-            particleEmissionRate = Mathf.Lerp(particleEmissionRate, 0, Time.deltaTime * 5);
-        }
-
-        // Update the emission rate on the server
-        CmdUpdateParticleEmissionRate(particleEmissionRate); // TU COS JEST NIE TAK
-    }
-
-    
-
-    // Method to apply engine force based on player input
-    private void ApplyEngineForce()
-    {
-        // Calculate the car's velocity relative to its forward direction
-        _velocityVsUp = Vector2.Dot(transform.up, _rb.velocity);
-
-        // Prevent further acceleration if the car is already at its max speed
-        if (_velocityVsUp > maxSpeed && _accelerationInput > 0f) return;
-
-        // Prevent further reverse acceleration if the car is reversing too fast
-        if (_velocityVsUp < -maxSpeed * 0.5f && _accelerationInput < 0f) return;
-
-        // Limit the car's speed in any direction
-        if (_rb.velocity.sqrMagnitude > maxSpeed * maxSpeed && _accelerationInput > 0f) return;
-
-        // Apply drag when no acceleration is input
         if (_accelerationInput == 0f)
         {
-            _rb.drag = Mathf.Lerp(_rb.drag, 3.0f, Time.fixedDeltaTime * 3);
+            _rigidbody.linearDamping = Mathf.Lerp(_rigidbody.linearDamping, 0.3f, Time.fixedDeltaTime * 3);
         }
         else
         {
-            _rb.drag = 0f;
+            _rigidbody.linearDamping = 0f;
+        }
+        
+        Vector3 engineForce = transform.forward * (_playerCarSettings.acceleration * _accelerationInput);
+        _rigidbody.AddForce(engineForce, ForceMode.Force);
+    }
+    
+    private void AlignToGround()
+    {
+        float raycastDistance = 5f;
+
+        Vector3 front = transform.position + transform.forward * 1.5f + Vector3.up * 1.0f;
+        Vector3 back = transform.position - transform.forward * 1.5f + Vector3.up * 1.0f;
+
+        if (Physics.Raycast(front, Vector3.down, out RaycastHit hitFront, raycastDistance) &&
+            Physics.Raycast(back, Vector3.down, out RaycastHit hitBack, raycastDistance))
+        {
+            Vector3 slopeDirection = (hitFront.point - hitBack.point).normalized;
+            Vector3 surfaceNormal = Vector3.Cross(slopeDirection, transform.right);
+
+            // Oblicz docelową rotację pitch względem terenu
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(transform.forward, surfaceNormal), surfaceNormal);
+            float targetPitch = targetRotation.eulerAngles.x;
+
+            // Poprawka dla kąta (360 → -180/+180)
+            if (targetPitch > 180f) targetPitch -= 360f;
+
+            // Ogranicz pitch do przedziału -15° do 15°
+            targetPitch = Mathf.Clamp(targetPitch, -15f, 15f);
+
+            // Płynne przejście
+            _currentPitch = Mathf.LerpAngle(_currentPitch, targetPitch, Time.fixedDeltaTime * 5f);
+        }
+    }
+
+    private void Turn()
+    {
+        if (_turnInput == 0 && _previousTurnInput != 0)
+        {
+            foreach (var wheel in _playerCarSettings.wheels)
+            {
+                wheel.transform.DOLocalRotate(new Vector3(90, 90, 0), 0.5f);
+            }
+            _playerCarSettings.carBase.transform.DOLocalRotate(new Vector3(0, 90, 0), 0.5f);
+        }
+        else if (_turnInput != 0 && _previousTurnInput == 0 || _turnInput > 0 && _previousTurnInput < 0 || _turnInput < 0 && _previousTurnInput > 0)
+        {
+            foreach (var wheel in _playerCarSettings.wheels)
+            {
+                if (_turnInput > 0f)
+                {
+                    wheel.transform.DOLocalRotate(new Vector3(90, 90, -35), 0.5f);
+                }
+                else if (_turnInput < 0f)
+                {
+                    wheel.transform.DOLocalRotate(new Vector3(90, 90, 35), 0.5f);
+                }
+            }
         }
 
-        // Apply the engine force in the forward direction
-        Vector2 engineForceVector = transform.up * _accelerationInput * accelerationFactor;
-        _rb.AddForce(engineForceVector, ForceMode2D.Force);
-    }
-
-    // Method to apply steering based on player input
-    private void ApplySteering()
-    {
-        // Adjust the steering sensitivity based on the car's speed
-        float minSpeedBeforeAllowTurningFactor = (_rb.velocity.magnitude / 8);
+        float minSpeedBeforeAllowTurningFactor = (_rigidbody.linearVelocity.magnitude / 8);
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
+        _rotationAngle -= _turnInput * _playerCarSettings.turnFactor * minSpeedBeforeAllowTurningFactor;
 
-        // Rotate the car based on the steering input and speed
-        _rotationAngle -= _steeringInput * turnFactor * minSpeedBeforeAllowTurningFactor;
-        _rb.MoveRotation(_rotationAngle);
+        // Nowa rotacja: pitch z AlignToGround + yaw z Turn
+        Quaternion combinedRotation = Quaternion.Euler(_currentPitch, -_rotationAngle, 0f);
+        _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, combinedRotation, Time.fixedDeltaTime * 100f));
+
+        _previousTurnInput = _turnInput;
     }
 
-    // Method to reduce the car's lateral velocity (simulate drifting)
-    private void KillOrthogonalVelocity()
+    private void Drift()
     {
-        Vector2 forwardVelocity = transform.up * Vector2.Dot(_rb.velocity, transform.up);
-        Vector2 rightVelocity = transform.right * Vector2.Dot(_rb.velocity, transform.right);
+        Vector3 forwardVelocity = transform.forward * Vector3.Dot(_rigidbody.linearVelocity, transform.forward);
+        Vector3 rightVelocity = transform.right * Vector3.Dot(_rigidbody.linearVelocity, transform.right);
 
-        // Apply drift factor to the lateral velocity
-        _rb.velocity = forwardVelocity + rightVelocity * driftFactor;
+        _rigidbody.linearVelocity = forwardVelocity + rightVelocity * _playerCarSettings.driftFactor;
     }
 
-    // Helper method to get the lateral velocity of the car
-    private float GetLateralVelocity()
+    private void SetTrailsRenderers(bool screeching)
     {
-        return Vector2.Dot(transform.right, _rb.velocity);
+        CmdDrawTrails(screeching);
     }
 
-    // Method to check if the tires are screeching (e.g., during drifting or braking)
     private bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
     {
-        lateralVelocity = GetLateralVelocity();
+        lateralVelocity = Vector3.Dot(_rigidbody.linearVelocity, transform.right);
         isBraking = false;
 
-        // Check if the player is braking (reverse input while moving forward)
-        if (_accelerationInput < 0 && _velocityVsUp > 0)
+        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.linearVelocity, transform.forward) > 0f 
+                                   && _rigidbody.linearVelocity.magnitude > _playerCarSettings.minSpeedToShowTrails)
         {
             isBraking = true;
-            return true;
         }
 
-        // Check if the lateral velocity is high enough to cause tire screeching
-        if (Mathf.Abs(GetLateralVelocity()) > 4.0f)
+        if (Mathf.Abs(lateralVelocity) > 3f)
         {
-            return true;
+            isBraking = true;
         }
 
-        return false;
+        if (!_previousIsBraking && isBraking)
+        {
+            CmdPlayAudio();
+        }
+        else if (_previousIsBraking && !isBraking)
+        {
+            CmdPlayStopDriftAudio();
+        }
+        
+        _previousIsBraking = isBraking;
+        return isBraking;
+    }
+    
+    public void SetNewRotation(float rotationAngle)
+    {
+        _rotationAngle = rotationAngle;
+    }
+
+    [Command]
+
+    private void CmdPlayAudio()
+    {
+        ClientPlayDriftAudio();
+    }
+
+    [ClientRpc]
+    private void ClientPlayDriftAudio()
+    {
+        _driftCoroutine = StartCoroutine(PlayDriftAudio());
+    }
+    
+    private IEnumerator PlayDriftAudio()
+    {
+        _playerCarSettings.audioSource.clip = audioClips[0];
+        _playerCarSettings.audioSource.Play();
+        yield return new WaitForSeconds(audioClips[0].length);
+        _playerCarSettings.audioSource.clip = audioClips[1];
+        _playerCarSettings.audioSource.Play();
+        _playerCarSettings.audioSource.loop = true;
+        _driftCoroutine = null;
+    }
+
+    [Command]
+    private void CmdPlayStopDriftAudio()
+    {
+        ClientPlayStopDriftAudio();
+    }
+
+    [ClientRpc]
+    private void ClientPlayStopDriftAudio()
+    {
+        _playerCarSettings.audioSource.Stop();
+        if (_driftCoroutine != null)
+        {
+            StopCoroutine(_driftCoroutine);
+            _driftCoroutine = null;
+        }
+        _playerCarSettings.audioSource.clip = audioClips[2];
+        _playerCarSettings.audioSource.loop = false;
+        _playerCarSettings.audioSource.Play();
+    }
+
+    [Command]
+    private void CmdDrawTrails(bool screeching)
+    {
+        ClientDrawTrails(screeching);
+    }
+
+    [ClientRpc]
+    private void ClientDrawTrails(bool screeching)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (_playerCarSettings.trails[i] != null)
+            {
+                _playerCarSettings.trails[i].emitting = screeching;
+            }
+            if (_playerCarSettings.particles[i] != null)
+            {
+                if(!_playerCarSettings.particles[i].gameObject.activeSelf) _playerCarSettings.particles[i].gameObject.SetActive(true);
+                var emission = _playerCarSettings.particles[i].emission;
+                emission.enabled = screeching;
+            }
+        }
     }
     
     public void StopCar()
     {
-       StartCoroutine(StopCarCoroutine());
+        //StartCoroutine(StopCarCoroutine());
     }
-
-    IEnumerator StopCarCoroutine()
-    {
-        yield return new WaitForSeconds(0.5f);
-        
-        if (_rb != null)
-        {
-            _rb.velocity = Vector2.zero;
-            _rb.angularVelocity = 0f;
-        }
-        _accelerationInput = 0f;
-        _velocityVsUp = 0f;
-        _rotationAngle = 0f;
-        _steeringInput = 0f;
-        
-        CmdStopAllParticlesAndTrailRenderers();
-    }
-    #endregion
+    
+    //
+    // IEnumerator StopCarCoroutine()
+    // {
+    //     yield return new WaitForSeconds(0.5f);
+    //     
+    //     if (_rb != null)
+    //     {
+    //         _rb.velocity = Vector2.zero;
+    //         _rb.angularVelocity = 0f;
+    //     }
+    //     _accelerationInput = 0f;
+    //     _velocityVsUp = 0f;
+    //     _rotationAngle = 0f;
+    //     _steeringInput = 0f;
+    //     
+    //     CmdStopAllParticlesAndTrailRenderers();
+    // }
 }

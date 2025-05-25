@@ -1,16 +1,17 @@
 using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(NetworkMatch))]
 public class MatchController : NetworkBehaviour
 {
     #region Variables
-    // SyncDictionary to hold player data for the match
+    public static MatchController Instance { get; private set; }
     internal readonly SyncDictionary<NetworkIdentity, MatchPlayerData> MatchPlayerData = new SyncDictionary<NetworkIdentity, MatchPlayerData>();
-    // Flag to track if players want to play again
     private bool _playAgain = false;
     #endregion
 
@@ -21,11 +22,9 @@ public class MatchController : NetworkBehaviour
     public Button exitButton;
     public Button playAgainButton;
     public TMP_Text lapCounterText;
-    public TMP_Text positionText;
     public TMP_Text infoText;
 
     [Header("Diagnostics")]
-    // Reference to the CanvasController for diagnostic purposes
     [ReadOnly, SerializeField] internal CanvasController canvasController;
     #endregion
 
@@ -33,27 +32,29 @@ public class MatchController : NetworkBehaviour
     [ReadOnly, SerializeField] internal NetworkIdentity player1;
     [ReadOnly, SerializeField] internal NetworkIdentity player2;
 
+    [ReadOnly, SerializeField] internal List<NetworkIdentity> players = new List<NetworkIdentity>();
+    
     [Header("Player Starting Positions")]
-    // Array to hold starting positions for players
     public Vector3[] startingPositions = new Vector3[]
     {
-        new Vector3(-4, 0, 0),  // Position for player 1
-        new Vector3(4, 0, 0)    // Position for player 2
+        new Vector3(-6, 0, 0),
+        new Vector3(6, 0, 0),
+        new Vector3(-3, 0, -3),
+        new Vector3(3, 0, -3)
     };
+
     #endregion
 
     #region Networking
     public override void OnStartServer()
     {
-        // Start adding players to the match controller on the server
         StartCoroutine(AddPlayersToMatchController());
     }
 
     public override void OnStartClient()
     {
-        // Initialize GUI elements on the client
         lapCounterText.text = "Laps: 1";
-        positionText.text = "Pos: 1";
+        //leaderboardText.text = "Pos: 1";
 
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
@@ -66,21 +67,18 @@ public class MatchController : NetworkBehaviour
     [ClientRpc]
     private void RpcStartCountdown()
     {
-        // Start the countdown on the clients
         StartCoroutine(StartCountdown());
     }
 
     [Command(requiresAuthority = false)]
     private void CmdEnablePlayerCars()
     {
-        // Command to enable player cars on the server
         RpcEnablePlayerCars();
     }
 
     [ClientRpc]
     private void RpcEnablePlayerCars()
     {
-        // Enable car controllers for all players on the clients
         foreach (var player in MatchPlayerData)
         {
             player.Value.carController.enabled = true;
@@ -90,14 +88,12 @@ public class MatchController : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdDisablePlayerCars()
     {
-        // Command to disable player cars on the server
         RpcDisablePlayerCars();
     }
 
     [ClientRpc]
     private void RpcDisablePlayerCars()
     {
-        // Disable car controllers for all players on the clients and stop the cars
         foreach (var player in MatchPlayerData)
         {
             player.Value.carController.enabled = false;
@@ -108,14 +104,12 @@ public class MatchController : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdShowWinner(NetworkIdentity winner)
     {
-        // Command to show the winner on the server
         RpcShowWinner(winner);
     }
 
     [ClientRpc]
     private void RpcShowWinner(NetworkIdentity winner)
     {
-        // Display winner or loser text on the clients
         if (winner.gameObject.GetComponent<NetworkIdentity>().isLocalPlayer)
         {
             infoText.text = "Winner!";
@@ -135,7 +129,6 @@ public class MatchController : NetworkBehaviour
     [ClientCallback]
     public void RequestPlayAgain()
     {
-        // Handle play again request from the client
         playAgainButton.gameObject.SetActive(false);
         CmdPlayAgain();
     }
@@ -143,7 +136,6 @@ public class MatchController : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void CmdPlayAgain()
     {
-        // Command to handle play again logic on the server
         if (!_playAgain)
             _playAgain = true;
         else
@@ -174,7 +166,6 @@ public class MatchController : NetworkBehaviour
     [ClientRpc]
     private void RpcRestartGame()
     {
-        // Restart the game on the clients
         exitButton.gameObject.SetActive(false);
         playAgainButton.gameObject.SetActive(false);
     }
@@ -182,24 +173,19 @@ public class MatchController : NetworkBehaviour
     [ClientRpc]
     private void RpcResetPlayerPositions()
     {
-        // Reset player positions on the clients
-        int index = 0;
-        foreach (var player in MatchPlayerData.Keys)
+        for (int i = 0; i < players.Count && i < startingPositions.Length; i++)
         {
-            if (index < startingPositions.Length)
-            {
-                player.transform.position = startingPositions[index];
-                player.transform.rotation = Quaternion.Euler(0, 0, 0);
-                index++;
-            }
+            var player = players[i];
+            player.transform.position = startingPositions[i];
+            player.transform.rotation = Quaternion.identity;
         }
     }
+
 
     // Assigned in inspector to BackButton::OnClick
     [Client]
     public void RequestExitGame()
     {
-        // Handle exit game request from the client
         exitButton.gameObject.SetActive(false);
         playAgainButton.gameObject.SetActive(false);
         CmdRequestExitGame();
@@ -208,22 +194,21 @@ public class MatchController : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void CmdRequestExitGame(NetworkConnectionToClient sender = null)
     {
-        // Command to handle exit game logic on the server
         StartCoroutine(ServerEndMatch(sender, false));
     }
 
     [ServerCallback]
     public void OnPlayerDisconnected(NetworkConnectionToClient conn)
     {
-        // Handle player disconnection on the server
-        if (player1 == conn.identity || player2 == conn.identity)
+        if (players.Contains(conn.identity))
+        {
             StartCoroutine(ServerEndMatch(conn, true));
+        }
     }
 
     [ServerCallback]
     private IEnumerator ServerEndMatch(NetworkConnectionToClient conn, bool disconnected)
     {
-        // End the match on the server
         RpcExitGame();
         canvasController.OnPlayerDisconnected -= OnPlayerDisconnected;
 
@@ -231,23 +216,22 @@ public class MatchController : NetworkBehaviour
 
         if (!disconnected)
         {
-            NetworkServer.RemovePlayerForConnection(player1.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player1.connectionToClient);
-
-            NetworkServer.RemovePlayerForConnection(player2.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player2.connectionToClient);
+            foreach (var player in players)
+            {
+                NetworkServer.RemovePlayerForConnection(player.connectionToClient, RemovePlayerOptions.Destroy);
+                CanvasController.waitingConnections.Add(player.connectionToClient);
+            }
         }
-        else if (conn == player1.connectionToClient)
+        else
         {
-            // player1 has disconnected - send player2 back to Lobby
-            NetworkServer.RemovePlayerForConnection(player2.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player2.connectionToClient);
-        }
-        else if (conn == player2.connectionToClient)
-        {
-            // player2 has disconnected - send player1 back to Lobby
-            NetworkServer.RemovePlayerForConnection(player1.connectionToClient, RemovePlayerOptions.Destroy);
-            CanvasController.waitingConnections.Add(player1.connectionToClient);
+            foreach (var player in players)
+            {
+                if (player.connectionToClient != conn)
+                {
+                    NetworkServer.RemovePlayerForConnection(player.connectionToClient, RemovePlayerOptions.Destroy);
+                    CanvasController.waitingConnections.Add(player.connectionToClient);
+                }
+            }
         }
 
         yield return null;
@@ -256,47 +240,72 @@ public class MatchController : NetworkBehaviour
         NetworkServer.Destroy(gameObject);
     }
 
+
     [ClientRpc]
     private void RpcExitGame()
     {
-        // Handle exit game logic on the clients
         canvasController.OnMatchEnded();
-        canvasController.minimap.SetActive(false);
+        //canvasController.minimap.SetActive(false);
     }
     #endregion
 
     #region Unity Callbacks
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        
         // Initialize the canvas controller
-        canvasController = GameObject.FindObjectOfType<CanvasController>();
+        canvasController = GameObject.FindObjectOfType<CanvasController>(); //TODO: DO ZMIANY
     }
     #endregion
 
     #region Methods
-    // For the SyncDictionary to properly fire the update callback, we must
-    // wait a frame before adding the players to the already spawned MatchController
+    // IEnumerator AddPlayersToMatchController()
+    // {
+    //     yield return null;
+    //
+    //     MatchPlayerData.Add(player1, new MatchPlayerData
+    //     {
+    //         playerIndex = CanvasController.playerInfos[player1.connectionToClient].playerIndex,
+    //         carController = player1.GetComponent<CarController>()
+    //     });
+    //     MatchPlayerData.Add(player2, new MatchPlayerData
+    //     {
+    //         playerIndex = CanvasController.playerInfos[player2.connectionToClient].playerIndex,
+    //         carController = player2.GetComponent<CarController>()
+    //     });
+    //
+    //     RpcStartCountdown();
+    // }
+    
     IEnumerator AddPlayersToMatchController()
     {
         yield return null;
 
-        MatchPlayerData.Add(player1, new MatchPlayerData
+        foreach (var player in players)
         {
-            playerIndex = CanvasController.playerInfos[player1.connectionToClient].playerIndex,
-            carController = player1.GetComponent<CarController>()
-        });
-        MatchPlayerData.Add(player2, new MatchPlayerData
-        {
-            playerIndex = CanvasController.playerInfos[player2.connectionToClient].playerIndex,
-            carController = player2.GetComponent<CarController>()
-        });
+            if (!MatchPlayerData.ContainsKey(player) && MatchPlayerData.Count < 4)
+            {
+                MatchPlayerData.Add(player, new MatchPlayerData
+                {
+                    playerIndex = CanvasController.playerInfos[player.connectionToClient].playerIndex,
+                    carController = player.GetComponent<CarController>()
+                });
+            }
+        }
 
         RpcStartCountdown();
     }
 
     private IEnumerator StartCountdown()
     {
-        // Display countdown on the clients
         infoText.text = "3";
         infoText.color = Color.white;
         yield return new WaitForSeconds(1f);
@@ -314,14 +323,36 @@ public class MatchController : NetworkBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        infoText.text = ""; // Hide text after the countdown
+        infoText.text = "";
     }
     
     public void ResetCarLapCounters()
     {
-        // Reset the lap counters for all cars
         /*CarLapCounter[] carLapCounters = FindObjectsOfType<CarLapCounter>();
         foreach (CarLapCounter carLapCounter in carLapCounters) carLapCounter.Reset();*/
     }
     #endregion
+    
+    public NetworkIdentity GetCurrentLeaderIdentity(NetworkIdentity excludePlayer)
+    {
+        RaceProgressTracker leaderTracker = null;
+        float bestProgress = float.MinValue;
+
+        foreach (var kvp in MatchPlayerData)
+        {
+            var identity = kvp.Key;
+            if (identity == excludePlayer) continue;
+
+            var tracker = identity.GetComponent<RaceProgressTracker>();
+            if (tracker == null || tracker.hasFinishedRace) continue;
+
+            if (tracker.NormalizedProgress > bestProgress)
+            {
+                bestProgress = tracker.NormalizedProgress;
+                leaderTracker = tracker;
+            }
+        }
+
+        return leaderTracker != null ? leaderTracker.GetComponent<NetworkIdentity>() : null;
+    }
 }
