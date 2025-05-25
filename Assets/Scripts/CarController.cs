@@ -78,22 +78,22 @@ public class CarController : NetworkBehaviour
 
         SetTrailsRenderers(isScreeching);
         
-        float speed = _rigidbody.velocity.magnitude * 3.6f;
+        float speed = _rigidbody.linearVelocity.magnitude * 3.6f;
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
 
     private void AddSpeed()
     {
-        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
-        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
+        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
+        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
         if (_accelerationInput == 0f)
         {
-            _rigidbody.drag = Mathf.Lerp(_rigidbody.drag, 0.3f, Time.fixedDeltaTime * 3);
+            _rigidbody.linearDamping = Mathf.Lerp(_rigidbody.linearDamping, 0.3f, Time.fixedDeltaTime * 3);
         }
         else
         {
-            _rigidbody.drag = 0f;
+            _rigidbody.linearDamping = 0f;
         }
         
         Vector3 engineForce = transform.forward * (_playerCarSettings.acceleration * _accelerationInput);
@@ -153,7 +153,7 @@ public class CarController : NetworkBehaviour
             }
         }
 
-        float minSpeedBeforeAllowTurningFactor = (_rigidbody.velocity.magnitude / 8);
+        float minSpeedBeforeAllowTurningFactor = (_rigidbody.linearVelocity.magnitude / 8);
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
         _rotationAngle -= _turnInput * _playerCarSettings.turnFactor * minSpeedBeforeAllowTurningFactor;
 
@@ -166,10 +166,10 @@ public class CarController : NetworkBehaviour
 
     private void Drift()
     {
-        Vector3 forwardVelocity = transform.forward * Vector3.Dot(_rigidbody.velocity, transform.forward);
-        Vector3 rightVelocity = transform.right * Vector3.Dot(_rigidbody.velocity, transform.right);
+        Vector3 forwardVelocity = transform.forward * Vector3.Dot(_rigidbody.linearVelocity, transform.forward);
+        Vector3 rightVelocity = transform.right * Vector3.Dot(_rigidbody.linearVelocity, transform.right);
 
-        _rigidbody.velocity = forwardVelocity + rightVelocity * _playerCarSettings.driftFactor;
+        _rigidbody.linearVelocity = forwardVelocity + rightVelocity * _playerCarSettings.driftFactor;
     }
 
     private void SetTrailsRenderers(bool screeching)
@@ -179,11 +179,11 @@ public class CarController : NetworkBehaviour
 
     private bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
     {
-        lateralVelocity = Vector3.Dot(_rigidbody.velocity, transform.right);
+        lateralVelocity = Vector3.Dot(_rigidbody.linearVelocity, transform.right);
         isBraking = false;
 
-        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.velocity, transform.forward) > 0f 
-                                   && _rigidbody.velocity.magnitude > _playerCarSettings.minSpeedToShowTrails)
+        if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.linearVelocity, transform.forward) > 0f 
+                                   && _rigidbody.linearVelocity.magnitude > _playerCarSettings.minSpeedToShowTrails)
         {
             isBraking = true;
         }
