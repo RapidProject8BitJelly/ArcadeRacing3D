@@ -90,8 +90,8 @@ public class CarController : NetworkBehaviour
     {
         if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
         if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
-        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
-        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
+        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
+        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
         if (_accelerationInput == 0f)
         {
