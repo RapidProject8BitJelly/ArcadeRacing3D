@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 5163725487726656247}
   - component: {fileID: 5582105475410058801}
   - component: {fileID: 1599330418665805307}
+  - component: {fileID: 5625251958756828866}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -203,6 +204,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
   - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
   virtualCamera: {fileID: 0}
+  maxSpeedMultiplier: 1
 --- !u!114 &5163725487726656247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +290,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.090891, y: 1.1934824, z: 2.1277618}
   m_Center: {x: 0.026541233, y: -0.0967412, z: -0.012992859}
+--- !u!114 &5625251958756828866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7172262971620463697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa9888f2950b5049ad5399fb5168e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1001 &2817111632429896763
 PrefabInstance:
   m_ObjectHideFlags: 0

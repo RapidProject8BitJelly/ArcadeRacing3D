@@ -1,29 +1,34 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class PathFollower : MonoBehaviour
 {
     [SerializeField] private GameObject path;
     [SerializeField] private float speed;
     [SerializeField] private GameObject barrelModel;
-    public bool isMoving;
+    [SerializeField] private UnityEvent action;
+    public float distance;
+    public float duration;
+    private Vector3 startPosition;
+    private Vector3 startRotation;
+    private Coroutine pathCoroutine;
 
     private void Start()
     {
-        StartCoroutine(FollowPathCoroutine());
+        startPosition = transform.position;
+        startRotation = transform.eulerAngles;
+        pathCoroutine = StartCoroutine(FollowPathCoroutine());
     }
 
     private IEnumerator FollowPathCoroutine()
     {
-        isMoving = true;
         for (int i = 0; i < path.transform.childCount; i++)
         {
             Vector3 currentTarget = path.transform.GetChild(i).position;
-            float distance = Vector3.Distance(transform.position, currentTarget);
-            float duration = distance / speed;
+            distance = Vector3.Distance(transform.position, currentTarget);
+            duration = distance / speed;
             
             Vector3 forwardDir;
 
@@ -44,21 +49,21 @@ public class PathFollower : MonoBehaviour
                 Quaternion targetRot = Quaternion.LookRotation(forwardDir, Vector3.up);
                 transform.DORotateQuaternion(targetRot, duration).SetEase(Ease.Linear);
             }
-            
-            float radius = barrelModel.transform.lossyScale.z * 0.5f; // zakładamy że toczy się po osi X
 
-            // 🔁 Oblicz obrót wokół osi X (toczenie)
-            float obwod = 2 * Mathf.PI * radius;
-            float rollAngle = (distance / obwod) * 360f;
+            action?.Invoke();
 
-            // 🔄 Dodaj lokalny obrót toczenia
-            
-            
-            barrelModel.transform.DOLocalRotate(new Vector3(rollAngle, 0, 90), duration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
-
-            
             yield return transform.DOMove(currentTarget, duration).SetEase(Ease.Linear).WaitForCompletion();
         }
-        isMoving = false;
+        
+        transform.position = startPosition;
+        var rotation = transform.rotation;
+        rotation.eulerAngles = startRotation;
+        transform.rotation = rotation;
+        pathCoroutine = StartCoroutine(FollowPathCoroutine());
+    }
+
+    public void StopFollowing()
+    {
+        StopCoroutine(pathCoroutine);
     }
 }

@@ -1638,6 +1638,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582102390}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1582848880 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2321227721437896131, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+  m_PrefabInstance: {fileID: 1762175195}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f0ef6c2b4a469347bdd4a1a9ef48fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1601065825
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,7 +2199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2321227721437896131, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
       propertyPath: rotationSpeed
-      value: 40
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2457647400481098111, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
       propertyPath: m_Name
@@ -2234,6 +2245,34 @@ PrefabInstance:
       propertyPath: barrelModel
       value: 
       objectReference: {fileID: 1244234289}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1582848880}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BarrelRotation
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Barrel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770298050543963235, guid: 3f42a70e4abfcd94598a561e3a69445f, type: 3}
+      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

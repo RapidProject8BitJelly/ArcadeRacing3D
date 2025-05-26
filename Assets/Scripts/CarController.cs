@@ -22,6 +22,7 @@ public class CarController : NetworkBehaviour
     private Coroutine _driftCoroutine;
 
     public CinemachineVirtualCamera virtualCamera;
+    public float maxSpeedMultiplier = 1;
     
     private float _pitchAngle = 0f; // używane przez AlignToGround
     private float _currentPitch = 0f;
@@ -66,6 +67,8 @@ public class CarController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         
+        Debug.Log("Current maxspeed: " + _playerCarSettings.maxSpeed*maxSpeedMultiplier);
+        
         _accelerationInput = Input.GetAxis("Vertical");
         _turnInput = Input.GetAxis("Horizontal");
         AlignToGround();
@@ -79,13 +82,14 @@ public class CarController : NetworkBehaviour
         SetTrailsRenderers(isScreeching);
         
         float speed = _rigidbody.velocity.magnitude * 3.6f;
+        Debug.Log("current speed: " + speed.ToString("0"));
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
 
     private void AddSpeed()
     {
-        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
-        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
+        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
+        if (_rigidbody.velocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
         if (_accelerationInput == 0f)
         {

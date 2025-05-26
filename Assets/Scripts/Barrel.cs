@@ -1,18 +1,33 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
+using Mirror;
 using UnityEngine;
 
 public class Barrel : MonoBehaviour
 {
     [SerializeField] private PathFollower pathFollower;
     [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private GameObject barrelModel;
+    [SerializeField] private GameObject oil;
 
-    private void Update()
+    public string barrelID;
+    
+    public void BarrelRotation()
     {
-        if (pathFollower.isMoving)
-        {
-            //transform.Rotate(Vector3.right, -1f * rotationSpeed);
-        }
+        float radius = barrelModel.transform.lossyScale.z * 0.5f; 
+        
+        float obwod = 2 * Mathf.PI * radius;
+        float rollAngle = (pathFollower.distance / obwod) * 360f;
+            
+        barrelModel.transform.DOLocalRotate(new Vector3(0, -rollAngle, 0), pathFollower.duration, 
+            RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+    }
+    
+    public void DestroyBarrel()
+    {
+        oil.SetActive(true);
+        pathFollower.StopFollowing();
+        barrelModel.SetActive(false);
+        GetComponent<Collider>().enabled = false;
     }
 }
