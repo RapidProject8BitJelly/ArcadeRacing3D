@@ -82,6 +82,7 @@ MonoBehaviour:
   playerNicknameBackground: {fileID: 8495068197506049763}
   playerNameText: {fileID: 3596273776373411587}
   playerCarSettings: {fileID: 5582105475410058801}
+  raceProgressTracker: {fileID: 8183359915625273975}
 --- !u!1 &6156772486062293918
 GameObject:
   m_ObjectHideFlags: 0
