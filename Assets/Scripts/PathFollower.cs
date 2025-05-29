@@ -24,6 +24,11 @@ public class PathFollower : MonoBehaviour
 
     private IEnumerator FollowPathCoroutine()
     {
+        transform.position = startPosition;
+        var rotation = transform.rotation;
+        rotation.eulerAngles = startRotation;
+        transform.rotation = rotation;
+        
         for (int i = 0; i < path.transform.childCount; i++)
         {
             Vector3 currentTarget = path.transform.GetChild(i).position;
@@ -55,15 +60,16 @@ public class PathFollower : MonoBehaviour
             yield return transform.DOMove(currentTarget, duration).SetEase(Ease.Linear).WaitForCompletion();
         }
         
-        transform.position = startPosition;
-        var rotation = transform.rotation;
-        rotation.eulerAngles = startRotation;
-        transform.rotation = rotation;
         pathCoroutine = StartCoroutine(FollowPathCoroutine());
     }
 
     public void StopFollowing()
     {
         StopCoroutine(pathCoroutine);
+    }
+
+    public void StartFollowing()
+    {
+        pathCoroutine = StartCoroutine(FollowPathCoroutine());
     }
 }

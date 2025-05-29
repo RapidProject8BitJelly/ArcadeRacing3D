@@ -116,6 +116,8 @@ MonoBehaviour:
   rotationSpeed: 10
   barrelModel: {fileID: 3378994472661460941}
   oil: {fileID: 6406439371287280248}
+  timeToRestartBarrel: 5
+  barrelID: 
 --- !u!65 &4701782302060656795
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -197,6 +199,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

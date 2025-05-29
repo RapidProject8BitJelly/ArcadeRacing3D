@@ -67,8 +67,6 @@ public class CarController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         
-        Debug.Log("Current maxspeed: " + _playerCarSettings.maxSpeed*maxSpeedMultiplier);
-        
         _accelerationInput = Input.GetAxis("Vertical");
         _turnInput = Input.GetAxis("Horizontal");
         AlignToGround();
@@ -82,7 +80,6 @@ public class CarController : NetworkBehaviour
         SetTrailsRenderers(isScreeching);
         
         float speed = _rigidbody.linearVelocity.magnitude * 3.6f;
-        Debug.Log("current speed: " + speed.ToString("0"));
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
 
