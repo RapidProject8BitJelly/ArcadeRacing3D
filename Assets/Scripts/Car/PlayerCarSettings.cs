@@ -165,6 +165,13 @@ public class PlayerCarSettings : NetworkBehaviour
 
     private void OnNicknameChanged(string oldValue, string newValue)
     {
-        GetComponent<RaceProgressTracker>().playerNickname = newValue;
+        if (isLocalPlayer)
+        {
+            GetComponent<RaceProgressTracker>().playerNickname = newValue + " (You)";
+        }
+        else
+        {
+            GetComponent<RaceProgressTracker>().playerNickname = newValue;
+        }
     }
 }
