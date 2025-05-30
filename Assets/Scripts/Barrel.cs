@@ -12,13 +12,17 @@ public class Barrel : MonoBehaviour
     [SerializeField] private GameObject barrelModel;
     [SerializeField] private GameObject oil;
     [SerializeField] private float timeToRestartBarrel;
+    [SerializeField] private float timeToDisappearBarrel;
 
+    private Coroutine disappearBarrel;
+    
     public string barrelID;
-    public Renderer barrelRenderer;
-
-    private void Awake()
+    
+    private void Start()
     {
-        barrelRenderer = barrelModel.GetComponent<Renderer>();
+        disappearBarrel = StartCoroutine(DisappearBarrel());
+        oil.transform.SetParent(gameObject.transform);
+        oil.SetActive(false);
     }
 
     public void BarrelRotation()
@@ -38,6 +42,7 @@ public class Barrel : MonoBehaviour
         pathFollower.StopFollowing();
         barrelModel.SetActive(false);
         GetComponent<Collider>().enabled = false;
+        if(disappearBarrel != null) StopCoroutine(disappearBarrel);
         StartCoroutine(RestartBarrel());
     }
 
@@ -48,5 +53,12 @@ public class Barrel : MonoBehaviour
         barrelModel.SetActive(true);
         GetComponent<Collider>().enabled = true;
         pathFollower.StartFollowing();
+        disappearBarrel = StartCoroutine(DisappearBarrel());
+    }
+
+    private IEnumerator DisappearBarrel()
+    {
+        yield return new WaitForSeconds(timeToDisappearBarrel);
+        gameObject.SetActive(false);
     }
 }
