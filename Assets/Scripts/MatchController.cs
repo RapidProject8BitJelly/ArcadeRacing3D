@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -10,6 +11,8 @@ using UnityEngine.UI;
 public class MatchController : NetworkBehaviour
 {
     #region Variables
+
+    public static Action EnablePlayersCars;
     public static MatchController Instance { get; private set; }
     internal readonly SyncDictionary<NetworkIdentity, MatchPlayerData> MatchPlayerData = new SyncDictionary<NetworkIdentity, MatchPlayerData>();
     private bool _playAgain = false;
@@ -45,6 +48,16 @@ public class MatchController : NetworkBehaviour
 
     #endregion
 
+    private void OnEnable()
+    {
+        EnablePlayersCars += CmdEnablePlayerCars;
+    }
+
+    private void OnDisable()
+    {
+        EnablePlayersCars -= CmdEnablePlayerCars;
+    }
+
     #region Networking
     public override void OnStartServer()
     {
@@ -67,11 +80,11 @@ public class MatchController : NetworkBehaviour
     [ClientRpc]
     private void RpcStartCountdown()
     {
-        StartCoroutine(StartCountdown());
+        TrafficLights.TrafficLightsEvents.BeginCountdown();
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdEnablePlayerCars()
+    public void CmdEnablePlayerCars()
     {
         RpcEnablePlayerCars();
     }
