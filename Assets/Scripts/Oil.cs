@@ -10,6 +10,7 @@ public class Oil : MonoBehaviour
     private CarController carController;
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Oil triggered");
         if (other.CompareTag("Player"))
         {
             carController = other.gameObject.GetComponent<CarController>();
