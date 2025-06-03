@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7945949301396136513}
+  - component: {fileID: 5093892150954608102}
+  - component: {fileID: 1030451460956342750}
   m_Layer: 0
   m_Name: oilStain_03Prefab
   m_TagString: Untagged
@@ -32,6 +34,42 @@ Transform:
   - {fileID: 2855453779038728658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5093892150954608102
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966723265506114650}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.4926794, y: 0.51512384, z: 5.6424704}
+  m_Center: {x: 0.34359348, y: 0.028393254, z: -0.053968906}
+--- !u!114 &1030451460956342750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966723265506114650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997b430b3e02219428ef64f2e13971ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTriggerEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2317706087691392569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,6 +118,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6b71f17d109d0584a8ba0071b5d654f3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f70f866ac7c67a54884661a198b9136a, type: 2}
     - target: {fileID: 919132149155446097, guid: 6b71f17d109d0584a8ba0071b5d654f3, type: 3}
       propertyPath: m_Name
       value: oilStain_03
