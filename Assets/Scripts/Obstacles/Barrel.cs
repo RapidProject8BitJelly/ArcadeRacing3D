@@ -1,56 +1,60 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Mirror;
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Barrel : MonoBehaviour
 {
     [SerializeField] private PathFollower pathFollower;
-    [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private GameObject barrelModel;
     [SerializeField] private GameObject brokenBarrelModel;
     [SerializeField] private GameObject oils;
-    [SerializeField] private float timeToRestartBarrel;
-    [SerializeField] private float timeToDisappearBarrel;
     [SerializeField] private Material brokenBarrelMaterial;
     
-    private Coroutine disappearBarrel;
-    private bool wasBarrelDestroyed;
-    private List<Vector3> barrelPartsPosition = new();
+    [SerializeField] private float timeToRestartBarrel = 10f;
+    [SerializeField] private float timeToAutoDisappearBarrel = 1000f;
+    [SerializeField] private float randomSpread = 1.5f;
+    [SerializeField] private float explosionForce = 30f;
+
+    private readonly List<Vector3> _barrelPiecesStartPositions = new();
+    private readonly List<Transform> _barrelPiecesTransforms = new();
+    private readonly List<Rigidbody> _barrelPiecesRigidbodies = new(); 
     
+    private Coroutine _autoDisappearBarrelCoroutine;
+    
+    private int randomOil; 
+    private bool wasBarrelDestroyed;
     public string barrelID;
-    private int randomOil;
     
     private void Start()
+    {
+        InitializeBarrel();
+    }
+    
+    private void InitializeBarrel()
     {
         barrelModel.SetActive(true);
 
         for (int i = 0; i < brokenBarrelModel.transform.childCount; i++)
         {
-            barrelPartsPosition.Add(brokenBarrelModel.transform.GetChild(i).localPosition);
+            var barrelPiece = brokenBarrelModel.transform.GetChild(i);
+            _barrelPiecesStartPositions.Add(barrelPiece.localPosition);
+            _barrelPiecesTransforms.Add(barrelPiece);
+            _barrelPiecesRigidbodies.Add(barrelPiece.GetComponent<Rigidbody>());
         }
         
         brokenBarrelModel.SetActive(false);
         
-        disappearBarrel = StartCoroutine(DisappearBarrel());
-        oils.transform.SetParent(gameObject.transform);
-        for (int i = 0; i < oils.transform.childCount; i++)
-        {
-            oils.transform.GetChild(i).gameObject.SetActive(false);
-        }
+        _autoDisappearBarrelCoroutine = StartCoroutine(AutoDisappearBarrel());
     }
 
-    public void BarrelRotation()
+    public void BarrelRoll()
     {
-        float radius = barrelModel.transform.lossyScale.z * 0.5f; 
+        float radius = barrelModel.transform.lossyScale.z / 2f;
         
-        float obwod = 2 * Mathf.PI * radius;
-        float rollAngle = (pathFollower.distance / obwod) * 360f;
+        float circuit = 2 * Mathf.PI * radius;
+        float rollAngle = (pathFollower.distance / circuit) * 360f;
             
         barrelModel.transform.DOLocalRotate(new Vector3(0, -rollAngle, 0), pathFollower.duration, 
             RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
@@ -60,66 +64,74 @@ public class Barrel : MonoBehaviour
     {
         if (!wasBarrelDestroyed)
         {
-            GetComponent<Collider>().enabled = false;
-            brokenBarrelModel.SetActive(true);
-            DisappearBarrelParts();
             wasBarrelDestroyed = true;
             pathFollower.StopFollowing();
-            randomOil = UnityEngine.Random.Range(0, oils.transform.childCount);
-            oils.transform.GetChild(randomOil).gameObject.SetActive(true);
+            
+            GetComponent<Collider>().enabled = false;
+            
             barrelModel.SetActive(false);
-            if(disappearBarrel != null) StopCoroutine(disappearBarrel);
+            brokenBarrelModel.SetActive(true);
+            
+            ExplodeBarrel();
+
+            randomOil = Random.Range(0, oils.transform.childCount);
+            oils.transform.GetChild(randomOil).gameObject.SetActive(true);
+            
+            if(_autoDisappearBarrelCoroutine != null) StopCoroutine(_autoDisappearBarrelCoroutine);
             StartCoroutine(RestartBarrel());
         }
+    }
+    
+    private IEnumerator AutoDisappearBarrel()
+    {
+        yield return new WaitForSeconds(timeToAutoDisappearBarrel);
+        gameObject.SetActive(false);
     }
 
     private IEnumerator RestartBarrel()
     {
         yield return new WaitForSeconds(timeToRestartBarrel);
+        
         wasBarrelDestroyed = false;
-        oils.transform.GetChild(randomOil).gameObject.SetActive(false);
-        barrelModel.SetActive(true);
         GetComponent<Collider>().enabled = true;
-        pathFollower.StartFollowing();
-        disappearBarrel = StartCoroutine(DisappearBarrel());
-    }
+        barrelModel.SetActive(true);
+        
+        oils.transform.GetChild(randomOil).gameObject.SetActive(false);
 
-    private IEnumerator DisappearBarrel()
+        pathFollower.StartFollowing();
+        _autoDisappearBarrelCoroutine = StartCoroutine(AutoDisappearBarrel());
+    }
+    
+    private void ExplodeBarrel()
     {
-        yield return new WaitForSeconds(timeToDisappearBarrel);
-        gameObject.SetActive(false);
+        for (int i = 0; i < _barrelPiecesTransforms.Count; i++)
+        {
+            var rb = _barrelPiecesRigidbodies[i];
+            if (rb != null)
+            {
+                Vector3 explosionDir = (_barrelPiecesTransforms[i].position - transform.position).normalized;
+                rb.AddForce((explosionDir + Random.insideUnitSphere * randomSpread) * explosionForce, ForceMode.Impulse);
+            }
+        }
+        DisappearBarrelParts();
     }
 
     private void DisappearBarrelParts()
     {
-        for (int i = 0; i < brokenBarrelModel.transform.childCount; i++)
-        {
-            var rb = brokenBarrelModel.transform.GetChild(i).gameObject.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                Vector3 explosionDir = (brokenBarrelModel.transform.GetChild(i).gameObject.transform.position - transform.position).normalized;
-                rb.AddForce((explosionDir + Random.insideUnitSphere * 1.5f) * 30, ForceMode.Impulse);
-            }
-        }
-        for (int i = 0; i < brokenBarrelModel.transform.childCount; i++)
-        {
-            //brokenBarrelModel.transform.GetChild(i).gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
-        }
-        brokenBarrelMaterial.DOFade(0f, 3f).OnComplete(kakaka);
+        brokenBarrelMaterial.DOFade(0f, 3f).OnComplete(ResetBrokenBarrelModel);
     }
 
-    private void kakaka()
+    private void ResetBrokenBarrelModel()
     {
         brokenBarrelModel.SetActive(false);
+        
         var color = brokenBarrelMaterial.color;
         color.a = 1.0f;
         brokenBarrelMaterial.color = color;
 
-        for (int i = 0; i < brokenBarrelModel.transform.childCount; i++)
+        for (int i = 0; i < _barrelPiecesTransforms.Count; i++)
         {
-            brokenBarrelModel.transform.GetChild(i).localPosition = barrelPartsPosition[i];
-            brokenBarrelModel.transform.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            _barrelPiecesTransforms[i].localPosition = _barrelPiecesStartPositions[i];
         }
-        
     }
 }

@@ -8,6 +8,7 @@ public class CarParameters : ScriptableObject
     [SerializeField] private float turnFactor;
     [SerializeField] private float driftFactor;
     [SerializeField] private float minSpeedToShowTrails;
+    [SerializeField] private float dampingMultiplier;
     
     [SerializeField] private SpecialAbility specialAbility;
     [SerializeField] private Color[] carColors;
@@ -17,6 +18,7 @@ public class CarParameters : ScriptableObject
     public float TurnFactor => turnFactor;
     public float DriftFactor => driftFactor;
     public float MinSpeedToShowTrails => minSpeedToShowTrails;
+    public float DampingMultiplier => dampingMultiplier;
     
     public SpecialAbility SpecialAbility => specialAbility;
     public Color[] CarColors => carColors;

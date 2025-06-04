@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Oil : MonoBehaviour
@@ -8,9 +9,9 @@ public class Oil : MonoBehaviour
     [Tooltip("How fast should the car slow down")]
     [SerializeField] private float dampingMultiplier;
     
-    private float defaultMaxSpeedMultiplier;
-    private float defaultDampingMultiplier;
-    private CarController carController;
+    private List<GameObject> _slowedPlayers = new();
+    
+    private const float DefaultMaxSpeedMultiplier = 1;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,20 +23,33 @@ public class Oil : MonoBehaviour
     
     private void SlowDownPlayerCar(GameObject player)
     {
-        carController = player.gameObject.GetComponent<CarController>();
+        if(_slowedPlayers.Contains(player)) return;
         
-        defaultMaxSpeedMultiplier = carController.maxSpeedMultiplier;
-        defaultDampingMultiplier = carController.dampingMultiplier;
+        _slowedPlayers.Add(player);
+        
+        var carController = player.gameObject.GetComponent<CarController>();
+        
+        if(carController == null) return;
         
         carController.maxSpeedMultiplier = maxSpeedMultiplier;
         carController.dampingMultiplier = dampingMultiplier;
-        StartCoroutine(WaitToRestoreMaxSpeed());
+        StartCoroutine(WaitToRestoreMaxSpeed(player));
     }
     
-    private IEnumerator WaitToRestoreMaxSpeed()
+    private IEnumerator WaitToRestoreMaxSpeed(GameObject player)
     {
         yield return new WaitForSeconds(maxSpeedLockDuration);
-        carController.maxSpeedMultiplier = defaultMaxSpeedMultiplier;
-        carController.dampingMultiplier = defaultDampingMultiplier;
+        
+        var carController = player.gameObject.GetComponent<CarController>();
+        carController.maxSpeedMultiplier = DefaultMaxSpeedMultiplier;
+        
+        var playerCarSettings = player.gameObject.GetComponent<PlayerCarSettings>();
+        
+        if(playerCarSettings != null)
+        {
+            carController.dampingMultiplier = playerCarSettings.dampingMultiplier;
+        }
+
+        _slowedPlayers.Remove(player);
     }
 }

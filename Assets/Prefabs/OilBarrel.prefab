@@ -30,7 +30,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4586650828295950546}
-  - {fileID: 5754397007003367609}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3113688798314407568
@@ -67,6 +66,7 @@ Transform:
   m_Children:
   - {fileID: 4041518978950600017}
   - {fileID: 7225861222320213546}
+  - {fileID: 5754397007003367609}
   m_Father: {fileID: 1156150189573290627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8770298050543963235
@@ -82,14 +82,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: {fileID: 0}
-  speed: 5
-  barrelModel: {fileID: 3701269180736720875}
-  action:
+  actionDuringPathFollowing:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2321227721437896131}
         m_TargetAssemblyTypeName: Barrel, Assembly-CSharp
-        m_MethodName: BarrelRotation
+        m_MethodName: BarrelRoll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -99,6 +97,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  speed: 5
   distance: 0
   duration: 0
 --- !u!114 &2321227721437896131
@@ -114,13 +113,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathFollower: {fileID: 8770298050543963235}
-  rotationSpeed: 10
   barrelModel: {fileID: 3701269180736720875}
   brokenBarrelModel: {fileID: 8001976056587932816}
   oils: {fileID: 6163115987528047051}
-  timeToRestartBarrel: 10
-  timeToDisappearBarrel: 1000
   brokenBarrelMaterial: {fileID: 2100000, guid: 79cd2c7bed3c77f4e98e2ef8360f8f28, type: 2}
+  timeToRestartBarrel: 10
+  timeToAutoDisappearBarrel: 1000
+  randomSpread: 1.5
+  explosionForce: 30
   barrelID: 
 --- !u!65 &4701782302060656795
 BoxCollider:
@@ -170,14 +170,14 @@ Transform:
   m_GameObject: {fileID: 6163115987528047051}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3832338, y: -1.6191199, z: 0.19669916}
+  m_LocalPosition: {x: 2.4682338, y: -1.6191199, z: 0.17769916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2119491794012715902}
   - {fileID: 6360741069072998148}
   - {fileID: 2076235182999509582}
-  m_Father: {fileID: 1156150189573290627}
+  m_Father: {fileID: 4586650828295950546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &576110208580449875
 Rigidbody:

@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BarrelsManager : MonoBehaviour
 {
     private int barrelID = 0;
 
-    private void Start()
+    private void Awake()
     {
         SetBarrelsID();
     }
@@ -16,7 +13,7 @@ public class BarrelsManager : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            child.GetComponentInChildren<Barrel>().barrelID = "Barrel" + barrelID.ToString();
+            child.GetComponentInChildren<Barrel>().barrelID = "Barrel" + barrelID;
             barrelID++;
         }
     }
