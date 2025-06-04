@@ -23,6 +23,7 @@ public class CarController : NetworkBehaviour
 
     public CinemachineVirtualCamera virtualCamera;
     public float maxSpeedMultiplier = 1;
+    public float dampingMultiplier = 3;
     
     private float _pitchAngle = 0f; // używane przez AlignToGround
     private float _currentPitch = 0f;
@@ -85,14 +86,12 @@ public class CarController : NetworkBehaviour
 
     private void AddSpeed()
     {
-        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed && _accelerationInput > 0f && _accelerationInput > 0) return;
-        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
         if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
         if (_accelerationInput == 0f)
         {
-            _rigidbody.linearDamping = Mathf.Lerp(_rigidbody.linearDamping, 0.3f, Time.fixedDeltaTime * 3);
+            _rigidbody.linearDamping = Mathf.Lerp(_rigidbody.linearDamping, 0.3f, Time.fixedDeltaTime * dampingMultiplier);
         }
         else
         {

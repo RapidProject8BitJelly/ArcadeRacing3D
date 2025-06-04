@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7945949301396136513}
   - component: {fileID: 5093892150954608102}
-  - component: {fileID: 1030451460956342750}
   m_Layer: 0
   m_Name: oilStain_03Prefab
-  m_TagString: Untagged
+  m_TagString: Oil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,21 +54,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.4926794, y: 0.51512384, z: 5.6424704}
   m_Center: {x: 0.34359348, y: 0.028393254, z: -0.053968906}
---- !u!114 &1030451460956342750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3966723265506114650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 997b430b3e02219428ef64f2e13971ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onTriggerEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &2317706087691392569
 PrefabInstance:
   m_ObjectHideFlags: 0
