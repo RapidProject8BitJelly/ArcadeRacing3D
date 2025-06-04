@@ -33,6 +33,7 @@ public class PlayerCarSettings : NetworkBehaviour
     public float turnFactor;
     public float driftFactor;
     public float minSpeedToShowTrails;
+    public float dampingMultiplier;
 
     #endregion
     
@@ -153,6 +154,7 @@ public class PlayerCarSettings : NetworkBehaviour
         turnFactor = carParams.TurnFactor;
         driftFactor = carParams.DriftFactor;
         minSpeedToShowTrails = carParams.MinSpeedToShowTrails;
+        dampingMultiplier = carParams.DampingMultiplier;
     }
     
     private IEnumerator DelayedSetup()

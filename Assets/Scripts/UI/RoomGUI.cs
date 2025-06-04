@@ -32,7 +32,7 @@ public class RoomGUI : MonoBehaviour
             if (!playerInfo.ready)
                 everyoneReady = false;
         }
-        startButton.interactable = everyoneReady && owner && (playerInfos.Length > 1);
+        startButton.interactable = everyoneReady && owner && (playerInfos.Length >= 1);
     }
 
     public void RefreshPlayersCars(PlayerInfo[] playerInfos)
