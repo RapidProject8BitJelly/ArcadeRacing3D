@@ -10,13 +10,19 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private List<Image> _indicators = new List<Image>();
     
     private TMP_Text _buttonText;
-    private Color32 _indicatorsColor = new Color32(255, 255, 255, 255);
-    private Color32 _hiddenIndicatorsColor = new Color32(255, 255, 255, 0);
-    public TMP_Text ButtonText
+    
+    private readonly Color32 _indicatorsColor = new Color32(255, 255, 255, 255);
+    private readonly Color32 _hiddenIndicatorsColor = new Color32(255, 255, 255, 0);
+
+    private const float BaseTextSize = 62.4f;
+    private const float HoverTextSize = 64.4f;
+
+
+    private TMP_Text ButtonText
     {
         get
         {
-            if (_buttonText == null)
+            if (!_buttonText)
             {
                 _buttonText = GetComponentInChildren<TMP_Text>();
             }
@@ -30,6 +36,11 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
         {
             indicator.color = _indicatorsColor;
         }
+        
+        if (ButtonText)
+        {
+            ButtonText.fontSize = HoverTextSize;
+        }
     }
     
     public override void OnPointerExit(PointerEventData eventData)
@@ -37,6 +48,11 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
         foreach (var indicator in _indicators)
         {
             indicator.color = _hiddenIndicatorsColor;
+        }
+        
+        if (ButtonText)
+        {
+            ButtonText.fontSize = BaseTextSize;
         }
     }
 }
