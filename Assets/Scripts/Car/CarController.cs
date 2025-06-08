@@ -6,9 +6,9 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 
-public class CarController : NetworkBehaviour
+public class CarController : NetworkBehaviour // monobehaviour
 {
-    [SerializeField] private PlayerCarSettings _playerCarSettings;
+    //[SerializeField] private PlayerCarSettings _playerCarSettings;
 
     [SerializeField] private AudioClip[] audioClips;
     
@@ -21,7 +21,7 @@ public class CarController : NetworkBehaviour
     
     private Coroutine _driftCoroutine;
 
-    public CinemachineVirtualCamera virtualCamera;
+    //public CinemachineVirtualCamera virtualCamera;
     public float maxSpeedMultiplier = 1;
     public float dampingMultiplier = 3;
     
@@ -31,11 +31,12 @@ public class CarController : NetworkBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     private void Start()
     {
+        //wywalenie warunku
         if (!isLocalPlayer)
         {
             GetComponent<AudioListener>().enabled = false;
@@ -46,6 +47,7 @@ public class CarController : NetworkBehaviour
         }
     }
 
+    //ta metoda jest do wywalenia, ale ustawianie kamery zostaje
     public override void OnStartLocalPlayer()
     {
         if (virtualCamera != null)
@@ -56,6 +58,7 @@ public class CarController : NetworkBehaviour
         GetComponent<AudioListener>().enabled = true;
     }
     
+    //to na razie do wyjebania
     public void SetSpectateTarget(Transform target)
     {
         if (!isLocalPlayer || virtualCamera == null) return;
@@ -66,8 +69,10 @@ public class CarController : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        //do wywalenia
         if (!isLocalPlayer) return;
         
+        //to zostaje
         _accelerationInput = Input.GetAxis("Vertical");
         _turnInput = Input.GetAxis("Horizontal");
         AlignToGround();
@@ -86,6 +91,7 @@ public class CarController : NetworkBehaviour
 
     private void AddSpeed()
     {
+        //pozyskac z car type
         if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
         if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
@@ -98,6 +104,7 @@ public class CarController : NetworkBehaviour
             _rigidbody.linearDamping = 0f;
         }
         
+        //pozyskac z car type
         Vector3 engineForce = transform.forward * (_playerCarSettings.acceleration * _accelerationInput);
         _rigidbody.AddForce(engineForce, ForceMode.Force);
     }
@@ -132,9 +139,11 @@ public class CarController : NetworkBehaviour
 
     private void Turn()
     {
+        //refki z car settingsow zamienic na car type
         if (_turnInput == 0 && _previousTurnInput != 0)
         {
-            foreach (var wheel in _playerCarSettings.wheels)
+            
+            foreach (var wheel in cartype.wheels)
             {
                 wheel.transform.DOLocalRotate(new Vector3(90, 90, 0), 0.5f);
             }
@@ -157,6 +166,8 @@ public class CarController : NetworkBehaviour
 
         float minSpeedBeforeAllowTurningFactor = (_rigidbody.linearVelocity.magnitude / 8);
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
+        
+        //refka
         _rotationAngle -= _turnInput * _playerCarSettings.turnFactor * minSpeedBeforeAllowTurningFactor;
 
         // Nowa rotacja: pitch z AlignToGround + yaw z Turn
@@ -171,6 +182,7 @@ public class CarController : NetworkBehaviour
         Vector3 forwardVelocity = transform.forward * Vector3.Dot(_rigidbody.linearVelocity, transform.forward);
         Vector3 rightVelocity = transform.right * Vector3.Dot(_rigidbody.linearVelocity, transform.right);
 
+        //cartype refka
         _rigidbody.linearVelocity = forwardVelocity + rightVelocity * _playerCarSettings.driftFactor;
     }
 
@@ -184,6 +196,7 @@ public class CarController : NetworkBehaviour
         lateralVelocity = Vector3.Dot(_rigidbody.linearVelocity, transform.right);
         isBraking = false;
 
+        //refka
         if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.linearVelocity, transform.forward) > 0f 
                                    && _rigidbody.linearVelocity.magnitude > _playerCarSettings.minSpeedToShowTrails)
         {
@@ -197,10 +210,12 @@ public class CarController : NetworkBehaviour
 
         if (!_previousIsBraking && isBraking)
         {
+            //zamienic command na normalna metode
             CmdPlayAudio();
         }
         else if (_previousIsBraking && !isBraking)
         {
+            //na normalna metode
             CmdPlayStopDriftAudio();
         }
         
@@ -215,6 +230,7 @@ public class CarController : NetworkBehaviour
 
     [Command]
 
+    //commandy sa do wyjebania
     private void CmdPlayAudio()
     {
         ClientPlayDriftAudio();
@@ -228,6 +244,7 @@ public class CarController : NetworkBehaviour
     
     private IEnumerator PlayDriftAudio()
     {
+        //refka z audio managera
         _playerCarSettings.audioSource.clip = audioClips[0];
         _playerCarSettings.audioSource.Play();
         yield return new WaitForSeconds(audioClips[0].length);
@@ -237,6 +254,7 @@ public class CarController : NetworkBehaviour
         _driftCoroutine = null;
     }
 
+    //commandy do usuniecia
     [Command]
     private void CmdPlayStopDriftAudio()
     {
