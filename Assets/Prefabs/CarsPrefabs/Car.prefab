@@ -82,6 +82,7 @@ MonoBehaviour:
   playerNicknameBackground: {fileID: 8495068197506049763}
   playerNameText: {fileID: 3596273776373411587}
   raceProgressTracker: {fileID: 8183359915625273975}
+  nicknameTagPadding: 0.4
 --- !u!1 &6156772486062293918
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,8 +278,8 @@ GameObject:
   - component: {fileID: 2839871721833175121}
   - component: {fileID: 5163725487726656247}
   - component: {fileID: 5582105475410058801}
+  - component: {fileID: 1259696992493254706}
   - component: {fileID: 1599330418665805307}
-  - component: {fileID: 5625251958756828866}
   m_Layer: 7
   m_Name: Car
   m_TagString: Player
@@ -464,6 +465,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
   virtualCamera: {fileID: 0}
   maxSpeedMultiplier: 1
+  dampingMultiplier: 3
 --- !u!114 &5163725487726656247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +530,22 @@ MonoBehaviour:
   turnFactor: 0
   driftFactor: 0
   minSpeedToShowTrails: 0
+  dampingMultiplier: 0
+--- !u!114 &1259696992493254706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7172262971620463697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa9888f2950b5049ad5399fb5168e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &1599330418665805307
 BoxCollider:
   m_ObjectHideFlags: 0
