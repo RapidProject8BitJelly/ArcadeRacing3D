@@ -1,15 +1,11 @@
-using System;
 using System.Collections;
 using Cinemachine;
 using DG.Tweening;
-using Mirror;
-using TMPro;
 using UnityEngine;
 
-public class CarController : NetworkBehaviour // monobehaviour
+public class CarCon : MonoBehaviour
 {
-    [SerializeField] private PlayerCarSettings _playerCarSettings;
-
+    [SerializeField] private CarType carType;
     [SerializeField] private AudioClip[] audioClips;
     
     private float _accelerationInput;
@@ -33,46 +29,17 @@ public class CarController : NetworkBehaviour // monobehaviour
         _rigidbody = GetComponent<Rigidbody>();
         //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
-
+    
     private void Start()
-    {
-        //wywalenie warunku
-        if (!isLocalPlayer)
-        {
-            GetComponent<AudioListener>().enabled = false;
-        }
-        else
-        {
-            GetComponent<AudioListener>().enabled = true;
-        }
-    }
-
-    //ta metoda jest do wywalenia, ale ustawianie kamery zostaje
-    public override void OnStartLocalPlayer()
     {
         if (virtualCamera != null)
         {
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
         }
-        GetComponent<AudioListener>().enabled = true;
     }
-    
-    //to na razie do wyjebania
-    public void SetSpectateTarget(Transform target)
-    {
-        if (!isLocalPlayer || virtualCamera == null) return;
-
-        virtualCamera.Follow = target;
-        virtualCamera.LookAt = target;
-    }
-
     private void FixedUpdate()
     {
-        //do wywalenia
-        if (!isLocalPlayer) return;
-        
-        //to zostaje
         _accelerationInput = Input.GetAxis("Vertical");
         _turnInput = Input.GetAxis("Horizontal");
         AlignToGround();
@@ -83,17 +50,17 @@ public class CarController : NetworkBehaviour // monobehaviour
         bool isBraking;
         bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
 
-        SetTrailsRenderers(isScreeching);
+        DrawTrails(isScreeching);
         
         float speed = _rigidbody.linearVelocity.magnitude * 3.6f;
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
     }
-
+    
     private void AddSpeed()
     {
         //pozyskac z car type
-        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
-        if (_rigidbody.linearVelocity.magnitude > _playerCarSettings.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
+        if (_rigidbody.linearVelocity.magnitude > carType.maxSpeed*maxSpeedMultiplier && _accelerationInput > 0f && _accelerationInput > 0) return;
+        if (_rigidbody.linearVelocity.magnitude > carType.maxSpeed*maxSpeedMultiplier * 0.5f && _accelerationInput < 0f && _accelerationInput < 0) return;
         
         if (_accelerationInput == 0f)
         {
@@ -105,7 +72,7 @@ public class CarController : NetworkBehaviour // monobehaviour
         }
         
         //pozyskac z car type
-        Vector3 engineForce = transform.forward * (_playerCarSettings.acceleration * _accelerationInput);
+        Vector3 engineForce = transform.forward * (carType.acceleration * _accelerationInput);
         _rigidbody.AddForce(engineForce, ForceMode.Force);
     }
     
@@ -136,30 +103,29 @@ public class CarController : NetworkBehaviour // monobehaviour
             _currentPitch = Mathf.LerpAngle(_currentPitch, targetPitch, Time.fixedDeltaTime * 5f);
         }
     }
-
+    
     private void Turn()
     {
-        //refki z car settingsow zamienic na car type
         if (_turnInput == 0 && _previousTurnInput != 0)
         {
             
-            // foreach (var wheel in cartype.wheels)
-            // {
-            //     wheel.transform.DOLocalRotate(new Vector3(90, 90, 0), 0.5f);
-            // }
-            _playerCarSettings.carBase.transform.DOLocalRotate(new Vector3(0, 90, 0), 0.5f);
+            foreach (var wheel in carType.wheels)
+            {
+                wheel.transform.DOLocalRotate(new Vector3(90, 0, 0), 0.5f);
+            }
+            carType.carBase.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.5f);
         }
         else if (_turnInput != 0 && _previousTurnInput == 0 || _turnInput > 0 && _previousTurnInput < 0 || _turnInput < 0 && _previousTurnInput > 0)
         {
-            foreach (var wheel in _playerCarSettings.wheels)
+            foreach (var wheel in carType.wheels)
             {
                 if (_turnInput > 0f)
                 {
-                    wheel.transform.DOLocalRotate(new Vector3(90, 90, -35), 0.5f);
+                    wheel.transform.DOLocalRotate(new Vector3(90, 0, -35), 0.5f);
                 }
                 else if (_turnInput < 0f)
                 {
-                    wheel.transform.DOLocalRotate(new Vector3(90, 90, 35), 0.5f);
+                    wheel.transform.DOLocalRotate(new Vector3(90, 0, 35), 0.5f);
                 }
             }
         }
@@ -168,7 +134,7 @@ public class CarController : NetworkBehaviour // monobehaviour
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
         
         //refka
-        _rotationAngle -= _turnInput * _playerCarSettings.turnFactor * minSpeedBeforeAllowTurningFactor;
+        _rotationAngle -= _turnInput * carType.turnFactor * minSpeedBeforeAllowTurningFactor;
 
         // Nowa rotacja: pitch z AlignToGround + yaw z Turn
         Quaternion combinedRotation = Quaternion.Euler(_currentPitch, -_rotationAngle, 0f);
@@ -176,21 +142,16 @@ public class CarController : NetworkBehaviour // monobehaviour
 
         _previousTurnInput = _turnInput;
     }
-
+    
     private void Drift()
     {
         Vector3 forwardVelocity = transform.forward * Vector3.Dot(_rigidbody.linearVelocity, transform.forward);
         Vector3 rightVelocity = transform.right * Vector3.Dot(_rigidbody.linearVelocity, transform.right);
 
         //cartype refka
-        _rigidbody.linearVelocity = forwardVelocity + rightVelocity * _playerCarSettings.driftFactor;
+        _rigidbody.linearVelocity = forwardVelocity + rightVelocity * carType.driftFactor;
     }
-
-    private void SetTrailsRenderers(bool screeching)
-    {
-        CmdDrawTrails(screeching);
-    }
-
+    
     private bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
     {
         lateralVelocity = Vector3.Dot(_rigidbody.linearVelocity, transform.right);
@@ -198,7 +159,7 @@ public class CarController : NetworkBehaviour // monobehaviour
 
         //refka
         if (_accelerationInput < 0 && Vector3.Dot(_rigidbody.linearVelocity, transform.forward) > 0f 
-                                   && _rigidbody.linearVelocity.magnitude > _playerCarSettings.minSpeedToShowTrails)
+                                   && _rigidbody.linearVelocity.magnitude > carType.minSpeedToShowTrails)
         {
             isBraking = true;
         }
@@ -211,12 +172,12 @@ public class CarController : NetworkBehaviour // monobehaviour
         if (!_previousIsBraking && isBraking)
         {
             //zamienic command na normalna metode
-            CmdPlayAudio();
+            _driftCoroutine = StartCoroutine(PlayDriftAudio());
         }
         else if (_previousIsBraking && !isBraking)
         {
             //na normalna metode
-            CmdPlayStopDriftAudio();
+            StopDriftAudio();
         }
         
         _previousIsBraking = isBraking;
@@ -227,98 +188,46 @@ public class CarController : NetworkBehaviour // monobehaviour
     {
         _rotationAngle = rotationAngle;
     }
-
-    [Command]
-
-    //commandy sa do wyjebania
-    private void CmdPlayAudio()
-    {
-        ClientPlayDriftAudio();
-    }
-
-    [ClientRpc]
-    private void ClientPlayDriftAudio()
-    {
-        _driftCoroutine = StartCoroutine(PlayDriftAudio());
-    }
     
     private IEnumerator PlayDriftAudio()
     {
         //refka z audio managera
-        _playerCarSettings.audioSource.clip = audioClips[0];
-        _playerCarSettings.audioSource.Play();
+        carType.audioSource.clip = audioClips[0];
+        carType.audioSource.Play();
         yield return new WaitForSeconds(audioClips[0].length);
-        _playerCarSettings.audioSource.clip = audioClips[1];
-        _playerCarSettings.audioSource.Play();
-        _playerCarSettings.audioSource.loop = true;
+        carType.audioSource.clip = audioClips[1];
+        carType.audioSource.Play();
+        carType.audioSource.loop = true;
         _driftCoroutine = null;
     }
-
-    //commandy do usuniecia
-    [Command]
-    private void CmdPlayStopDriftAudio()
+    
+    private void StopDriftAudio()
     {
-        ClientPlayStopDriftAudio();
-    }
-
-    [ClientRpc]
-    private void ClientPlayStopDriftAudio()
-    {
-        _playerCarSettings.audioSource.Stop();
+        carType.audioSource.Stop();
         if (_driftCoroutine != null)
         {
             StopCoroutine(_driftCoroutine);
             _driftCoroutine = null;
         }
-        _playerCarSettings.audioSource.clip = audioClips[2];
-        _playerCarSettings.audioSource.loop = false;
-        _playerCarSettings.audioSource.Play();
+        carType.audioSource.clip = audioClips[2];
+        carType.audioSource.loop = false;
+        carType.audioSource.Play();
     }
-
-    [Command]
-    private void CmdDrawTrails(bool screeching)
-    {
-        ClientDrawTrails(screeching);
-    }
-
-    [ClientRpc]
-    private void ClientDrawTrails(bool screeching)
+    
+    private void DrawTrails(bool screeching)
     {
         for (int i = 0; i < 2; i++)
         {
-            if (_playerCarSettings.trails[i] != null)
+            if (carType.trailsRenderer[i] != null)
             {
-                _playerCarSettings.trails[i].emitting = screeching;
+                carType.trailsRenderer[i].emitting = screeching;
             }
-            if (_playerCarSettings.particles[i] != null)
+            if (carType.particleSystems[i] != null)
             {
-                if(!_playerCarSettings.particles[i].gameObject.activeSelf) _playerCarSettings.particles[i].gameObject.SetActive(true);
-                var emission = _playerCarSettings.particles[i].emission;
+                if(!carType.particleSystems[i].gameObject.activeSelf) carType.particleSystems[i].gameObject.SetActive(true);
+                var emission = carType.particleSystems[i].emission;
                 emission.enabled = screeching;
             }
         }
     }
-    
-    public void StopCar()
-    {
-        //StartCoroutine(StopCarCoroutine());
-    }
-    
-    //
-    // IEnumerator StopCarCoroutine()
-    // {
-    //     yield return new WaitForSeconds(0.5f);
-    //     
-    //     if (_rb != null)
-    //     {
-    //         _rb.velocity = Vector2.zero;
-    //         _rb.angularVelocity = 0f;
-    //     }
-    //     _accelerationInput = 0f;
-    //     _velocityVsUp = 0f;
-    //     _rotationAngle = 0f;
-    //     _steeringInput = 0f;
-    //     
-    //     CmdStopAllParticlesAndTrailRenderers();
-    // }
 }

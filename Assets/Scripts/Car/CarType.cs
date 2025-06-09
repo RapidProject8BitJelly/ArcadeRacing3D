@@ -2,14 +2,31 @@ using UnityEngine;
 
 public class CarType : MonoBehaviour
 {
-    [SerializeField] private CarParameters carParameters;
-    [SerializeField] private GameObject[] elementsToChangeColor;
-    [SerializeField] private GameObject carAccessories;
-    [SerializeField] private TrailRenderer[] trailsRenderer;
-    [SerializeField] private ParticleSystem[] particleSystems;
-    [SerializeField] private GameObject[] wheels;
-    [SerializeField] private GameObject carBase;
-    [SerializeField] private AudioSource carAudioSource;
+    public CarParameters carParameters;
+    public GameObject[] elementsToChangeColor;
+    public GameObject carAccessories;
+    public TrailRenderer[] trailsRenderer;
+    public ParticleSystem[] particleSystems;
+    public GameObject[] wheels;
+    public GameObject carBase;
+    public AudioSource audioSource;
+
+    public float acceleration;
+    public float maxSpeed;
+    public float turnFactor;
+    public float driftFactor;
+    public float minSpeedToShowTrails;
+    public float dampingMultiplier;
+
+    private void Awake()
+    {
+        acceleration = carParameters.Acceleration;
+        maxSpeed = carParameters.MaxSpeed;
+        turnFactor = carParameters.TurnFactor;
+        driftFactor = carParameters.DriftFactor;
+        minSpeedToShowTrails = carParameters.MinSpeedToShowTrails;
+        dampingMultiplier = carParameters.DampingMultiplier;
+    }
 
     public CarParameters GetCarParameters()
     {
@@ -48,7 +65,7 @@ public class CarType : MonoBehaviour
 
     public AudioSource GetCarAudioSource()
     {
-        return carAudioSource;
+        return audioSource;
     }
     
     public void UseSpecialAbility()
