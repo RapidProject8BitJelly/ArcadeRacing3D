@@ -22,25 +22,25 @@ public class SoundManager : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         
-        foreach ( SoundData s in sounds) 
+        foreach ( SoundData sound in sounds) 
         {
-            s.source = gameObject.AddComponent<AudioSource>();
+            sound.source = gameObject.AddComponent<AudioSource>();
             
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
+            sound.source.volume = sound.volume;
+            sound.source.pitch = sound.pitch;
+            sound.source.loop = sound.loop;
         }
     }
 
-    public void Play(Sound sound) 
+    public void Play(Sound soundName) 
     {
-        SoundData s = Array.Find(sounds, s => s.name == sound);
-        if (s == null) 
+        SoundData sound = Array.Find(sounds, s => s.name == soundName);
+        if (sound == null) 
         {
             return;
         }
 
-        s.source.clip = s.clips[Random.Range(0, s.clips.Count)];
-        s.source.Play();
+        sound.source.clip = sound.clips[Random.Range(0, sound.clips.Count)];
+        sound.source.Play();
     }
 }
