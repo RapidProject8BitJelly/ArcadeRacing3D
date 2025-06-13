@@ -3,6 +3,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
@@ -82,7 +83,7 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
         switch (_actionType)
         {
             case ActionType.StartGame:
-                // Load the game scene or start the game logic
+                SceneManager.LoadScene("GameTest");
                 break;
             case ActionType.Options:
                 // Open options menu or settings
