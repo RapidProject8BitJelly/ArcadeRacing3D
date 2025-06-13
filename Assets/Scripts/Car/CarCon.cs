@@ -169,12 +169,12 @@ public class CarCon : MonoBehaviour
             isBraking = true;
         }
 
-        if (!_previousIsBraking && isBraking)
+        if (!_previousIsBraking && isBraking && carType.wheels.Length > 0)
         {
             //zamienic command na normalna metode
             _driftCoroutine = StartCoroutine(PlayDriftAudio());
         }
-        else if (_previousIsBraking && !isBraking)
+        else if (_previousIsBraking && !isBraking && carType.wheels.Length > 0)
         {
             //na normalna metode
             StopDriftAudio();
@@ -191,7 +191,6 @@ public class CarCon : MonoBehaviour
     
     private IEnumerator PlayDriftAudio()
     {
-        //refka z audio managera
         carType.audioSource.clip = audioClips[0];
         carType.audioSource.Play();
         yield return new WaitForSeconds(audioClips[0].length);
@@ -216,7 +215,7 @@ public class CarCon : MonoBehaviour
     
     private void DrawTrails(bool screeching)
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < carType.trailsRenderer.Length; i++)
         {
             if (carType.trailsRenderer[i] != null)
             {

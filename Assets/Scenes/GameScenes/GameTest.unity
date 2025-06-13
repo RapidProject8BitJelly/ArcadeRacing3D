@@ -199,6 +199,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Racer
       objectReference: {fileID: 0}
+    - target: {fileID: 8003802269278169891, guid: 873e3b72f8131ab4285268f4e0b55ff5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8745855572310541099, guid: 873e3b72f8131ab4285268f4e0b55ff5, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -354,13 +358,13 @@ Transform:
   m_GameObject: {fileID: 804588027}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.58618, y: 2.564682, z: -12.617556}
+  m_LocalPosition: {x: -0.44784546, y: 1.9946747, z: -12.617554}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1130804680}
+  m_Father: {fileID: 1615972635}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!4 &1130804680 stripped
+--- !u!4 &1615972635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5452175619216410044, guid: 873e3b72f8131ab4285268f4e0b55ff5, type: 3}
   m_PrefabInstance: {fileID: 81503122}
