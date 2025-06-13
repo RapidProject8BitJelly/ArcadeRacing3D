@@ -101,6 +101,7 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(MenuButton))]
 public class MenuButtonEditor : Editor
 {
@@ -109,3 +110,4 @@ public class MenuButtonEditor : Editor
         DrawDefaultInspector();
     }
 }
+#endif
