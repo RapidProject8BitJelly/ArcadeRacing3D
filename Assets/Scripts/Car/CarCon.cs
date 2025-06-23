@@ -38,6 +38,15 @@ public class CarCon : MonoBehaviour
             virtualCamera.LookAt = transform;
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            carType.UseSpecialAbility();
+        }
+    }
+    
     private void FixedUpdate()
     {
         _accelerationInput = Input.GetAxis("Vertical");
