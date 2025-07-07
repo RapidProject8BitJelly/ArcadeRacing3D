@@ -83,7 +83,7 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
         switch (_actionType)
         {
             case ActionType.StartGame:
-                SceneManager.LoadScene("GameTest");
+                SceneManager.LoadScene("Lobby");
                 break;
             case ActionType.Options:
                 // Open options menu or settings

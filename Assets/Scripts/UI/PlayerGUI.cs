@@ -1,41 +1,39 @@
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerGUI : MonoBehaviour
 {
     [SerializeField] private Button readyButton;
-    [SerializeField] private ChooseCarPanel chooseCarPanel;
-    [SerializeField] private CarCustomization carCustomization;
-    [SerializeField] private GameObject blockPanel;
     [SerializeField] private GameObject blockCarChoosePanel;
-    [SerializeField] private GameObject cars;
     
-    public TextMeshProUGUI playerName;
-    public PlayerInfo player;
-    public CanvasController canvasController;
+    public TextMeshProUGUI playerNameTMP;
+    public bool isPlayerReady = false;
+    public string playerName;
 
     private void OnEnable()
     {
-        canvasController = FindObjectOfType<CanvasController>();
-        readyButton.onClick.AddListener(canvasController.RequestReadyChange);
+        readyButton.onClick.AddListener(RequestReadyChange);
+        playerNameTMP.color = isPlayerReady ? Color.green : Color.red;
     }
     
-    [ClientCallback]
     public void SetPlayerInfo(PlayerInfo info)
     {
-        playerName.text = info.playerName;
-        playerName.color = info.ready ? Color.green : Color.red;
-        player = info;
-        blockPanel.SetActive(info.playerIndex != FindObjectOfType<RoomGUI>().localPlayerIndex);
-        blockCarChoosePanel.SetActive(info.ready);
-        SetPlayerCar(info);
     }
-    
-    public void SetPlayerCar(PlayerInfo info)
+
+    public void RequestReadyChange()
     {
-        chooseCarPanel.UpdateCarView(info.carID);
-        carCustomization.UpdateCarView(info.colorIndex, info.accessoriesIndex);
+        isPlayerReady = !isPlayerReady;
+        LobbyCanvasController.LobbyCanvasControllerEvents.SetStartButtonActive();
+        playerNameTMP.color = isPlayerReady ? Color.green : Color.red;
+        blockCarChoosePanel.SetActive(isPlayerReady);
+    }
+
+    public void SetPlayerName(string pName)
+    {
+        playerName = pName;
+        playerNameTMP.text = playerName;
     }
 }

@@ -11,7 +11,6 @@ public class ChooseCarPanel : MonoBehaviour
    [SerializeField] private Button previousCarButton;
    [SerializeField] private Button rotateButton;
    [SerializeField] private CarCustomization carCustomization;
-   [SerializeField] private PlayerGUI playerGUI;
    [SerializeField] private SetCarInfo setCarInfo;
    
    [SerializeField] private int rotationAngle;
@@ -26,15 +25,12 @@ public class ChooseCarPanel : MonoBehaviour
    private void Awake()
    {
       ChooseCar(0);
-      canvasController = FindObjectOfType<CanvasController>();
    }
    
    private void OnEnable()
    {
       nextCarButton.onClick.AddListener(() => ChooseCar(1));
-      nextCarButton.onClick.AddListener(RequestCarCustomization);
       previousCarButton.onClick.AddListener(() => ChooseCar(-1));
-      previousCarButton.onClick.AddListener(RequestCarCustomization);
       rotateButton.onClick.AddListener(RotateCar);
    }
 
@@ -46,8 +42,7 @@ public class ChooseCarPanel : MonoBehaviour
    }
 
    #region  Car Selection
-
-   [ClientCallback]
+   
    private void ChooseCar(int value)
    {
       if(currentCarIndex+value < 4 && currentCarIndex+value >= 0) currentCarIndex += value;
@@ -80,15 +75,9 @@ public class ChooseCarPanel : MonoBehaviour
       
       setCarInfo.UpdateCarInfo(currentCar.GetComponent<CarType>().GetCarParameters());
    }
-   
-   private void RequestCarCustomization()
-   {
-      canvasController.RequestCarCustomization(currentCarIndex, 0, 0);
-   }
 
    #endregion
    
-   [ClientCallback]
    private void RotateCar()
    {
       if (currentRotation + rotationAngle <= 360) currentRotation += rotationAngle;

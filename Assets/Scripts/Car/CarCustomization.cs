@@ -15,16 +15,12 @@ public class CarCustomization : MonoBehaviour
     [SerializeField] private Button previousColorButton;
     [SerializeField] private Button nextAccessoriesButton;
     [SerializeField] private Button previousAccessoriesButton;
-    
-    [SerializeField] private PlayerGUI playerGUI;
 
     public GameObject currentCarAccessories;
     public GameObject currentCar;
     
     private GameObject[] elementsToChangeColor;
     public Color[] colors;
-    
-    private CanvasController canvasController;
     
     private int currentColorIndex;
     private int currentAccessoriesIndex;
@@ -33,7 +29,6 @@ public class CarCustomization : MonoBehaviour
     private void Awake()
     {
         colors = carNode.transform.GetChild(0).GetComponent<CarType>().GetCarParameters().CarColors;
-        canvasController = FindObjectOfType<CanvasController>();
     }
 
     private void OnEnable()
@@ -47,7 +42,6 @@ public class CarCustomization : MonoBehaviour
     private void AddButtonCallbacks(Button button, UnityAction action)
     {
         button.onClick.AddListener(action);
-        button.onClick.AddListener(RequestCarCustomization);
     }
 
     private void OnDisable()
@@ -60,7 +54,6 @@ public class CarCustomization : MonoBehaviour
 
     #region Colour
     
-    [ClientCallback]
     private void ChooseColor(int value)
     {
         if (currentColorIndex + value < colors.Length && currentColorIndex + value >= 0) currentColorIndex += value;
@@ -83,8 +76,7 @@ public class CarCustomization : MonoBehaviour
     #endregion
 
     #region Accessories
-
-    [ClientCallback]
+    
     private void ChooseAccessories(int value)
     {
         if (currentAccessoriesIndex + value < currentCarAccessories.transform.childCount && currentAccessoriesIndex + value >= 0) 
@@ -108,7 +100,6 @@ public class CarCustomization : MonoBehaviour
     
     #region CarUpdate
     
-    [ClientCallback]
     public void SetCurrentCar(GameObject car)
     {
         currentCar = car;
@@ -129,11 +120,6 @@ public class CarCustomization : MonoBehaviour
         
         ChangeColor();
         ChangeAccessories();
-    }
-    
-    private void RequestCarCustomization()
-    {
-        canvasController.RequestCarCustomization(-1, currentColorIndex, currentAccessoriesIndex);
     }
 
     #endregion
