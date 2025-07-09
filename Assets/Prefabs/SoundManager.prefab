@@ -176,7 +176,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a62411ec5ffb549b09413ecd6fe8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: 0
+    clips:
+    - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 1
+    clips:
+    - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: 2
+    clips:
+    - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 3
+    clips:
+    - {fileID: 8300000, guid: a358a7f6956f4f345be01dda7ec8e4bb, type: 3}
+    - {fileID: 8300000, guid: 4358ee5e26a057e45a2a95b003769043, type: 3}
+    - {fileID: 8300000, guid: 579741eaaf1112049abc074e06c95ac0, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: 4
+    clips: []
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: 5
+    clips:
+    - {fileID: 8300000, guid: 7d5346a267b30394bb251d1fcc5f5341, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 6
+    clips:
+    - {fileID: 8300000, guid: 692b33f993fc1c146b77215fe0a770d7, type: 3}
+    - {fileID: 8300000, guid: 0f299d140592c164f8bb4b218b22f0a3, type: 3}
+    - {fileID: 8300000, guid: 14683167c2ce5914696ffc1b1b1eeaa8, type: 3}
+    - {fileID: 8300000, guid: fd4e70ffc1c6e7943879ae00d2b4a9f0, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 7
+    clips:
+    - {fileID: 8300000, guid: 61d5ac888af80714e8362728ecfb6ee0, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 8
+    clips:
+    - {fileID: 8300000, guid: f38952d3413f6471b86200d82f8b2320, type: 3}
+    - {fileID: 8300000, guid: e53b8555516ee4035b913f2098b58414, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!114 &4175018304646886355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +260,7 @@ MonoBehaviour:
   _music: {fileID: 5056635381878445260}
   _fadeInMusicSeconds: 0
   _fadeOutMusicSeconds: 0
-  _musicClip: {fileID: 0}
+  _musicClip: {fileID: 8300000, guid: f38952d3413f6471b86200d82f8b2320, type: 3}
   _ambient: {fileID: 3638059053372377719}
   _fadeInAmbientSeconds: 0
   _fadeOutAmbientSeconds: 0
