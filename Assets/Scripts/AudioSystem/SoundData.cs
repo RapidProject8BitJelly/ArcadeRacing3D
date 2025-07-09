@@ -7,6 +7,7 @@ public class SoundData
     public Sound name;
     
     public List<AudioClip> clips;
+
     
     [Range(0f, 1f)]
     public float volume = 1;
