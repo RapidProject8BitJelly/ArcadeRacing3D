@@ -4003,6 +4003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyButton: {fileID: 2321169355330006967}
   blockCarChoosePanel: {fileID: 5737231920065609473}
+  cars: {fileID: 3258478190780088159}
   playerNameTMP: {fileID: 3719133944229400714}
   isPlayerReady: 0
   playerName: 

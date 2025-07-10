@@ -8,6 +8,9 @@ public class LobbyCanvasController : MonoBehaviour
    [SerializeField] private Button startButton;
    [SerializeField] private Button exitToMenuButton;
    [SerializeField] private PlayerGUI[] players;
+   [SerializeField] private CarsManager carsManager;
+
+   private GameObject[] playersCars = new GameObject[2];
    
    private void OnEnable()
    {
@@ -25,7 +28,14 @@ public class LobbyCanvasController : MonoBehaviour
 
    private void StartGame()
    {
+      for (int i = 0; i < playersCars.Length; i++)
+      {
+         playersCars[i].transform.SetParent(null);
+         DontDestroyOnLoad(playersCars[i]);
+      }
+      carsManager.SavePlayersCars(playersCars);
       SceneManager.LoadScene("GameTest");
+      Debug.Log(SceneManager.GetActiveScene().name);
    }
 
    private void ExitToMenu()
@@ -35,13 +45,14 @@ public class LobbyCanvasController : MonoBehaviour
 
    private void SetStartButtonActive()
    {
-      foreach (var player in players)
+      for (int i = 0; i < players.Length; i++)
       {
-         if (!player.isPlayerReady)
+         if (!players[i].isPlayerReady)
          {
             startButton.interactable = false;
             return;
          }
+         playersCars[i] = players[i].GetSelectedCar();
       }
 
       startButton.interactable = true;

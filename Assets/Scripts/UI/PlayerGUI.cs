@@ -8,6 +8,7 @@ public class PlayerGUI : MonoBehaviour
 {
     [SerializeField] private Button readyButton;
     [SerializeField] private GameObject blockCarChoosePanel;
+    [SerializeField] private GameObject cars;
     
     public TextMeshProUGUI playerNameTMP;
     public bool isPlayerReady = false;
@@ -35,5 +36,14 @@ public class PlayerGUI : MonoBehaviour
     {
         playerName = pName;
         playerNameTMP.text = playerName;
+    }
+
+    public GameObject GetSelectedCar()
+    {
+        for (int i = 0; i < cars.transform.childCount; i++)
+        {
+            if(cars.transform.GetChild(i).gameObject.activeSelf) return cars.transform.GetChild(i).gameObject;
+        }
+        return null;
     }
 }
