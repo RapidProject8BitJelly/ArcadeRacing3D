@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public enum PlayerNumbers
 {
     Player1 = 0,

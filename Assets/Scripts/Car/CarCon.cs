@@ -32,7 +32,6 @@ public class CarCon : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     private void OnEnable()
@@ -58,7 +57,7 @@ public class CarCon : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy || DevModeManager.DevModeManagerEvents.GetDevModeState())
         {
             _accelerationInput = Input.GetAxis("Vertical");
             _turnInput = Input.GetAxis("Horizontal");
@@ -250,11 +249,5 @@ public class CarCon : MonoBehaviour
                 emission.enabled = screeching;
             }
         }
-    }
-
-    private void Player1Control(InputAction.CallbackContext callbackContext, int number)
-    {
-        // if(tempPlayerInfo.PlayerNumber == (PlayerNumbers)number) return true;
-        // return false;
     }
 }
