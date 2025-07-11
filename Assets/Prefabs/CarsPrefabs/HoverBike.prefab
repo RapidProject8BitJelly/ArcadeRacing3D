@@ -377,6 +377,7 @@ GameObject:
   - component: {fileID: 7953253535632626751}
   - component: {fileID: 540519158840676336}
   - component: {fileID: 1899458504812657963}
+  - component: {fileID: 8781584535597266785}
   m_Layer: 0
   m_Name: HoverBike
   m_TagString: Untagged
@@ -542,6 +543,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
   - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
   - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
+  tempPlayerInfo: {fileID: 8781584535597266785}
   virtualCamera: {fileID: 0}
   maxSpeedMultiplier: 1
   dampingMultiplier: 3
@@ -572,6 +574,19 @@ MonoBehaviour:
   driftFactor: 0
   minSpeedToShowTrails: 0
   dampingMultiplier: 0
+--- !u!114 &8781584535597266785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773903312362918220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe025fb60572fb4ca386450a6a8619a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerNumber: 0
 --- !u!1001 &2508410271808321752
 PrefabInstance:
   m_ObjectHideFlags: 0

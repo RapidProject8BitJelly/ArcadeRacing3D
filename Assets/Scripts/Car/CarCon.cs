@@ -2,11 +2,13 @@ using System.Collections;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarCon : MonoBehaviour
 {
     [SerializeField] private CarType carType;
     [SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private TempPlayerInfo tempPlayerInfo;
     
     private float _accelerationInput;
     private float _turnInput;
@@ -24,24 +26,44 @@ public class CarCon : MonoBehaviour
     private float _pitchAngle = 0f; // używane przez AlignToGround
     private float _currentPitch = 0f;
     
+    private PlayersInputActions _playersInputActions;
+    private int buttonPressedBy = 0;
+    
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
-    
-    private void Start()
+
+    private void OnEnable()
     {
-        if (virtualCamera != null)
-        {
-            virtualCamera.Follow = transform;
-            virtualCamera.LookAt = transform;
-        }
+        _playersInputActions = new PlayersInputActions();
+        _playersInputActions.Player1.Move.performed += context => {buttonPressedBy = 0;};
+        _playersInputActions.Player2.Move.performed += context => {buttonPressedBy = 1;};
+        _playersInputActions.Enable();
     }
+
+    private void OnDisable()
+    {
+        _playersInputActions.Player1.Move.performed -= context => {buttonPressedBy = 0;};
+        _playersInputActions.Player2.Move.performed -= context => {buttonPressedBy = 1;};
+        _playersInputActions.Disable();
+    }
+    
+    public void SetupPlayerCamera()
+    {
+        virtualCamera.Follow = transform;
+        virtualCamera.LookAt = transform;
+    }
+    
     private void FixedUpdate()
     {
-        _accelerationInput = Input.GetAxis("Vertical");
-        _turnInput = Input.GetAxis("Horizontal");
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        {
+            _accelerationInput = Input.GetAxis("Vertical");
+            _turnInput = Input.GetAxis("Horizontal");
+        }
+        
         AlignToGround();
         AddSpeed();
         Drift();
@@ -228,5 +250,11 @@ public class CarCon : MonoBehaviour
                 emission.enabled = screeching;
             }
         }
+    }
+
+    private void Player1Control(InputAction.CallbackContext callbackContext, int number)
+    {
+        // if(tempPlayerInfo.PlayerNumber == (PlayerNumbers)number) return true;
+        // return false;
     }
 }
