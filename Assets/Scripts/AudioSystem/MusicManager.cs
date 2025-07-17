@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -8,14 +9,14 @@ public class MusicManager : MonoBehaviour
 
     [SerializeField] private float _fadeInMusicSeconds;
     [SerializeField] private float _fadeOutMusicSeconds;
-    [SerializeField] private AudioClip _musicClip;
+    [SerializeField] private List<AudioClip> _musicClips;
 
     [Header("Ambient Parameters")] [SerializeField]
     private AudioSource _ambient;
 
     [SerializeField] private float _fadeInAmbientSeconds;
     [SerializeField] private float _fadeOutAmbientSeconds;
-    [SerializeField] private AudioClip _ambientClip;
+    [SerializeField] private List<AudioClip> _ambientClips;
 
     public static MusicManager instance;
     
@@ -33,8 +34,8 @@ public class MusicManager : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         
-        _music.clip = _musicClip;
-        _ambient.clip = _ambientClip;
+        _music.clip = _musicClips[Random.Range(0, _musicClips.Count)];
+        _ambient.clip = _ambientClips[Random.Range(0, _ambientClips.Count)];
     }
 
     private void Start()
