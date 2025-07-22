@@ -2,11 +2,17 @@ public enum Sound
 {
    DriftIntro,
    DriftLoop,
-   DriftOutro,
+   DritfOutro,
    CarEngine,
    CarHover,
    UiClick,
    ButtonHover,
    ButtonPlay,
    RadioPlaylist,
+   CheckPoint,
+   FinihLine,
+   UiSlider,
+   CarPolice,
+   CarSingleEngine,
+   MotoBike,
 }

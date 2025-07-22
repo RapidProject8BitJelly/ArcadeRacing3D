@@ -245,6 +245,48 @@ MonoBehaviour:
     pitch: 0
     loop: 0
     source: {fileID: 0}
+  - name: 12
+    clips:
+    - {fileID: 8300000, guid: 31c1f0a885685e4468eadf0f86fd21c7, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: 11
+    clips:
+    - {fileID: 8300000, guid: 9c23ce7c9735fa64f9527212fdac8a49, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: 9
+    clips:
+    - {fileID: 8300000, guid: 229cbff6620bf084a92eed1cd195ae13, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 10
+    clips:
+    - {fileID: 8300000, guid: ce58593a7f4055a4d859451ba9218557, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: 13
+    clips:
+    - {fileID: 8300000, guid: b30d084a69fce4b40b3e0c6ae2ec4c6a, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: 14
+    clips:
+    - {fileID: 8300000, guid: 58857a7497fe00e4fa86d5286942832b, type: 3}
+    volume: 0
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
 --- !u!114 &4175018304646886355
 MonoBehaviour:
   m_ObjectHideFlags: 0
