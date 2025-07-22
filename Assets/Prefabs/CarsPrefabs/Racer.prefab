@@ -9990,6 +9990,7 @@ GameObject:
   - component: {fileID: 6440190711922457290}
   - component: {fileID: 2305139631312708290}
   - component: {fileID: 3150697137939953893}
+  - component: {fileID: 7024892887349699791}
   m_Layer: 0
   m_Name: Racer
   m_TagString: Untagged
@@ -10191,6 +10192,44 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &7024892887349699791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8003802269278169891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 2de592d70d7beb34ebce9ef7f358a4c9, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3568142a-4271-41fb-96ae-7c0a89730a98
+    m_ActionName: 'PlayerControl/BackToCheckpoint[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9c6c6807-0653-4160-bc3f-f5c8235edcb6
+    m_ActionName: 'PlayerControl/UseSpecialAbility[/Keyboard/space]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerControl
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &5301638065994700322
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarCon : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class CarCon : MonoBehaviour
     private bool _previousIsBraking;
     
     private Coroutine _driftCoroutine;
+    
+    private PlayerInput _playerInput;
 
     public CinemachineVirtualCamera virtualCamera;
     public float maxSpeedMultiplier = 1;
@@ -24,9 +27,20 @@ public class CarCon : MonoBehaviour
     private float _pitchAngle = 0f; // używane przez AlignToGround
     private float _currentPitch = 0f;
     
+    private void OnEnable()
+    {
+        _playerInput.actions["UseSpecialAbility"].performed += OnUseSpecialAbility;
+    }
+
+    private void OnDisable()
+    {
+        _playerInput.actions["UseSpecialAbility"].performed -= OnUseSpecialAbility;
+    }
+    
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _playerInput = GetComponent<PlayerInput>();
         //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
     
@@ -36,14 +50,6 @@ public class CarCon : MonoBehaviour
         {
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            carType.UseSpecialAbility();
         }
     }
     
@@ -197,7 +203,12 @@ public class CarCon : MonoBehaviour
     {
         _rotationAngle = rotationAngle;
     }
-    
+
+    private void OnUseSpecialAbility(InputAction.CallbackContext callbackContext)
+    {
+        carType.UseSpecialAbility();
+    }
+
     private IEnumerator PlayDriftAudio()
     {
         carType.audioSource.clip = audioClips[0];
