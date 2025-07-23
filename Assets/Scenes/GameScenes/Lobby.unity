@@ -1152,6 +1152,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6392069727954195221, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 6257ad82e366cff4983832a47e4849a6, type: 3}
+    - target: {fileID: 6392069727954195221, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: Player1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392069727954195221, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 1950e601-d319-42aa-8a1c-a8fa8d7ce99b
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392069727954195221, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 2ea84bc6-aa9b-4c40-bf43-a1e4eea29514
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392069727954195221, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: 'Player1/Move[/Keyboard/w,/Keyboard/a,/Keyboard/s,/Keyboard/d]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392069727954195221, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: 'Player2/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/rightArrow,/Keyboard/leftArrow]'
+      objectReference: {fileID: 0}
     - target: {fileID: 6557534556120665897, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 2.964508

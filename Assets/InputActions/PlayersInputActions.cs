@@ -35,6 +35,15 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseSpecialAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""04e008e0-4d84-442b-8f9a-0852a7e1c218"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -81,6 +90,17 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be5750ca-a0c4-44a2-a905-6368e99022f3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseSpecialAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -92,6 +112,15 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""Button"",
                     ""id"": ""2ea84bc6-aa9b-4c40-bf43-a1e4eea29514"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseSpecialAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""615501ce-57d2-473d-b165-281a46602c01"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -142,6 +171,17 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96507ccb-8f18-4ff1-8254-ad9f83ac5dfd"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseSpecialAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -151,9 +191,11 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
         // Player1
         m_Player1 = asset.FindActionMap("Player1", throwIfNotFound: true);
         m_Player1_Move = m_Player1.FindAction("Move", throwIfNotFound: true);
+        m_Player1_UseSpecialAbility = m_Player1.FindAction("UseSpecialAbility", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
+        m_Player2_UseSpecialAbility = m_Player2.FindAction("UseSpecialAbility", throwIfNotFound: true);
     }
 
     ~@PlayersInputActions()
@@ -222,11 +264,13 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player1;
     private List<IPlayer1Actions> m_Player1ActionsCallbackInterfaces = new List<IPlayer1Actions>();
     private readonly InputAction m_Player1_Move;
+    private readonly InputAction m_Player1_UseSpecialAbility;
     public struct Player1Actions
     {
         private @PlayersInputActions m_Wrapper;
         public Player1Actions(@PlayersInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player1_Move;
+        public InputAction @UseSpecialAbility => m_Wrapper.m_Player1_UseSpecialAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -239,6 +283,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @UseSpecialAbility.started += instance.OnUseSpecialAbility;
+            @UseSpecialAbility.performed += instance.OnUseSpecialAbility;
+            @UseSpecialAbility.canceled += instance.OnUseSpecialAbility;
         }
 
         private void UnregisterCallbacks(IPlayer1Actions instance)
@@ -246,6 +293,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @UseSpecialAbility.started -= instance.OnUseSpecialAbility;
+            @UseSpecialAbility.performed -= instance.OnUseSpecialAbility;
+            @UseSpecialAbility.canceled -= instance.OnUseSpecialAbility;
         }
 
         public void RemoveCallbacks(IPlayer1Actions instance)
@@ -268,11 +318,13 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player2;
     private List<IPlayer2Actions> m_Player2ActionsCallbackInterfaces = new List<IPlayer2Actions>();
     private readonly InputAction m_Player2_Move;
+    private readonly InputAction m_Player2_UseSpecialAbility;
     public struct Player2Actions
     {
         private @PlayersInputActions m_Wrapper;
         public Player2Actions(@PlayersInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player2_Move;
+        public InputAction @UseSpecialAbility => m_Wrapper.m_Player2_UseSpecialAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -285,6 +337,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @UseSpecialAbility.started += instance.OnUseSpecialAbility;
+            @UseSpecialAbility.performed += instance.OnUseSpecialAbility;
+            @UseSpecialAbility.canceled += instance.OnUseSpecialAbility;
         }
 
         private void UnregisterCallbacks(IPlayer2Actions instance)
@@ -292,6 +347,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @UseSpecialAbility.started -= instance.OnUseSpecialAbility;
+            @UseSpecialAbility.performed -= instance.OnUseSpecialAbility;
+            @UseSpecialAbility.canceled -= instance.OnUseSpecialAbility;
         }
 
         public void RemoveCallbacks(IPlayer2Actions instance)
@@ -312,9 +370,11 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
     public interface IPlayer1Actions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnUseSpecialAbility(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnUseSpecialAbility(InputAction.CallbackContext context);
     }
 }

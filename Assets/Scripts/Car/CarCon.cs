@@ -50,18 +50,22 @@ public class CarCon : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerInput.actions["UseSpecialAbility"].performed += OnUseSpecialAbility;
+        //_playerInput.actions["UseSpecialAbility"].performed += OnUseSpecialAbility;
         _playersInputActions = new PlayersInputActions();
         _playersInputActions.Player1.Move.performed += context => {buttonPressedBy = 0;};
         _playersInputActions.Player2.Move.performed += context => {buttonPressedBy = 1;};
+        _playersInputActions.Player1.UseSpecialAbility.performed += context => {buttonPressedBy = 0; OnUseSpecialAbility(context);};
+        _playersInputActions.Player2.UseSpecialAbility.performed += context => {buttonPressedBy = 1; OnUseSpecialAbility(context);};
         _playersInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        _playerInput.actions["UseSpecialAbility"].performed -= OnUseSpecialAbility;
+        //_playerInput.actions["UseSpecialAbility"].performed -= OnUseSpecialAbility;
         _playersInputActions.Player1.Move.performed -= context => {buttonPressedBy = 0;};
         _playersInputActions.Player2.Move.performed -= context => {buttonPressedBy = 1;};
+        _playersInputActions.Player1.UseSpecialAbility.performed -= OnUseSpecialAbility;
+        _playersInputActions.Player2.UseSpecialAbility.performed -= OnUseSpecialAbility;
         _playersInputActions.Disable();
     }
     
@@ -233,7 +237,10 @@ public class CarCon : MonoBehaviour
 
     private void OnUseSpecialAbility(InputAction.CallbackContext callbackContext)
     {
-        carType.UseSpecialAbility();
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        {
+            carType.UseSpecialAbility();
+        }
     }
 
     private IEnumerator PlayDriftAudio()
