@@ -121,7 +121,6 @@ GameObject:
   - component: {fileID: 3367494781385250888}
   - component: {fileID: 8910055651141678295}
   - component: {fileID: 5548236142297857007}
-  - component: {fileID: 7731760076821634849}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -197,29 +196,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7731760076821634849
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4090961046481353584}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &6625395619337885492
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +353,7 @@ GameObject:
   - component: {fileID: 7953253535632626751}
   - component: {fileID: 540519158840676336}
   - component: {fileID: 1899458504812657963}
+  - component: {fileID: 8781584535597266785}
   m_Layer: 0
   m_Name: HoverBike
   m_TagString: Untagged
@@ -506,7 +483,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8773903312362918220}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -523,8 +500,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!114 &540519158840676336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,6 +519,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
   - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
   - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
+  tempPlayerInfo: {fileID: 8781584535597266785}
+  gravityMultiplier: 3
+  groundCheckTransform: {fileID: 0}
+  raycastLength: 1.8
   virtualCamera: {fileID: 0}
   maxSpeedMultiplier: 1
   dampingMultiplier: 3
@@ -572,6 +553,19 @@ MonoBehaviour:
   driftFactor: 0
   minSpeedToShowTrails: 0
   dampingMultiplier: 0
+--- !u!114 &8781584535597266785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773903312362918220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe025fb60572fb4ca386450a6a8619a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerNumber: 0
 --- !u!1001 &2508410271808321752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -661,5 +655,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.8053114, y: 1.7950737, z: 2.4131384}
-  m_Center: {x: 0, y: 0.13465095, z: -0.21570557}
+  m_Size: {x: 1.8053114, y: 1.9756999, z: 2.4131384}
+  m_Center: {x: 0, y: 0.044337988, z: -0.21570563}

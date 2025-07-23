@@ -17,8 +17,9 @@ public class ChooseCarPanel : MonoBehaviour
    
    private GameObject currentCar;
    private CanvasController canvasController;
-   private int currentCarIndex;
+   private int currentCarIndex = 0;
    private int currentRotation = 90;
+   private Vector3 carPosition;
 
    #endregion
    
@@ -41,7 +42,7 @@ public class ChooseCarPanel : MonoBehaviour
       rotateButton.onClick.RemoveAllListeners();
    }
 
-   #region  Car Selection
+   #region Car Selection
    
    private void ChooseCar(int value)
    {
@@ -51,14 +52,6 @@ public class ChooseCarPanel : MonoBehaviour
       
       SetCarRef();
       carCustomization.SetCurrentCar(currentCar);
-   }
-
-   public void UpdateCarView(int value)
-   {
-      currentCarIndex = value;
-      SetCarRef();
-      carCustomization.currentCarAccessories = currentCar.GetComponent<CarType>().GetCarAccessories();
-      carCustomization.currentCar = currentCar;
    }
 
    private void SetCarRef()

@@ -438,6 +438,7 @@ GameObject:
   - component: {fileID: 4287776571425417632}
   - component: {fileID: 6957418690697483179}
   - component: {fileID: 8526105997018816837}
+  - component: {fileID: 553289123520496821}
   m_Layer: 0
   m_Name: Motor
   m_TagString: Untagged
@@ -577,6 +578,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
   - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
   - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
+  tempPlayerInfo: {fileID: 553289123520496821}
+  gravityMultiplier: 3
+  groundCheckTransform: {fileID: 0}
+  raycastLength: 0.7
   virtualCamera: {fileID: 0}
   maxSpeedMultiplier: 1
   dampingMultiplier: 3
@@ -618,7 +623,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5199255718538249255}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -636,7 +641,20 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!114 &553289123520496821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199255718538249255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe025fb60572fb4ca386450a6a8619a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerNumber: 0
 --- !u!1 &7991825359048543049
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,7 +5499,6 @@ GameObject:
   - component: {fileID: 6160761301853984677}
   - component: {fileID: 3065795972803425290}
   - component: {fileID: 453231486042475313}
-  - component: {fileID: 7764865189285207017}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -5557,29 +5574,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7764865189285207017
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8116197797864790178}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &5591692420685032801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5642,9 +5636,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8700725330082129686, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7072539195869458811}
-    - targetCorrespondingSourceObject: {fileID: 6512510688612296998, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5411546677112392247}
   m_SourcePrefab: {fileID: 100100000, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
 --- !u!4 &232837278517421733 stripped
 Transform:
@@ -5656,27 +5647,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6512510688612296998, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
   m_PrefabInstance: {fileID: 5591692420685032801}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &5411546677112392247
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727336435180586055}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2271149, y: 1.7332561, z: 1.9332566}
-  m_Center: {x: 0, y: 0.43377766, z: -0.19363156}
 --- !u!1 &3829890609433610871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8700725330082129686, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}

@@ -35,7 +35,6 @@ public class LobbyCanvasController : MonoBehaviour
       }
       carsManager.SavePlayersCars(playersCars);
       SceneManager.LoadScene("GameTest");
-      Debug.Log(SceneManager.GetActiveScene().name);
    }
 
    private void ExitToMenu()

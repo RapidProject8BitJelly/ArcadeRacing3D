@@ -109,18 +109,6 @@ public class CarCustomization : MonoBehaviour
         ChooseColor(-currentColorIndex);
         ChooseAccessories(-currentAccessoriesIndex);
     }
-    
-    public void UpdateCarView(int colourIndex, int accessoriesIndex)
-    {
-        currentColorIndex = colourIndex;
-        currentAccessoriesIndex = accessoriesIndex;
-        colors = currentCar.GetComponent<CarType>().GetCarParameters().CarColors;
-        elementsToChangeColor = currentCar.GetComponent<CarType>().GetElementsToChangeColor();
-        colorImage.color = colors[colourIndex];
-        
-        ChangeColor();
-        ChangeAccessories();
-    }
 
     #endregion
 }

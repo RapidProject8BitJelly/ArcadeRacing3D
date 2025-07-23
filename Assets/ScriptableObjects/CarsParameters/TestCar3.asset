@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e2e575e4ae10b843a4b9bd35ad79c10, type: 3}
   m_Name: TestCar3
   m_EditorClassIdentifier: 
-  acceleration: 20
+  acceleration: 20000
   maxSpeed: 40
   turnFactor: 2
   driftFactor: 0.95
