@@ -66,14 +66,11 @@ public class CarCon : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy ||
-            DevModeManager.DevModeManagerEvents.GetDevModeState())
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
         {
             _accelerationInput = Input.GetAxis("Vertical");
             _turnInput = Input.GetAxis("Horizontal");
         }
-        
-        Debug.Log(IsGrounded());
         
         if (!IsGrounded())
         {
@@ -277,9 +274,6 @@ public class CarCon : MonoBehaviour
 
         bool hitFront = Physics.Raycast(front, Vector3.down, raycastLength, groundMask);
         bool hitBack  = Physics.Raycast(back, Vector3.down, raycastLength, groundMask);
-
-        Debug.DrawRay(front, Vector3.down * raycastLength, hitFront ? Color.green : Color.red);
-        Debug.DrawRay(back,  Vector3.down * raycastLength, hitBack  ? Color.green : Color.red);
 
         return hitFront || hitBack;
     }
