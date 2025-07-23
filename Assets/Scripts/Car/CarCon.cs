@@ -26,6 +26,8 @@ public class CarCon : MonoBehaviour
     private HashSet<Collider> _groundContacts = new HashSet<Collider>();
     
     private Coroutine _driftCoroutine;
+    
+    private PlayerInput _playerInput;
 
     public CinemachineVirtualCamera virtualCamera;
     public float maxSpeedMultiplier = 1;
@@ -34,6 +36,7 @@ public class CarCon : MonoBehaviour
     private float _pitchAngle = 0f; // używane przez AlignToGround
     private float _currentPitch = 0f;
     
+    
     private PlayersInputActions _playersInputActions;
     private int buttonPressedBy = 0;
     private float groundedTimer;
@@ -41,20 +44,28 @@ public class CarCon : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _playerInput = GetComponent<PlayerInput>();
+        //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     private void OnEnable()
     {
+        //_playerInput.actions["UseSpecialAbility"].performed += OnUseSpecialAbility;
         _playersInputActions = new PlayersInputActions();
         _playersInputActions.Player1.Move.performed += context => {buttonPressedBy = 0;};
         _playersInputActions.Player2.Move.performed += context => {buttonPressedBy = 1;};
+        _playersInputActions.Player1.UseSpecialAbility.performed += context => {buttonPressedBy = 0; OnUseSpecialAbility(context);};
+        _playersInputActions.Player2.UseSpecialAbility.performed += context => {buttonPressedBy = 1; OnUseSpecialAbility(context);};
         _playersInputActions.Enable();
     }
 
     private void OnDisable()
     {
+        //_playerInput.actions["UseSpecialAbility"].performed -= OnUseSpecialAbility;
         _playersInputActions.Player1.Move.performed -= context => {buttonPressedBy = 0;};
         _playersInputActions.Player2.Move.performed -= context => {buttonPressedBy = 1;};
+        _playersInputActions.Player1.UseSpecialAbility.performed -= OnUseSpecialAbility;
+        _playersInputActions.Player2.UseSpecialAbility.performed -= OnUseSpecialAbility;
         _playersInputActions.Disable();
     }
     
@@ -63,7 +74,6 @@ public class CarCon : MonoBehaviour
         virtualCamera.Follow = transform;
         virtualCamera.LookAt = transform;
     }
-    
     private void FixedUpdate()
     {
         if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
@@ -224,7 +234,15 @@ public class CarCon : MonoBehaviour
     {
         _rotationAngle = rotationAngle;
     }
-    
+
+    private void OnUseSpecialAbility(InputAction.CallbackContext callbackContext)
+    {
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        {
+            carType.UseSpecialAbility();
+        }
+    }
+
     private IEnumerator PlayDriftAudio()
     {
         carType.audioSource.clip = audioClips[0];

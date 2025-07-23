@@ -17,6 +17,9 @@ TagManager:
   - UI
   - NoPlayerCollision
   - Player
+  - Obstacle
+  - PlayerIgnoreObstaclesOthers
+  - 
   - Player1
   - Player2
   - Track

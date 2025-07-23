@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "UseSpecialAbility",
+                    "type": "Button",
+                    "id": "04e008e0-4d84-442b-8f9a-0852a7e1c218",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -59,6 +68,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be5750ca-a0c4-44a2-a905-6368e99022f3",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseSpecialAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -70,6 +90,15 @@
                     "name": "Move",
                     "type": "Button",
                     "id": "2ea84bc6-aa9b-4c40-bf43-a1e4eea29514",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseSpecialAbility",
+                    "type": "Button",
+                    "id": "615501ce-57d2-473d-b165-281a46602c01",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -118,6 +147,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "96507ccb-8f18-4ff1-8254-ad9f83ac5dfd",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseSpecialAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
