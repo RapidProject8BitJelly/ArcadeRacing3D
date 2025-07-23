@@ -121,7 +121,6 @@ GameObject:
   - component: {fileID: 3367494781385250888}
   - component: {fileID: 8910055651141678295}
   - component: {fileID: 5548236142297857007}
-  - component: {fileID: 7731760076821634849}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -197,29 +196,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7731760076821634849
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4090961046481353584}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &6625395619337885492
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +520,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
   - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
   tempPlayerInfo: {fileID: 8781584535597266785}
+  gravityMultiplier: 3
+  groundCheckTransform: {fileID: 0}
+  raycastLength: 1.8
   virtualCamera: {fileID: 0}
   maxSpeedMultiplier: 1
   dampingMultiplier: 3
@@ -676,5 +655,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.8053114, y: 2.1962028, z: 2.4131384}
-  m_Center: {x: 0, y: -0.06591344, z: -0.21570563}
+  m_Size: {x: 1.8053114, y: 1.9756999, z: 2.4131384}
+  m_Center: {x: 0, y: 0.044337988, z: -0.21570563}

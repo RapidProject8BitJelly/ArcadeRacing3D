@@ -24,10 +24,6 @@ public class CamerasManager : MonoBehaviour
             cameras[i].transform.SetParent(player[i].transform);
             player[i].GetComponent<CarCon>().virtualCamera = virtualCameras[i];
             player[i].GetComponent<CarCon>().SetupPlayerCamera();
-            if (i == 1)
-            {
-                DevModeManager.DevModeManagerEvents.SetPlayerToDisable(player[i]);
-            }
         }
     }
 

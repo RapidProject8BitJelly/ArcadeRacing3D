@@ -44,6 +44,7 @@ public class CarsManager : MonoBehaviour
             playerCars[i].GetComponent<CarCon>().SetNewRotation(playerRotation);
             playerCars[i].GetComponent<Rigidbody>().isKinematic = false;
             playerCars[i].GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+            playerCars[i].transform.localScale = Vector3.one;
         }
         
         StartPoints.StartPointsEvents.SetStartPoints(playerCars);
