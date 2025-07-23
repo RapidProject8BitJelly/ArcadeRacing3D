@@ -39,7 +39,7 @@ public class RoomGUI : MonoBehaviour
     {
         for (int i = 0; i < playerInfos.Length; i++)
         {
-            playerList.transform.GetChild(i).GetComponent<PlayerGUI>().SetPlayerCar(playerInfos[i]);
+            //playerList.transform.GetChild(i).GetComponent<PlayerGUI>().SetPlayerCar(playerInfos[i]);
         }
     }
 
