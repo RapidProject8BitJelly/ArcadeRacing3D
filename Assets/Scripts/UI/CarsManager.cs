@@ -35,11 +35,14 @@ public class CarsManager : MonoBehaviour
         
         Scene currentScene = SceneManager.GetActiveScene();
         
+        StartPoints.StartPointsEvents.SetStartPoints(playerCars);
+        CamerasManager.CamerasManagerEvents.SetPlayersCameras(playerCars);
+        
         for (int i = 0; i < playerCars.Length; i++)
         {
             SceneManager.MoveGameObjectToScene(playerCars[i], currentScene);
             playerCars[i].GetComponent<TempPlayerInfo>().SetPlayerNumber(i);
-            float playerRotation = playerCars[i].transform.eulerAngles.y;
+            float playerRotation = 0;
             playerCars[i].GetComponent<CarCon>().enabled = true;
             playerCars[i].GetComponent<CarCon>().SetNewRotation(playerRotation);
             playerCars[i].GetComponent<Rigidbody>().isKinematic = false;
@@ -47,8 +50,6 @@ public class CarsManager : MonoBehaviour
             playerCars[i].transform.localScale = Vector3.one;
         }
         
-        StartPoints.StartPointsEvents.SetStartPoints(playerCars);
-        CamerasManager.CamerasManagerEvents.SetPlayersCameras(playerCars);
         playerCars = null;
     }
     
