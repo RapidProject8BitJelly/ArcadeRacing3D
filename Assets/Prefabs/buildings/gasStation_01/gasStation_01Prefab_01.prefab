@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3928802083776196561}
   m_Layer: 0
-  m_Name: gasStacion_01Prefab_01
+  m_Name: gasStation_01Prefab_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
