@@ -51,7 +51,7 @@ public class SoundManager : MonoBehaviour
 
     public void Play(Sound soundName) 
     {
-        SoundData sound = Array.Find(sounds, s => s.name == soundName);
+        SoundData sound = Array.Find(sounds, sound => sound.name == soundName);
         if (sound == null) 
         {
             return;
