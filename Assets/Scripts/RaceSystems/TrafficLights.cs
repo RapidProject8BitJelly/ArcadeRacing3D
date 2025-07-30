@@ -41,7 +41,7 @@ public class TrafficLights : MonoBehaviour
             lights[i].color = defaultColor;
         }
         countdownText.text = "Start!";
-        MatchController.EnablePlayersCars();
+        //MatchController.EnablePlayersCars();
         
         yield return new WaitForSeconds(1f);
         countdownText.text = "";
