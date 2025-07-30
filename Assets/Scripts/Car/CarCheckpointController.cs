@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class CarCheckpointController : NetworkBehaviour
+public class CarCheckpointController : MonoBehaviour
 {
     private class MyCheckpoint
     {
@@ -14,7 +13,6 @@ public class CarCheckpointController : NetworkBehaviour
     }
 
     private List<MyCheckpoint> myCheckpoints = new();
-    private MatchController _matchController;
     private MyCheckpoint _currentCheckpoint;
     private PlayerInputActions _playerInputActions;
     
@@ -26,7 +24,6 @@ public class CarCheckpointController : NetworkBehaviour
     private bool hasFinishedRace = false;
     private void Awake()
     {
-        _matchController = FindObjectOfType<MatchController>();
         _playerInputActions = new PlayerInputActions();
     }
 
@@ -45,7 +42,7 @@ public class CarCheckpointController : NetworkBehaviour
     private void Start()
     {
         SetMyCheckpoints();
-        CmdIncreaseLapCounter();
+        IncreaseLapCounter();
     }
 
     private void SetMyCheckpoints()
@@ -105,10 +102,9 @@ public class CarCheckpointController : NetworkBehaviour
 
     private void ResetPlayerPosition(InputAction.CallbackContext ctx)
     {
-        if (isLocalPlayer)
-        {
-            CmdRequestReset();
-        }
+        transform.position = _currentCheckpoint.checkpoint.teleportPosition.transform.position;
+        gameObject.GetComponent<CarCon>().SetNewRotation(-_currentCheckpoint.checkpoint.transform.rotation.eulerAngles.y);
+        HideBackMessage();
     }
 
     private void CrossedFinishLine()
@@ -123,103 +119,61 @@ public class CarCheckpointController : NetworkBehaviour
 
             _currentCheckpoint = myCheckpoints[0];
             GetComponent<RaceProgressTracker>().IncreaseLapCounter();
-            CmdIncreaseLapCounter();
+            IncreaseLapCounter();
         }
         else if (currentLap == LAPS && !hasFinishedRace)
         {
             hasFinishedRace = true;
-            CmdSetFinishText();
-            CmdRequestSpectateLeader();
+            SetFinishText();
+            //CmdRequestSpectateLeader();
             GetComponent<RaceProgressTracker>().hasFinishedRace = true;
 
         }
     }
     
-    [Command]
-    private void CmdRequestSpectateLeader()
-    {
-        var myIdentity = GetComponent<NetworkIdentity>();
-        NetworkIdentity leader = MatchController.Instance.GetCurrentLeaderIdentity(myIdentity);
-        if (leader == null) return;
+    // [Command]
+    // private void CmdRequestSpectateLeader()
+    // {
+    //     var myIdentity = GetComponent<NetworkIdentity>();
+    //     NetworkIdentity leader = MatchController.Instance.GetCurrentLeaderIdentity(myIdentity);
+    //     if (leader == null) return;
+    //
+    //     TargetStartSpectatingLeader(connectionToClient, leader);
+    // }
+    //
+    // [TargetRpc]
+    // private void TargetStartSpectatingLeader(NetworkConnection conn, NetworkIdentity leader)
+    // {
+    //     if (leader == null) return;
+    //
+    //     CarController carController = GetComponent<CarController>();
+    //     if (carController != null)
+    //     {
+    //         carController.SetSpectateTarget(leader.transform);
+    //     }
+    // }
 
-        TargetStartSpectatingLeader(connectionToClient, leader);
-    }
 
-    [TargetRpc]
-    private void TargetStartSpectatingLeader(NetworkConnection conn, NetworkIdentity leader)
-    {
-        if (leader == null) return;
-
-        CarController carController = GetComponent<CarController>();
-        if (carController != null)
-        {
-            carController.SetSpectateTarget(leader.transform);
-        }
-    }
-
-    [Command]
     private void CmdShowBackMessage()
     {
-        TargetShowBackMessage(connectionToClient);
+        Debug.Log("Back to checkpoint");
+        //TargetShowBackMessage(connectionToClient);
     }
     
-    [TargetRpc]
-    private void TargetShowBackMessage(NetworkConnection conn)
+    private void HideBackMessage()
     {
-        _matchController.infoText.text = "Wróć do poprzedniego punktu używając klawisza R.";
-        _matchController.infoText.color = Color.red;
-        _matchController.infoText.gameObject.SetActive(true);
+        Debug.Log("Hide Back message");
     }
     
-    [Command]
-    private void CmdHideBackMessage()
+    private void IncreaseLapCounter()
     {
-        TargetHideBackMessage(connectionToClient);
+        Debug.Log("Increased lap counter");
+        //_matchController.lapCounterText.text = "Lap: " + currentLap + "/" + LAPS;
     }
     
-    [TargetRpc]
-    private void TargetHideBackMessage(NetworkConnection conn)
+    private void SetFinishText()
     {
-        _matchController.infoText.gameObject.SetActive(false);
+        Debug.Log("FINISH");
     }
     
-    [Command]
-    private void CmdRequestReset()
-    {
-        TargetResetPosition(connectionToClient);
-    }
-    
-    [TargetRpc]
-    private void TargetResetPosition(NetworkConnection conn)
-    {
-        transform.position = _currentCheckpoint.checkpoint.teleportPosition.transform.position;
-        gameObject.GetComponent<CarController>().SetNewRotation(-_currentCheckpoint.checkpoint.transform.rotation.eulerAngles.y);
-        CmdHideBackMessage();
-    }
-    
-    [Command(requiresAuthority = false)]
-    private void CmdIncreaseLapCounter()
-    {
-        TargetIncreaseLapCounter(connectionToClient);
-    }
-    
-    [TargetRpc]
-    private void TargetIncreaseLapCounter(NetworkConnection conn)
-    {
-        _matchController.lapCounterText.text = "Lap: " + currentLap + "/" + LAPS;
-    }
-
-    [Command]
-    private void CmdSetFinishText()
-    {
-        TargetSetFinishText(connectionToClient);
-    }
-    
-    [TargetRpc]
-    private void TargetSetFinishText(NetworkConnection conn)
-    {
-        _matchController.infoText.gameObject.SetActive(true);
-        _matchController.infoText.text = "Congratulations!";
-        _matchController.infoText.color = Color.red;
-    }
 }

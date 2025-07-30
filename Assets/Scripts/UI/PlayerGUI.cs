@@ -1,4 +1,4 @@
-using Mirror;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,10 +20,6 @@ public class PlayerGUI : MonoBehaviour
         playerNameTMP.color = isPlayerReady ? Color.green : Color.red;
     }
     
-    public void SetPlayerInfo(PlayerInfo info)
-    {
-    }
-
     public void RequestReadyChange()
     {
         isPlayerReady = !isPlayerReady;

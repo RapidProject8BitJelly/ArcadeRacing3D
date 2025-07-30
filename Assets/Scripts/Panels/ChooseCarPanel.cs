@@ -1,4 +1,3 @@
-using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +15,6 @@ public class ChooseCarPanel : MonoBehaviour
    [SerializeField] private int rotationAngle;
    
    private GameObject currentCar;
-   private CanvasController canvasController;
    private int currentCarIndex = 0;
    private int currentRotation = 90;
    private Vector3 carPosition;
