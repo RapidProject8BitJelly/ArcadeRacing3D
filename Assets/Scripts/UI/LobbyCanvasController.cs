@@ -8,9 +8,14 @@ public class LobbyCanvasController : MonoBehaviour
    [SerializeField] private Button startButton;
    [SerializeField] private Button exitToMenuButton;
    [SerializeField] private PlayerGUI[] players;
-   [SerializeField] private CarsManager carsManager;
-
+   
    private GameObject[] playersCars = new GameObject[2];
+   private CarsManager carsManager;
+
+   private void Awake()
+   {
+      carsManager = FindFirstObjectByType<CarsManager>();
+   }
    
    private void OnEnable()
    {
