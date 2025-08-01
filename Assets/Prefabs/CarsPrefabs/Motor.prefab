@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 721277041489027297}
   m_Layer: 0
   m_Name: Accessories
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4185117117477038739}
   m_Layer: 0
   m_Name: Cylinder (2)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 3212656847661568938}
   m_Layer: 0
   m_Name: TrailRenderes
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 1071127642408373356}
   m_Layer: 0
   m_Name: Cylinder (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 8010603277458365502}
   m_Layer: 0
   m_Name: LeftTrailRenderer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 553289123520496821}
   m_Layer: 0
   m_Name: Motor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 389889793106728447}
   m_Layer: 0
   m_Name: ParticleSystem1 (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5501,7 +5501,7 @@ GameObject:
   - component: {fileID: 453231486042475313}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5625,6 +5625,18 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
       propertyPath: m_Name
       value: motor_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512510688612296998, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700725330082129686, guid: 843b830384f77c94e80ee29a2b056d9f, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

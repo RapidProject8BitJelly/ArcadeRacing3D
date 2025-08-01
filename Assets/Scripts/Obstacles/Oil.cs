@@ -42,13 +42,15 @@ public class Oil : MonoBehaviour
         
         var carController = player.gameObject.GetComponent<CarCon>();
         carController.maxSpeedMultiplier = DefaultMaxSpeedMultiplier;
+
+        var playerCarType = player.gameObject.GetComponent<CarType>();
+
+        if (playerCarType != null)
+        {
+            carController.dampingMultiplier = playerCarType.dampingMultiplier;
+        }
         
-        // var playerCarSettings = player.gameObject.GetComponent<PlayerCarSettings>();
-        //
-        // if(playerCarSettings != null)
-        // {
-        //     carController.dampingMultiplier = playerCarSettings.dampingMultiplier;
-        // }
+        carController.dampingMultiplier = DefaultMaxSpeedMultiplier;
 
         _slowedPlayers.Remove(player);
     }
