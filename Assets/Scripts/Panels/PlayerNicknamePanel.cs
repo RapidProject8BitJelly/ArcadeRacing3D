@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,12 +31,5 @@ public class PlayerNicknamePanel : MonoBehaviour
             panel.color = canInteract ? normalColor: nonInteractableColor;
         }
     }
-
-    public void SetNickInMatch()
-    {
-        NetworkClient.Send(new SetPlayerNickname
-        {
-            nickname = nicknameInput.text
-        });
-    }
+    
 }

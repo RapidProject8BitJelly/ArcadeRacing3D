@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -59,8 +60,16 @@ public class Barrel : MonoBehaviour
         barrelModel.transform.DOLocalRotate(new Vector3(0, -rollAngle, 0), pathFollower.duration, 
             RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
     }
-    
-    public void DestroyBarrel()
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            DestroyBarrel();
+        }
+    }
+
+    private void DestroyBarrel()
     {
         if (!wasBarrelDestroyed)
         {

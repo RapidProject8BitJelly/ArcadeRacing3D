@@ -9,7 +9,16 @@
                     "name": "BackToCheckpoint",
                     "type": "Button",
                     "id": "3568142a-4271-41fb-96ae-7c0a89730a98",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseSpecialAbility",
+                    "type": "Button",
+                    "id": "9c6c6807-0653-4160-bc3f-f5c8235edcb6",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -24,6 +33,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "BackToCheckpoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "50751e2e-473c-47b2-98f6-6453b9c7f2ea",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseSpecialAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

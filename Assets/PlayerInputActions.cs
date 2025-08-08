@@ -31,7 +31,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""BackToCheckpoint"",
                     ""type"": ""Button"",
                     ""id"": ""3568142a-4271-41fb-96ae-7c0a89730a98"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseSpecialAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""9c6c6807-0653-4160-bc3f-f5c8235edcb6"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -48,6 +57,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BackToCheckpoint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50751e2e-473c-47b2-98f6-6453b9c7f2ea"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseSpecialAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // PlayerControl
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_BackToCheckpoint = m_PlayerControl.FindAction("BackToCheckpoint", throwIfNotFound: true);
+        m_PlayerControl_UseSpecialAbility = m_PlayerControl.FindAction("UseSpecialAbility", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -124,11 +145,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControl;
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_BackToCheckpoint;
+    private readonly InputAction m_PlayerControl_UseSpecialAbility;
     public struct PlayerControlActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerControlActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @BackToCheckpoint => m_Wrapper.m_PlayerControl_BackToCheckpoint;
+        public InputAction @UseSpecialAbility => m_Wrapper.m_PlayerControl_UseSpecialAbility;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -141,6 +164,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BackToCheckpoint.started += instance.OnBackToCheckpoint;
             @BackToCheckpoint.performed += instance.OnBackToCheckpoint;
             @BackToCheckpoint.canceled += instance.OnBackToCheckpoint;
+            @UseSpecialAbility.started += instance.OnUseSpecialAbility;
+            @UseSpecialAbility.performed += instance.OnUseSpecialAbility;
+            @UseSpecialAbility.canceled += instance.OnUseSpecialAbility;
         }
 
         private void UnregisterCallbacks(IPlayerControlActions instance)
@@ -148,6 +174,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BackToCheckpoint.started -= instance.OnBackToCheckpoint;
             @BackToCheckpoint.performed -= instance.OnBackToCheckpoint;
             @BackToCheckpoint.canceled -= instance.OnBackToCheckpoint;
+            @UseSpecialAbility.started -= instance.OnUseSpecialAbility;
+            @UseSpecialAbility.performed -= instance.OnUseSpecialAbility;
+            @UseSpecialAbility.canceled -= instance.OnUseSpecialAbility;
         }
 
         public void RemoveCallbacks(IPlayerControlActions instance)
@@ -168,5 +197,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IPlayerControlActions
     {
         void OnBackToCheckpoint(InputAction.CallbackContext context);
+        void OnUseSpecialAbility(InputAction.CallbackContext context);
     }
 }

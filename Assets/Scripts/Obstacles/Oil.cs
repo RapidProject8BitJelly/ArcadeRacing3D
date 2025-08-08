@@ -27,7 +27,7 @@ public class Oil : MonoBehaviour
         
         _slowedPlayers.Add(player);
         
-        var carController = player.gameObject.GetComponent<CarController>();
+        var carController = player.gameObject.GetComponent<CarCon>();
         
         if(carController == null) return;
         
@@ -40,15 +40,17 @@ public class Oil : MonoBehaviour
     {
         yield return new WaitForSeconds(maxSpeedLockDuration);
         
-        var carController = player.gameObject.GetComponent<CarController>();
+        var carController = player.gameObject.GetComponent<CarCon>();
         carController.maxSpeedMultiplier = DefaultMaxSpeedMultiplier;
-        
-        var playerCarSettings = player.gameObject.GetComponent<PlayerCarSettings>();
-        
-        if(playerCarSettings != null)
+
+        var playerCarType = player.gameObject.GetComponent<CarType>();
+
+        if (playerCarType != null)
         {
-            carController.dampingMultiplier = playerCarSettings.dampingMultiplier;
+            carController.dampingMultiplier = playerCarType.dampingMultiplier;
         }
+        
+        carController.dampingMultiplier = DefaultMaxSpeedMultiplier;
 
         _slowedPlayers.Remove(player);
     }
