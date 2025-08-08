@@ -1,21 +1,27 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private List<Image> _indicators = new List<Image>();
     [SerializeField] private ActionType _actionType = ActionType.None;
+    [SerializeField] private RectTransform _optionsPanel;
+    [SerializeField] private RectTransform _creditsPanel;
+    [SerializeField] private Vector2 _openPosition;
     
     private enum ActionType
     {
         None,
         StartGame,
         Options,
+        Credits,
         Exit
     }
     
@@ -86,7 +92,18 @@ public class MenuButton : Button, IPointerEnterHandler, IPointerExitHandler
                 SceneManager.LoadScene("Lobby");
                 break;
             case ActionType.Options:
-                // Open options menu or settings
+                if (_optionsPanel != null)
+                {
+                    _optionsPanel.gameObject.SetActive(true);
+                    _optionsPanel.DOAnchorPos(_openPosition, .5f).SetEase(Ease.OutBack);
+                }
+                break;
+            case ActionType.Credits:
+                if (_creditsPanel != null)
+                {
+                    _creditsPanel.gameObject.SetActive(true);
+                    _creditsPanel.DOAnchorPos(_openPosition, .5f).SetEase(Ease.OutBack);
+                }
                 break;
             case ActionType.Exit:
                 #if UNITY_EDITOR
