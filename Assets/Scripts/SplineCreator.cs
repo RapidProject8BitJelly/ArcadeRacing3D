@@ -34,7 +34,7 @@ public class SplineGenerator : MonoBehaviour
         {
             var child = splinePoints.transform.GetChild(i);
             
-            spline.Add(new BezierKnot(child.GetComponent<CenterPoint>().GetCenterPoint().position));
+            spline.Add(new BezierKnot(child.GetComponent<CenterPoint>().GetCenterPoint()));
         }
 
         container.Spline = spline;

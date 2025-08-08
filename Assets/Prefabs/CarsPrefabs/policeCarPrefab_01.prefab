@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3913613273198046144}
-  - component: {fileID: 8721831921136764143}
+  - component: {fileID: 8864163521716855491}
   m_Layer: 0
   m_Name: policeCarPrefab_01
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 38038499795631560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8721831921136764143
+--- !u!114 &8864163521716855491
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,17 +42,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3686175201176774907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3de4c9366301844c94593ca76531aa6, type: 3}
+  m_Script: {fileID: 11500000, guid: fdc5072a489706a4f8f41687cdd34be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: {fileID: 0}
-  actionDuringPathFollowing:
-    m_PersistentCalls:
-      m_Calls: []
   splineContainer: {fileID: 0}
-  speed: 0
-  distance: 0
-  duration: 0
+  player: {fileID: 0}
+  maxRightOffset: 2.5
+  maxLeftOffset: -2.5
+  distanceToPlayer: 10
+  waypoints: []
 --- !u!1001 &508232401229847075
 PrefabInstance:
   m_ObjectHideFlags: 0

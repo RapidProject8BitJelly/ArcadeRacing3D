@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2332094338085512606}
   - component: {fileID: -3133801545941024296}
-  - component: {fileID: 6216485502513267065}
+  - component: {fileID: 8984772639590477831}
   m_Layer: 0
   m_Name: bend60_01Prefab_01
   m_TagString: Untagged
@@ -57,7 +57,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4000811462335710696, guid: 551e7fdd2d740354099c93640b10d0b7, type: 3}
---- !u!114 &6216485502513267065
+--- !u!114 &8984772639590477831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 834150766815863522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d0d8a133280ecf4dae3947baccc1dac, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bd0ce45ca555aa4cae32f37e075f5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   centerPoint: {fileID: 5203028311710758864}
