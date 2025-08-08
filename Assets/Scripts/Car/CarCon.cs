@@ -1,12 +1,19 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarCon : MonoBehaviour
 {
     [SerializeField] private CarType carType;
     [SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private TempPlayerInfo tempPlayerInfo;
+    [SerializeField] private float gravityMultiplier = 3.0f;
+    [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private float raycastLength;
     
     private float _accelerationInput;
     private float _turnInput;
@@ -14,8 +21,12 @@ public class CarCon : MonoBehaviour
     private float _rotationAngle = 0f;
     private float _previousTurnInput;
     private bool _previousIsBraking;
+    private bool isGrounded;
+    private HashSet<Collider> _groundContacts = new HashSet<Collider>();
     
     private Coroutine _driftCoroutine;
+    
+    private PlayerInput _playerInput;
 
     public CinemachineVirtualCamera virtualCamera;
     public float maxSpeedMultiplier = 1;
@@ -24,33 +35,67 @@ public class CarCon : MonoBehaviour
     private float _pitchAngle = 0f; // używane przez AlignToGround
     private float _currentPitch = 0f;
     
+    
+    private PlayersInputActions _playersInputActions;
+    private int buttonPressedBy = 0;
+    private float groundedTimer;
+    
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _playerInput = GetComponent<PlayerInput>();
         //virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
-    
-    private void Start()
+
+    private void OnEnable()
     {
-        if (virtualCamera != null)
-        {
-            virtualCamera.Follow = transform;
-            virtualCamera.LookAt = transform;
-        }
+        //_playerInput.actions["UseSpecialAbility"].performed += OnUseSpecialAbility;
+        _playersInputActions = new PlayersInputActions();
+        _playersInputActions.Player1.Move.performed += context => {buttonPressedBy = 0;};
+        _playersInputActions.Player2.Move.performed += context => {buttonPressedBy = 1;};
+        _playersInputActions.Player1.UseSpecialAbility.performed += context => {buttonPressedBy = 0; OnUseSpecialAbility(context);};
+        _playersInputActions.Player2.UseSpecialAbility.performed += context => {buttonPressedBy = 1; OnUseSpecialAbility(context);};
+        _playersInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        //_playerInput.actions["UseSpecialAbility"].performed -= OnUseSpecialAbility;
+        _playersInputActions.Player1.Move.performed -= context => {buttonPressedBy = 0;};
+        _playersInputActions.Player2.Move.performed -= context => {buttonPressedBy = 1;};
+        _playersInputActions.Player1.UseSpecialAbility.performed -= OnUseSpecialAbility;
+        _playersInputActions.Player2.UseSpecialAbility.performed -= OnUseSpecialAbility;
+        _playersInputActions.Disable();
+    }
+    
+    public void SetupPlayerCamera()
+    {
+        virtualCamera.Follow = transform;
+        virtualCamera.LookAt = transform;
     }
     private void FixedUpdate()
     {
-        _accelerationInput = Input.GetAxis("Vertical");
-        _turnInput = Input.GetAxis("Horizontal");
-        AlignToGround();
-        AddSpeed();
-        Drift();
-        Turn();
-        float lateralVelocity;
-        bool isBraking;
-        bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
-
-        DrawTrails(isScreeching);
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        {
+            _accelerationInput = Input.GetAxis("Vertical");
+            _turnInput = Input.GetAxis("Horizontal");
+        }
+        
+        if (!IsGrounded())
+        {
+            _rigidbody.AddForce(Vector3.down * 80.0f, ForceMode.Acceleration); 
+        }
+        else
+        {
+            AlignToGround();
+            AddSpeed();
+            Drift();
+            Turn();
+            float lateralVelocity;
+            bool isBraking;
+            bool isScreeching = IsTireScreeching(out lateralVelocity, out isBraking);
+            DrawTrails(isScreeching);
+        }
         
         float speed = _rigidbody.linearVelocity.magnitude * 3.6f;
         //speedText.SetText(Mathf.RoundToInt(speed).ToString());
@@ -108,7 +153,6 @@ public class CarCon : MonoBehaviour
     {
         if (_turnInput == 0 && _previousTurnInput != 0)
         {
-            
             foreach (var wheel in carType.wheels)
             {
                 wheel.transform.DOLocalRotate(new Vector3(90, 0, 0), 0.5f);
@@ -136,9 +180,10 @@ public class CarCon : MonoBehaviour
         //refka
         _rotationAngle -= _turnInput * carType.turnFactor * minSpeedBeforeAllowTurningFactor;
 
+        
         // Nowa rotacja: pitch z AlignToGround + yaw z Turn
         Quaternion combinedRotation = Quaternion.Euler(_currentPitch, -_rotationAngle, 0f);
-        _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, combinedRotation, Time.fixedDeltaTime * 100f));
+        _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, combinedRotation, Time.fixedDeltaTime * 5f));
 
         _previousTurnInput = _turnInput;
     }
@@ -188,7 +233,15 @@ public class CarCon : MonoBehaviour
     {
         _rotationAngle = rotationAngle;
     }
-    
+
+    private void OnUseSpecialAbility(InputAction.CallbackContext callbackContext)
+    {
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        {
+            carType.UseSpecialAbility();
+        }
+    }
+
     private IEnumerator PlayDriftAudio()
     {
         carType.audioSource.clip = audioClips[0];
@@ -228,5 +281,28 @@ public class CarCon : MonoBehaviour
                 emission.enabled = screeching;
             }
         }
+    }
+    
+    private bool IsGrounded()
+    {
+        Vector3 front = transform.position + transform.forward * 0.8f + Vector3.up * 0.1f;
+        Vector3 back  = transform.position - transform.forward * 0.8f + Vector3.up * 0.1f;
+        LayerMask groundMask = LayerMask.GetMask("Track");
+
+        bool hitFront = Physics.Raycast(front, Vector3.down, raycastLength, groundMask);
+        bool hitBack  = Physics.Raycast(back, Vector3.down, raycastLength, groundMask);
+
+        return hitFront || hitBack;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Vector3 front = transform.position + transform.forward * 0.8f + Vector3.up * 0.1f;
+        Vector3 back  = transform.position - transform.forward * 0.8f + Vector3.up * 0.1f;
+
+        Gizmos.DrawLine(front, front + Vector3.down * raycastLength);
+        Gizmos.DrawLine(back, back + Vector3.down * raycastLength);
     }
 }

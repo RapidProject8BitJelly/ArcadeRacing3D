@@ -6,7 +6,7 @@ public class TestAbility : SpecialAbility
     public string abilityName = "TestAbility";
     
     public string AbilityName => abilityName;
-    public override void ActivateAbility()
+    public override void ActivateAbility(CarType carType)
     {
         Debug.Log("Activate " + abilityName);
     }

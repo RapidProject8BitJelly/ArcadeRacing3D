@@ -7,7 +7,7 @@ public class TestAbility2 : SpecialAbility
 {
     [SerializeField] private string abilityName = "TestAbility2";
     public string AbilityName => abilityName;
-    public override void ActivateAbility()
+    public override void ActivateAbility(CarType carType)
     {
         Debug.Log("Activate " + abilityName);
     }

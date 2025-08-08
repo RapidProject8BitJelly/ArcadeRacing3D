@@ -1,13 +1,11 @@
-using Mirror;
 using UnityEngine;
 
-public class RaceProgressTracker : NetworkBehaviour
+public class RaceProgressTracker : MonoBehaviour
 {
     private RacePath racePath;
     private float progress = 0f;
     private int _currentLap;
     
-    [SyncVar]
     public bool hasFinishedRace = false;
 
     public float NormalizedProgress => progress / racePath.GetPathLength() + _currentLap;

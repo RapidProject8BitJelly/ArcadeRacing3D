@@ -70,6 +70,6 @@ public class CarType : MonoBehaviour
     
     public void UseSpecialAbility()
     {
-        carParameters.SpecialAbility?.ActivateAbility();
+        carParameters.SpecialAbility?.ActivateAbility(this);
     }
 }
