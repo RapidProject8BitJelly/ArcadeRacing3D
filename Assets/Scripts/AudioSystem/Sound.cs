@@ -15,4 +15,5 @@ public enum Sound
    CarPolice,
    CarSingleEngine,
    MotoBike,
+   CarPaint,
 }

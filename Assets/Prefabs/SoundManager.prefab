@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4135224126240256546}
   - component: {fileID: 4162775758816187889}
+  - component: {fileID: 4175018304646886355}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -29,7 +30,8 @@ Transform:
   m_LocalPosition: {x: -4.170043, y: 1.3358155, z: 3.2349772}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 542487229781333578}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4162775758816187889
@@ -50,6 +52,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 1
@@ -57,6 +65,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
   - name: 2
@@ -64,6 +78,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 3
@@ -73,12 +93,24 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 579741eaaf1112049abc074e06c95ac0, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
   - name: 4
     clips: []
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
   - name: 5
@@ -86,6 +118,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7d5346a267b30394bb251d1fcc5f5341, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 6
@@ -96,6 +134,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: fd4e70ffc1c6e7943879ae00d2b4a9f0, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 7
@@ -103,6 +147,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 61d5ac888af80714e8362728ecfb6ee0, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 8
@@ -111,6 +161,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e53b8555516ee4035b913f2098b58414, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 12
@@ -118,6 +174,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 31c1f0a885685e4468eadf0f86fd21c7, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
   - name: 11
@@ -125,6 +187,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 9c23ce7c9735fa64f9527212fdac8a49, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
   - name: 9
@@ -132,6 +200,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 229cbff6620bf084a92eed1cd195ae13, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 10
@@ -139,6 +213,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ce58593a7f4055a4d859451ba9218557, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 0
     source: {fileID: 0}
   - name: 13
@@ -146,6 +226,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b30d084a69fce4b40b3e0c6ae2ec4c6a, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
   - name: 14
@@ -153,6 +239,27 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 58857a7497fe00e4fa86d5286942832b, type: 3}
     volume: 0
     pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 15
+    clips:
+    - {fileID: 8300000, guid: 18c98b8562103f24ca9570355e1f181d, type: 3}
+    - {fileID: 8300000, guid: 63f6751af3070fe43b26b4ee8c062e71, type: 3}
+    - {fileID: 8300000, guid: 593b764b29076b9468406d847541c959, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
 --- !u!114 &4175018304646886355
@@ -167,14 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed337d34d7cbc984fa9dfe696a0411c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _music: {fileID: 5056635381878445260}
-  _fadeInMusicSeconds: 0
-  _fadeOutMusicSeconds: 0
-  _musicClip: {fileID: 8300000, guid: f38952d3413f6471b86200d82f8b2320, type: 3}
-  _ambient: {fileID: 3638059053372377719}
-  _fadeInAmbientSeconds: 0
-  _fadeOutAmbientSeconds: 0
-  _ambientClip: {fileID: 0}
+  soundtracks: []
 --- !u!1 &8206738005653924565
 GameObject:
   m_ObjectHideFlags: 0
