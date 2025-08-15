@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2597808795510937449
+--- !u!1 &6161675664818628928
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,183 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4135224126240256546}
-  - component: {fileID: 4162775758816187889}
-  m_Layer: 0
-  m_Name: SoundManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4135224126240256546
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2597808795510937449}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.170043, y: 1.3358155, z: 3.2349772}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4162775758816187889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2597808795510937449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a62411ec5ffb549b09413ecd6fe8c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds:
-  - name: 0
-    clips:
-    - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 1
-    clips:
-    - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
-  - name: 2
-    clips:
-    - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 3
-    clips:
-    - {fileID: 8300000, guid: a358a7f6956f4f345be01dda7ec8e4bb, type: 3}
-    - {fileID: 8300000, guid: 4358ee5e26a057e45a2a95b003769043, type: 3}
-    - {fileID: 8300000, guid: 579741eaaf1112049abc074e06c95ac0, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
-  - name: 4
-    clips: []
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
-  - name: 5
-    clips:
-    - {fileID: 8300000, guid: 7d5346a267b30394bb251d1fcc5f5341, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 6
-    clips:
-    - {fileID: 8300000, guid: 692b33f993fc1c146b77215fe0a770d7, type: 3}
-    - {fileID: 8300000, guid: 0f299d140592c164f8bb4b218b22f0a3, type: 3}
-    - {fileID: 8300000, guid: 14683167c2ce5914696ffc1b1b1eeaa8, type: 3}
-    - {fileID: 8300000, guid: fd4e70ffc1c6e7943879ae00d2b4a9f0, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 7
-    clips:
-    - {fileID: 8300000, guid: 61d5ac888af80714e8362728ecfb6ee0, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 8
-    clips:
-    - {fileID: 8300000, guid: f38952d3413f6471b86200d82f8b2320, type: 3}
-    - {fileID: 8300000, guid: e53b8555516ee4035b913f2098b58414, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 12
-    clips:
-    - {fileID: 8300000, guid: 31c1f0a885685e4468eadf0f86fd21c7, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
-  - name: 11
-    clips:
-    - {fileID: 8300000, guid: 9c23ce7c9735fa64f9527212fdac8a49, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
-  - name: 9
-    clips:
-    - {fileID: 8300000, guid: 229cbff6620bf084a92eed1cd195ae13, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 10
-    clips:
-    - {fileID: 8300000, guid: ce58593a7f4055a4d859451ba9218557, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 0
-    source: {fileID: 0}
-  - name: 13
-    clips:
-    - {fileID: 8300000, guid: b30d084a69fce4b40b3e0c6ae2ec4c6a, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
-  - name: 14
-    clips:
-    - {fileID: 8300000, guid: 58857a7497fe00e4fa86d5286942832b, type: 3}
-    volume: 0
-    pitch: 0
-    loop: 1
-    source: {fileID: 0}
---- !u!114 &4175018304646886355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2597808795510937449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed337d34d7cbc984fa9dfe696a0411c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _music: {fileID: 5056635381878445260}
-  _fadeInMusicSeconds: 0
-  _fadeOutMusicSeconds: 0
-  _musicClip: {fileID: 8300000, guid: f38952d3413f6471b86200d82f8b2320, type: 3}
-  _ambient: {fileID: 3638059053372377719}
-  _fadeInAmbientSeconds: 0
-  _fadeOutAmbientSeconds: 0
-  _ambientClip: {fileID: 0}
---- !u!1 &8206738005653924565
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 542487229781333578}
-  - component: {fileID: 3638059053372377719}
+  - component: {fileID: 4874559056229090073}
+  - component: {fileID: 4650749759081716399}
   m_Layer: 0
   m_Name: AmbientSource
   m_TagString: Untagged
@@ -192,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &542487229781333578
+--- !u!4 &4874559056229090073
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8206738005653924565}
+  m_GameObject: {fileID: 6161675664818628928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4135224126240256546}
+  m_Father: {fileID: 881639407296705494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &3638059053372377719
+--- !u!82 &4650749759081716399
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8206738005653924565}
+  m_GameObject: {fileID: 6161675664818628928}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -304,3 +129,263 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &6453198599968655727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 881639407296705494}
+  - component: {fileID: 2535741021513976276}
+  - component: {fileID: 7985828686220007551}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &881639407296705494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453198599968655727}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.262732, y: -206.47354, z: 188.67485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4874559056229090073}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2535741021513976276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453198599968655727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a62411ec5ffb549b09413ecd6fe8c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: 0
+    clips:
+    - {fileID: 8300000, guid: 8cd9d381fad749d4a9b382df992cc859, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 1
+    clips:
+    - {fileID: 8300000, guid: 3ea9c7d58d70f764eb5713f3f9a536fe, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 2
+    clips:
+    - {fileID: 8300000, guid: 29969fa9e5956f145b2ba5f16391847a, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 3
+    clips:
+    - {fileID: 8300000, guid: a358a7f6956f4f345be01dda7ec8e4bb, type: 3}
+    - {fileID: 8300000, guid: 4358ee5e26a057e45a2a95b003769043, type: 3}
+    - {fileID: 8300000, guid: 579741eaaf1112049abc074e06c95ac0, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 4
+    clips: []
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 5
+    clips:
+    - {fileID: 8300000, guid: 7d5346a267b30394bb251d1fcc5f5341, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 6
+    clips:
+    - {fileID: 8300000, guid: 692b33f993fc1c146b77215fe0a770d7, type: 3}
+    - {fileID: 8300000, guid: 0f299d140592c164f8bb4b218b22f0a3, type: 3}
+    - {fileID: 8300000, guid: 14683167c2ce5914696ffc1b1b1eeaa8, type: 3}
+    - {fileID: 8300000, guid: fd4e70ffc1c6e7943879ae00d2b4a9f0, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 7
+    clips:
+    - {fileID: 8300000, guid: 61d5ac888af80714e8362728ecfb6ee0, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 8
+    clips:
+    - {fileID: 8300000, guid: f38952d3413f6471b86200d82f8b2320, type: 3}
+    - {fileID: 8300000, guid: e53b8555516ee4035b913f2098b58414, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 12
+    clips:
+    - {fileID: 8300000, guid: 31c1f0a885685e4468eadf0f86fd21c7, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 11
+    clips:
+    - {fileID: 8300000, guid: 9c23ce7c9735fa64f9527212fdac8a49, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 9
+    clips:
+    - {fileID: 8300000, guid: 229cbff6620bf084a92eed1cd195ae13, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 10
+    clips:
+    - {fileID: 8300000, guid: ce58593a7f4055a4d859451ba9218557, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 13
+    clips:
+    - {fileID: 8300000, guid: b30d084a69fce4b40b3e0c6ae2ec4c6a, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 14
+    clips:
+    - {fileID: 8300000, guid: 58857a7497fe00e4fa86d5286942832b, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 1
+    source: {fileID: 0}
+--- !u!114 &7985828686220007551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453198599968655727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed337d34d7cbc984fa9dfe696a0411c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundtracks: []
