@@ -376,6 +376,59 @@ MonoBehaviour:
     highPassResonanceQ: 1
     loop: 1
     source: {fileID: 0}
+  - name: 15
+    clips:
+    - {fileID: 8300000, guid: 6ab990baa71534b48b6b2ca20edd6c61, type: 3}
+    - {fileID: 8300000, guid: b8d3a67e45cfbe144880ccc348aa30ac, type: 3}
+    - {fileID: 8300000, guid: 2a7cf198c40f03741b4f07dd375d398b, type: 3}
+    - {fileID: 8300000, guid: f20d9aae6dd3e9d40bbd501ce6772049, type: 3}
+    - {fileID: 8300000, guid: e612dd86a4e55e24fa267bd252129b88, type: 3}
+    - {fileID: 8300000, guid: bc314b7ffe4becc4ab9c976c88157212, type: 3}
+    - {fileID: 8300000, guid: 7e3d7cd0b4194a64e88b01c77ddc52df, type: 3}
+    - {fileID: 8300000, guid: f4b3725f364d87145a691399a4a3acc1, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 16
+    clips:
+    - {fileID: 8300000, guid: 18c98b8562103f24ca9570355e1f181d, type: 3}
+    - {fileID: 8300000, guid: 63f6751af3070fe43b26b4ee8c062e71, type: 3}
+    - {fileID: 8300000, guid: 593b764b29076b9468406d847541c959, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: 17
+    clips:
+    - {fileID: 8300000, guid: 273388a32f742a24c970dd2fffbbfc9a, type: 3}
+    - {fileID: 8300000, guid: 555ee30e96f10f346b98064ee352d1dd, type: 3}
+    - {fileID: 8300000, guid: 25f9cf16eccee6d4ba98b46ab43a65a7, type: 3}
+    - {fileID: 8300000, guid: 60d0f04248e132c4da535b879df1cbea, type: 3}
+    - {fileID: 8300000, guid: aae1f9ae3d3cede4fb1f5918b3b5af19, type: 3}
+    - {fileID: 8300000, guid: 89f6dd6b3996cfc41892bf04781bd2ec, type: 3}
+    volume: 0
+    pitch: 0
+    enableLowPass: 0
+    lowPassCutoffFrequency: 5007
+    lowPassResonanceQ: 1
+    enableHighPass: 0
+    highPassCutoffFrequency: 5007
+    highPassResonanceQ: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!114 &7985828686220007551
 MonoBehaviour:
   m_ObjectHideFlags: 0
