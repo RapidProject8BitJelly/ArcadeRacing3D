@@ -12,7 +12,21 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] private Slider _sfxVol;
     [SerializeField] private Slider _musicVol;
     [SerializeField] private AudioMixer _mainAudioMixer;
-    
+
+    private void OnEnable()
+    {
+        _masterVol.onValueChanged.AddListener(delegate { ChangeAudioVolume(_masterVol, "MasterVol"); });
+        _sfxVol.onValueChanged.AddListener(delegate { ChangeAudioVolume(_sfxVol, "SFXVol"); });
+        _musicVol.onValueChanged.AddListener(delegate { ChangeAudioVolume(_musicVol, "MusicVol"); });
+    }
+
+    private void OnDisable()
+    {
+        _masterVol.onValueChanged.RemoveListener(delegate { ChangeAudioVolume(_masterVol, "MasterVol"); });
+        _sfxVol.onValueChanged.RemoveListener(delegate { ChangeAudioVolume(_sfxVol, "SFXVol"); });
+        _musicVol.onValueChanged.RemoveListener(delegate { ChangeAudioVolume(_musicVol, "MusicVol"); });
+    }
+
     private void Start()
     {
         ChangeGraphicQuality();
@@ -23,18 +37,9 @@ public class SettingsPanel : MonoBehaviour
         QualitySettings.SetQualityLevel(_graphicDropdown.value);
     }
 
-    public void ChangeMasterVolume()
+    private void ChangeAudioVolume(Slider slider, string channel)
     {
-        _mainAudioMixer.SetFloat("MasterVol", _masterVol.value);
-    }
-    
-    public void ChangeMusicVolume()
-    {
-        _mainAudioMixer.SetFloat("MusicVol", _musicVol.value);
-    }
-    
-    public void ChangeSFXVolume()
-    {
-        _mainAudioMixer.SetFloat("SFXVol", _sfxVol.value);
+        _mainAudioMixer.SetFloat(channel, Mathf.Log10(slider.value) * 20);
+
     }
 }
