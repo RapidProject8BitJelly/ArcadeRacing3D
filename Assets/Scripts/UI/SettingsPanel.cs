@@ -18,6 +18,8 @@ public class SettingsPanel : MonoBehaviour
         _masterVol.onValueChanged.AddListener(delegate { ChangeAudioVolume(_masterVol, "MasterVol"); });
         _sfxVol.onValueChanged.AddListener(delegate { ChangeAudioVolume(_sfxVol, "SFXVol"); });
         _musicVol.onValueChanged.AddListener(delegate { ChangeAudioVolume(_musicVol, "MusicVol"); });
+        
+        _graphicDropdown.onValueChanged.AddListener(delegate { ChangeGraphicQuality(_graphicDropdown); });
     }
 
     private void OnDisable()
@@ -25,21 +27,22 @@ public class SettingsPanel : MonoBehaviour
         _masterVol.onValueChanged.RemoveListener(delegate { ChangeAudioVolume(_masterVol, "MasterVol"); });
         _sfxVol.onValueChanged.RemoveListener(delegate { ChangeAudioVolume(_sfxVol, "SFXVol"); });
         _musicVol.onValueChanged.RemoveListener(delegate { ChangeAudioVolume(_musicVol, "MusicVol"); });
+        
+        _graphicDropdown.onValueChanged.RemoveListener(delegate { ChangeGraphicQuality(_graphicDropdown); });
     }
 
     private void Start()
     {
-        ChangeGraphicQuality();
+        ChangeGraphicQuality(_graphicDropdown);
     }
 
-    public void ChangeGraphicQuality()
+    private void ChangeGraphicQuality(TMP_Dropdown dropdown)
     {
-        QualitySettings.SetQualityLevel(_graphicDropdown.value);
+        QualitySettings.SetQualityLevel(dropdown.value);
     }
 
     private void ChangeAudioVolume(Slider slider, string channel)
     {
         _mainAudioMixer.SetFloat(channel, Mathf.Log10(slider.value) * 20);
-
     }
 }
