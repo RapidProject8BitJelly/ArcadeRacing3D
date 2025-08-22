@@ -10,8 +10,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3308879162845445862, guid: 59baaab0ea7fde9409eaaacdee6a45d6, type: 3}
       propertyPath: m_Name
-      value: venue_02Prefab_01
+      value: venue_02Prefab_01 VariantYellow
       objectReference: {fileID: 0}
+    - target: {fileID: 3502237737122577482, guid: 59baaab0ea7fde9409eaaacdee6a45d6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
+    - target: {fileID: 3502237737122577482, guid: 59baaab0ea7fde9409eaaacdee6a45d6, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
     - target: {fileID: 7278972768316056249, guid: 59baaab0ea7fde9409eaaacdee6a45d6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

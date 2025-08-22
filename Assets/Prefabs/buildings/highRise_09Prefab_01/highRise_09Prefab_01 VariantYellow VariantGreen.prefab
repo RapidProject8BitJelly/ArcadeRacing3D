@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2274380159883007184, guid: c8fcc8bdd996e0543b403795a15bf222, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f7de8d48a68dc1b4db223a97e408c223, type: 2}
     - target: {fileID: 6055241044014079063, guid: c8fcc8bdd996e0543b403795a15bf222, type: 3}
       propertyPath: m_Name
-      value: highRise_09Prefab_01 VariantYellow
+      value: highRise_09Prefab_01 VariantYellow VariantGreen
       objectReference: {fileID: 0}
     - target: {fileID: 8417697760909786719, guid: c8fcc8bdd996e0543b403795a15bf222, type: 3}
       propertyPath: m_LocalPosition.x

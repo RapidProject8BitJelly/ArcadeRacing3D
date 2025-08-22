@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3304179817539667498, guid: 4613021a9a4bc414a902ac14d14d87b5, type: 3}
       propertyPath: m_Name
-      value: highRise_12Prefab_01
+      value: highRise_12Prefab_01 VariantGreen
       objectReference: {fileID: 0}
     - target: {fileID: 4437860579101728391, guid: 4613021a9a4bc414a902ac14d14d87b5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6600910133245337476, guid: 4613021a9a4bc414a902ac14d14d87b5, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f7de8d48a68dc1b4db223a97e408c223, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

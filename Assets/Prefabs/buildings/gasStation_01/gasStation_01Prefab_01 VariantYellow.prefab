@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1141587522191411831, guid: 0f5235322f15f0e409604ec91923e787, type: 3}
       propertyPath: m_Name
-      value: gasStation_01Prefab_01
+      value: gasStation_01Prefab_01 VariantYellow
       objectReference: {fileID: 0}
     - target: {fileID: 3928802083776196561, guid: 0f5235322f15f0e409604ec91923e787, type: 3}
       propertyPath: m_LocalPosition.x

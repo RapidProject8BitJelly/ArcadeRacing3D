@@ -10,8 +10,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 641345129727318460, guid: c6afe2733122e2b439b82551e6147a09, type: 3}
       propertyPath: m_Name
-      value: building_03Prefab_01
+      value: building_03Prefab_01 VariantYellow
       objectReference: {fileID: 0}
+    - target: {fileID: 1466462131495606313, guid: c6afe2733122e2b439b82551e6147a09, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 122bf80432470ee41afcf3627a16b265, type: 2}
+    - target: {fileID: 1466462131495606313, guid: c6afe2733122e2b439b82551e6147a09, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
+    - target: {fileID: 1466462131495606313, guid: c6afe2733122e2b439b82551e6147a09, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
     - target: {fileID: 3679730343797715471, guid: c6afe2733122e2b439b82551e6147a09, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

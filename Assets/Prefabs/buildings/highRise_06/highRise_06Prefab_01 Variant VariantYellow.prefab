@@ -48,9 +48,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 960522233753844530, guid: 646ab54ab2242c7489f4abb288694227, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 122bf80432470ee41afcf3627a16b265, type: 2}
+    - target: {fileID: 960522233753844530, guid: 646ab54ab2242c7489f4abb288694227, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
     - target: {fileID: 6816615506178744383, guid: 646ab54ab2242c7489f4abb288694227, type: 3}
       propertyPath: m_Name
-      value: highRise_06Prefab_01 Variant
+      value: highRise_06Prefab_01 Variant VariantYellow
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

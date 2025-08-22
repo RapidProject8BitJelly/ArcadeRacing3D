@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1655620498262338535, guid: 9763b6be20254b048ad08a36f14f3454, type: 3}
       propertyPath: m_Name
-      value: building_05Prefab_01
+      value: building_05Prefab_01 VariantGreen
       objectReference: {fileID: 0}
     - target: {fileID: 7516798223477109548, guid: 9763b6be20254b048ad08a36f14f3454, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +52,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7798040878877296387, guid: 9763b6be20254b048ad08a36f14f3454, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f7de8d48a68dc1b4db223a97e408c223, type: 2}
+    - target: {fileID: 7798040878877296387, guid: 9763b6be20254b048ad08a36f14f3454, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: -5209386559919585115, guid: 9071babef414fd14dbe4985d00e83bec, type: 3}
+    - target: {fileID: 7798040878877296387, guid: 9763b6be20254b048ad08a36f14f3454, type: 3}
+      propertyPath: 'm_Materials.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f7de8d48a68dc1b4db223a97e408c223, type: 2}
+    - target: {fileID: 7798040878877296387, guid: 9763b6be20254b048ad08a36f14f3454, type: 3}
+      propertyPath: 'm_Materials.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 122bf80432470ee41afcf3627a16b265, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

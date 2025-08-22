@@ -50,8 +50,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4217080157071421298, guid: 8936bb82fd5ab544288a460f8d54b7b7, type: 3}
       propertyPath: m_Name
-      value: highRise_03Prefab_01
+      value: highRise_03Prefab_01 VariantYellow
       objectReference: {fileID: 0}
+    - target: {fileID: 7589240170970389700, guid: 8936bb82fd5ab544288a460f8d54b7b7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
+    - target: {fileID: 7589240170970389700, guid: 8936bb82fd5ab544288a460f8d54b7b7, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 122bf80432470ee41afcf3627a16b265, type: 2}
+    - target: {fileID: 7589240170970389700, guid: 8936bb82fd5ab544288a460f8d54b7b7, type: 3}
+      propertyPath: 'm_Materials.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

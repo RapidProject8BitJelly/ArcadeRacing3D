@@ -80,6 +80,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 8738d01e59e7e5d439eb15e9c9fdfc72, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 122bf80432470ee41afcf3627a16b265, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 8738d01e59e7e5d439eb15e9c9fdfc72, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: beba41409e1a7c245938a91cd129f47f, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 8738d01e59e7e5d439eb15e9c9fdfc72, type: 3}
+      propertyPath: 'm_Materials.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 59bfebc14d74ffc4aa08dbee304c9d45, type: 2}
     - target: {fileID: 919132149155446097, guid: 8738d01e59e7e5d439eb15e9c9fdfc72, type: 3}
       propertyPath: m_Name
       value: museum_01

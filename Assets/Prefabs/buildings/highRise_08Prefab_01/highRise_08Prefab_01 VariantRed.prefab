@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1261202891343903517, guid: 4f55341574f41c04d9a838e15650678d, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 88da07bf25b889a4b9324b7bb07ea0c5, type: 2}
     - target: {fileID: 6896629120506888825, guid: 4f55341574f41c04d9a838e15650678d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8535107141465679026, guid: 4f55341574f41c04d9a838e15650678d, type: 3}
       propertyPath: m_Name
-      value: highRise_08Prefab_01
+      value: highRise_08Prefab_01 VariantRed
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
