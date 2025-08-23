@@ -80,6 +80,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6fe38bca572f1a74eafebe6ef3d83738, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0c1d38eeb3568df42a71cbb031c370ac, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 6fe38bca572f1a74eafebe6ef3d83738, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 34d51ceaeef229c40b5dd0b4931f4800, type: 2}
     - target: {fileID: 919132149155446097, guid: 6fe38bca572f1a74eafebe6ef3d83738, type: 3}
       propertyPath: m_Name
       value: tunnel_02
