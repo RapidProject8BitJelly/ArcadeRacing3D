@@ -196,10 +196,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 886310404347871057, guid: 3cb0b75dda613654c9212a07acaef09c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2726515751296611045, guid: 3cb0b75dda613654c9212a07acaef09c, type: 3}
       propertyPath: m_Name
       value: CityTor
@@ -242,6 +238,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2894173860307660960, guid: 3cb0b75dda613654c9212a07acaef09c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277454784397698033, guid: 3cb0b75dda613654c9212a07acaef09c, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277454784397698033, guid: 3cb0b75dda613654c9212a07acaef09c, type: 3}
+      propertyPath: m_ProvidesContacts
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -423,6 +427,7 @@ GameObject:
   - component: {fileID: 804588030}
   - component: {fileID: 804588029}
   - component: {fileID: 804588028}
+  - component: {fileID: 804588031}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -504,6 +509,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1051967858}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &804588031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804588027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 1
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1001 &964181772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -623,7 +672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8003802269278169891, guid: 873e3b72f8131ab4285268f4e0b55ff5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1095,6 +1144,10 @@ PrefabInstance:
     - target: {fileID: 5391204247339683075, guid: 1f56919386a4db648aeda61dec9f1cb4, type: 3}
       propertyPath: m_Name
       value: Buildings
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391204247339683075, guid: 1f56919386a4db648aeda61dec9f1cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5654972753356904395, guid: 1f56919386a4db648aeda61dec9f1cb4, type: 3}
       propertyPath: m_LocalPosition.x
