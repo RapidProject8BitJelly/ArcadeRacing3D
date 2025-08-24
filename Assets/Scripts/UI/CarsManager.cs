@@ -43,6 +43,7 @@ public class CarsManager : MonoBehaviour
             SceneManager.MoveGameObjectToScene(playerCars[i], currentScene);
             playerCars[i].GetComponent<TempPlayerInfo>().SetPlayerNumber(i);
             float playerRotation = 0;
+            SetCarsElements();
             playerCars[i].GetComponent<CarCon>().enabled = true;
             playerCars[i].GetComponent<CarCon>().SetNewRotation(playerRotation);
             playerCars[i].GetComponent<Rigidbody>().isKinematic = false;
@@ -53,4 +54,29 @@ public class CarsManager : MonoBehaviour
         playerCars = null;
     }
     
+    private void SetCarsElements()
+    {
+        for(int i = 0; i < playerCars.Length;i++)
+        {
+            CarType playerCarType = playerCars[i].GetComponent<CarType>();
+            
+            for (int j = 0; j < playerCarType.carAccessories.transform.childCount; j++)
+            {
+                GameObject carModel = playerCarType.carAccessories.transform.GetChild(j).gameObject;
+                if(carModel.activeSelf == false)
+                {
+                    Destroy(carModel);
+                }
+                else
+                {
+                    GetCarElements getCarElements;
+                    getCarElements = carModel.GetComponent<GetCarElements>();
+                    playerCarType.carBase = getCarElements.GetCarBase();
+                    playerCarType.wheels = getCarElements.GetCarWheels();
+                }
+            }
+            
+        }
+    }
+
 }

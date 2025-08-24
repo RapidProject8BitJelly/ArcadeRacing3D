@@ -11,7 +11,7 @@ public class CarColours : MonoBehaviour
 {
     [SerializeField] private CarColor[] colours;
     [SerializeField] private Color iconColor;
-    [SerializeField] private Material[] materials;
+    [SerializeField] private Color additionalColor;
 
     public CarColor[] GetColours()
     {
@@ -21,5 +21,10 @@ public class CarColours : MonoBehaviour
     public Color GetIconColor()
     {
         return iconColor;
+    }
+
+    public Color GetAdditionalColor()
+    {
+        return additionalColor;
     }
 }

@@ -5,13 +5,17 @@ using UnityEngine;
 public class CarVariantColoursManager : MonoBehaviour
 {
     [SerializeField] private MeshRenderer carMesh;
+    [SerializeField] private MeshRenderer[] additionalMeshes;
+    [SerializeField] private int[] additionalMaterialsIndex;
     [SerializeField] private CarColours[] coloursSet;
 
     private List<CarColor> _currentColourSet = new();
+    private CarColours _currentColours;
 
     public void ChangeCurrentColourSet(int index)
     {
-        _currentColourSet = coloursSet[index].GetColours().ToList();
+        _currentColours = coloursSet[index];
+        _currentColourSet = _currentColours.GetColours().ToList();
         ChangeCarColours();
     }
 
@@ -29,6 +33,15 @@ public class CarVariantColoursManager : MonoBehaviour
             if (mats[i].IsKeywordEnabled("_EMISSION"))
             {
                 mats[i].SetColor("_EmissionColor", _currentColourSet[i].emissionColor);
+            }
+        }
+
+        if (additionalMeshes != null)
+        {
+            for (int i = 0; i < additionalMeshes.Length; i++)
+            {
+                Material[] material = additionalMeshes[i].materials;
+                material[additionalMaterialsIndex[i]].SetColor("_BaseColor", _currentColours.GetAdditionalColor());
             }
         }
     }

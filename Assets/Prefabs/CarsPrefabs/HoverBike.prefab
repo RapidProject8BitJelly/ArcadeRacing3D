@@ -52,10 +52,7 @@ MonoBehaviour:
   - color: {r: 0.29803923, g: 0.7490196, b: 0.7294118, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
   iconColor: {r: 0.29803923, g: 0.7490196, b: 0.7294118, a: 1}
-  materials:
-  - {fileID: 2100000, guid: d86d55854a44ae44cb90449fc769e2be, type: 2}
-  - {fileID: 2100000, guid: 955599b3a764dd648b3d663b29e2917c, type: 2}
-  - {fileID: 2100000, guid: 18f472fa4b8f9c84394ae3dd402f20e6, type: 2}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1234586752816371186
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,9 +103,7 @@ MonoBehaviour:
   - color: {r: 0.21176471, g: 0.65882355, b: 0.078431375, a: 0}
     emissionColor: {r: 0.58431375, g: 1, b: 0.5294118, a: 1}
   iconColor: {r: 0.21176471, g: 0.65882355, b: 0.078431375, a: 1}
-  materials:
-  - {fileID: 2100000, guid: 18f472fa4b8f9c84394ae3dd402f20e6, type: 2}
-  - {fileID: 2100000, guid: 677b2a0109b6eb845a175be75d87a551, type: 2}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1568517331570681917
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,9 +154,7 @@ MonoBehaviour:
   - color: {r: 0.99215686, g: 0.14509805, b: 0.5568628, a: 0}
     emissionColor: {r: 1, g: 0.44313726, b: 0.6627451, a: 1}
   iconColor: {r: 0.99215686, g: 0.14509805, b: 0.5568628, a: 1}
-  materials:
-  - {fileID: 2100000, guid: 18f472fa4b8f9c84394ae3dd402f20e6, type: 2}
-  - {fileID: 2100000, guid: 677b2a0109b6eb845a175be75d87a551, type: 2}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2867849348885169174
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +236,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carMesh: {fileID: 1452002997603749473}
+  additionalMeshes: []
+  additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 3460169864210171996}
   - {fileID: 8772049241133753431}
@@ -349,10 +344,7 @@ MonoBehaviour:
   - color: {r: 0.561171, g: 0.29803923, b: 0.7490196, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
   iconColor: {r: 0.56078434, g: 0.29803923, b: 0.7490196, a: 1}
-  materials:
-  - {fileID: 2100000, guid: d86d55854a44ae44cb90449fc769e2be, type: 2}
-  - {fileID: 2100000, guid: 955599b3a764dd648b3d663b29e2917c, type: 2}
-  - {fileID: 2100000, guid: 18f472fa4b8f9c84394ae3dd402f20e6, type: 2}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6602697022277544877
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,10 +397,7 @@ MonoBehaviour:
   - color: {r: 0.6320754, g: 0.3488341, b: 0.4432479, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
   iconColor: {r: 0.6313726, g: 0.34901962, b: 0.44313726, a: 1}
-  materials:
-  - {fileID: 2100000, guid: 11775a2838862f44a94f55eec0fd1553, type: 2}
-  - {fileID: 2100000, guid: 18f472fa4b8f9c84394ae3dd402f20e6, type: 2}
-  - {fileID: 2100000, guid: eaddc3421d1eed1498b76704b4f0adf9, type: 2}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6828167296624620382
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,6 +445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carMesh: {fileID: 2585245537098217416}
+  additionalMeshes: []
+  additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 4060165724816822029}
   - {fileID: 5531549243091645589}
@@ -506,6 +497,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carMesh: {fileID: 1845731189361112141}
+  additionalMeshes: []
+  additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 2409240349716304328}
   - {fileID: 5365981788521876394}
@@ -788,10 +781,7 @@ MonoBehaviour:
   - color: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
   iconColor: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 1}
-  materials:
-  - {fileID: 2100000, guid: 11775a2838862f44a94f55eec0fd1553, type: 2}
-  - {fileID: 2100000, guid: 18f472fa4b8f9c84394ae3dd402f20e6, type: 2}
-  - {fileID: 2100000, guid: eaddc3421d1eed1498b76704b4f0adf9, type: 2}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &281220617311343333
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -871,13 +861,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c7c20dff1c27554fab6fda937cfe7f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1127611004927625673}
   m_SourcePrefab: {fileID: 100100000, guid: 3c7c20dff1c27554fab6fda937cfe7f8, type: 3}
 --- !u!4 &319089081204520206 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3c7c20dff1c27554fab6fda937cfe7f8, type: 3}
   m_PrefabInstance: {fileID: 281220617311343333}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1091684722885980084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c7c20dff1c27554fab6fda937cfe7f8, type: 3}
+  m_PrefabInstance: {fileID: 281220617311343333}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1127611004927625673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091684722885980084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b3a5f8f36a6d94f859712e409d5495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carBase: {fileID: 1091684722885980084}
+  carWheels: []
 --- !u!23 &1452002997603749473 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 3c7c20dff1c27554fab6fda937cfe7f8, type: 3}
@@ -954,8 +966,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a842aa7802138344a9280db7175bc042, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5680124389091989432}
   m_SourcePrefab: {fileID: 100100000, guid: a842aa7802138344a9280db7175bc042, type: 3}
+--- !u!1 &188490158316049816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a842aa7802138344a9280db7175bc042, type: 3}
+  m_PrefabInstance: {fileID: 1034929737951668425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5680124389091989432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188490158316049816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b3a5f8f36a6d94f859712e409d5495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carBase: {fileID: 188490158316049816}
+  carWheels: []
 --- !u!4 &708884148070485794 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a842aa7802138344a9280db7175bc042, type: 3}
@@ -1033,7 +1067,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86bb95a2cdefccf4bb9993fc44e577cf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2298989877272266252}
   m_SourcePrefab: {fileID: 100100000, guid: 86bb95a2cdefccf4bb9993fc44e577cf, type: 3}
 --- !u!23 &2585245537098217416 stripped
 MeshRenderer:
@@ -1045,3 +1082,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 86bb95a2cdefccf4bb9993fc44e577cf, type: 3}
   m_PrefabInstance: {fileID: 3756343761211599692}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4098380588321904157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 86bb95a2cdefccf4bb9993fc44e577cf, type: 3}
+  m_PrefabInstance: {fileID: 3756343761211599692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2298989877272266252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4098380588321904157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b3a5f8f36a6d94f859712e409d5495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carBase: {fileID: 4098380588321904157}
+  carWheels: []
