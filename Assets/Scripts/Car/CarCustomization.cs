@@ -19,16 +19,14 @@ public class CarCustomization : MonoBehaviour
     public GameObject currentCar;
     
     private GameObject[] elementsToChangeColor;
-    public Color[] colors;
-    
+    public CarColoursManager colors;
+    public CarVariantColoursManager currentCarVariantColours;
+    public CarColours[] carColours;
+
     private int currentColorIndex;
     private int currentAccessoriesIndex;
     
     #endregion
-    private void Awake()
-    {
-        colors = carNode.transform.GetChild(0).GetComponent<CarType>().GetCarParameters().CarColors;
-    }
 
     private void OnEnable()
     {
@@ -55,21 +53,18 @@ public class CarCustomization : MonoBehaviour
     
     private void ChooseColor(int value)
     {
-        if (currentColorIndex + value < colors.Length && currentColorIndex + value >= 0) currentColorIndex += value;
-        else if (currentColorIndex + value >= colors.Length) currentColorIndex = 0;
-        else if(currentColorIndex + value < 0) currentColorIndex = colors.Length - 1;
+        if (currentColorIndex + value < carColours.Length && currentColorIndex + value >= 0) currentColorIndex += value;
+        else if (currentColorIndex + value >= carColours.Length) currentColorIndex = 0;
+        else if(currentColorIndex + value < 0) currentColorIndex = carColours.Length - 1;
     
         ChangeColor();
     }
     
     private void ChangeColor()
     {
-        colorImage.color = colors[currentColorIndex];
+        colorImage.color = carColours[currentColorIndex].GetIconColor();
 
-        foreach (var obj in elementsToChangeColor)
-        {
-            obj.GetComponent<MeshRenderer>().material.color = colors[currentColorIndex];
-        }
+        currentCarVariantColours.ChangeCurrentColourSet(currentColorIndex);
     }
     
     #endregion
@@ -88,6 +83,9 @@ public class CarCustomization : MonoBehaviour
     
     private void ChangeAccessories()
     {
+        currentCarVariantColours = colors.ChangeCurrentCarVariant(currentAccessoriesIndex);
+        carColours = currentCarVariantColours.GetColoursSet();
+        colorImage.color = carColours[0].GetIconColor();
         accessoriesText.text = (currentAccessoriesIndex+1).ToString();
         for (int i = 0; i < currentCarAccessories.transform.childCount; i++)
         {
@@ -103,10 +101,10 @@ public class CarCustomization : MonoBehaviour
     {
         currentCar = car;
         currentCarAccessories = car.GetComponent<CarType>().GetCarAccessories();
-        colors = car.GetComponent<CarType>().GetCarParameters().CarColors;
+        colors = car.GetComponent<CarType>().coloursManager;
         elementsToChangeColor = car.GetComponent<CarType>().GetElementsToChangeColor();
-        ChooseColor(-currentColorIndex);
         ChooseAccessories(-currentAccessoriesIndex);
+        ChooseColor(-currentColorIndex);
     }
 
     #endregion

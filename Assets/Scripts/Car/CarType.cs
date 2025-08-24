@@ -10,6 +10,7 @@ public class CarType : MonoBehaviour
     public GameObject[] wheels;
     public GameObject carBase;
     public AudioSource audioSource;
+    public CarColoursManager coloursManager;
 
     public float acceleration;
     public float maxSpeed;
