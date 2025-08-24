@@ -715,7 +715,6 @@ MonoBehaviour:
   players:
   - {fileID: 864995810}
   - {fileID: 691416231}
-  carsManager: {fileID: 1622166153}
 --- !u!1001 &1107779888958968397
 PrefabInstance:
   m_ObjectHideFlags: 0

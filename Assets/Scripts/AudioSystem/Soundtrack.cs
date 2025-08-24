@@ -1,4 +1,9 @@
 public enum Soundtrack
 {
-   MainMenuMusic
+   MainMenuMusic,
+   RadioRapid,
+   RadioNox,
+   RadioNeon,
+   Radio8beats,
+   RadioJellyJaming,
 }
