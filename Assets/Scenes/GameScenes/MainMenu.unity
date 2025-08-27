@@ -2111,7 +2111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5529204448554789623, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000061035156
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 5615898824909337438, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2618,9 +2618,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7455410118584494033, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
+      propertyPath: speed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455410118584494033, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: _backButton
       value: 
       objectReference: {fileID: 1650538555}
+    - target: {fileID: 7455410118584494033, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
+      propertyPath: _scrollMargin
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 7455410118584494033, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: _creditsButton
       value: 
@@ -2631,11 +2639,11 @@ PrefabInstance:
       objectReference: {fileID: 529947679}
     - target: {fileID: 7455410118584494033, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: _scrollDuration
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7455410118584494033, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: _endScrollPositionY
-      value: 1100
+      value: 2430
       objectReference: {fileID: 0}
     - target: {fileID: 7596317813653020974, guid: bb6ac4e3530c84df0b1e5cd868f8d508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

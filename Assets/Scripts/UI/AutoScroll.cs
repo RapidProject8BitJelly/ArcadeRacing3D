@@ -1,85 +1,45 @@
 using DG.Tweening;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(ScrollRect))]
-public class CreditsAutoScroller : MonoBehaviour
+public class AutoScroll : MonoBehaviour
 {
-    [SerializeField, Min(0.1f)] private float _scrollDuration = 15f;
-    [SerializeField] private bool _autoPlayOnOpen = true;
+    [SerializeField] private Button _creditsButton;
+    [SerializeField] private Button _backButton;
+    [SerializeField] private GameObject _creditsContent;
+    [SerializeField] private float _scrollDuration;
 
-    private ScrollRect _sr;
-    private Tween _tween;
-    private Coroutine _cr;
+    private Vector2 _startPosition;
+    private Tween _creditsTween;
+    private RectTransform _creditsRectTransform;
 
     private void Awake()
     {
-        _sr = GetComponent<ScrollRect>();
-        DOTween.Init(false, true); // safe mode helps catch UI weirdness
+        _startPosition = _creditsContent.transform.localPosition;
+        _creditsRectTransform = _creditsContent.GetComponent<RectTransform>();
     }
 
     private void OnEnable()
     {
-        ResetToTop();
-        if (_autoPlayOnOpen) Play();
+        _creditsButton.onClick.AddListener(StartScrollCredits);
+        _backButton.onClick.AddListener(ResetCreditsPosition);
     }
 
-    private void OnDisable()
+    private void StartScrollCredits()
     {
-        _tween?.Kill();
-        if (_cr != null) { StopCoroutine(_cr); _cr = null; }
+        _creditsTween = _creditsContent.transform.DOLocalMoveY(_creditsRectTransform.sizeDelta.y*2.5f, _scrollDuration).SetEase(Ease.Linear);
     }
 
-    [ContextMenu("Play")]
-    public void Play()
+    private void ResetCreditsPosition()
     {
-        _tween?.Kill();
-        if (_cr != null) StopCoroutine(_cr);
-        _cr = StartCoroutine(CoPlay());
-    }
+        if (_creditsTween != null)
+        {
+            _creditsTween.Kill();
+            _creditsTween = null;
+        }
 
-    public void ResetToTop()
-    {
-        _tween?.Kill();
-        if (_cr != null) { StopCoroutine(_cr); _cr = null; }
-        _sr.StopMovement();
-        _sr.velocity = Vector2.zero;
-        _sr.verticalNormalizedPosition = 1f;
-
-        // keep fallback path sane
-        var ap = _sr.content.anchoredPosition;
-        ap.y = 0f;
-        _sr.content.anchoredPosition = ap;
-    }
-
-    private IEnumerator CoPlay()
-    {
-        // let layout settle
-        yield return null;
-        Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_sr.content);
-        yield return null;
-
-        var viewport = _sr.viewport != null ? _sr.viewport : (RectTransform)_sr.transform;
-        float contentH = _sr.content.rect.height;
-        float viewportH = viewport.rect.height;
-
-        _sr.StopMovement();
-        _sr.velocity = Vector2.zero;
-        _sr.verticalNormalizedPosition = 1f;
-
-        if (contentH <= viewportH + 0.5f) yield break; // nothing to scroll
-
-        _tween = DOTween.To(
-                    () => _sr.verticalNormalizedPosition,
-                    v  => _sr.verticalNormalizedPosition = v,
-                    0f,
-                    _scrollDuration
-                 )
-                 .SetEase(Ease.Linear)
-                 .SetUpdate(true)
-                 .SetLink(gameObject, LinkBehaviour.KillOnDisable)
-                 .OnComplete(() => _cr = null);
+        Vector3 pos = _creditsContent.transform.localPosition;
+        pos.y = _startPosition.y;
+        _creditsContent.transform.localPosition = pos;
     }
 }
