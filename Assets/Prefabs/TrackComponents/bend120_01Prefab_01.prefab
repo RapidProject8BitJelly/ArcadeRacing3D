@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6654753234526556538}
   - component: {fileID: 2654837877684704926}
+  - component: {fileID: 5879879942510109626}
   m_Layer: 0
   m_Name: bend120_01Prefab_01
   m_TagString: Untagged
@@ -57,6 +58,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3299735751155291599, guid: dfb32c59ed059b6498ea431e54c6bfd5, type: 3}
+--- !u!114 &5879879942510109626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226287370651106373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd0ce45ca555aa4cae32f37e075f5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &181015869711359113
 PrefabInstance:
   m_ObjectHideFlags: 0

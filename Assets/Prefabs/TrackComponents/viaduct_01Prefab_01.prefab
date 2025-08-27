@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7372578779515954155}
   - component: {fileID: 6067574290826067513}
+  - component: {fileID: 3895073783025133786}
   m_Layer: 0
   m_Name: viaduct_01Prefab_01
   m_TagString: Untagged
@@ -55,6 +56,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3196808562146619726, guid: c2062156dec7f3449a8cc18af17d6254, type: 3}
+--- !u!114 &3895073783025133786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429741782505974173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd0ce45ca555aa4cae32f37e075f5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7870795391946944873
 PrefabInstance:
   m_ObjectHideFlags: 0

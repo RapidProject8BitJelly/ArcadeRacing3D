@@ -15,7 +15,7 @@ public class RaceProgressTracker : MonoBehaviour
     private void Start()
     {
         racePath = RacePath.Instance;
-        RaceManager.Instance.racers.Add(this);
+        //RaceManager.Instance.racers.Add(this);
     }
 
     private void Update()

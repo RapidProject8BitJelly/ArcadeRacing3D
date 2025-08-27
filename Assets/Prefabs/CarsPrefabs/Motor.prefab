@@ -502,6 +502,7 @@ GameObject:
   - component: {fileID: 6957418690697483179}
   - component: {fileID: 8526105997018816837}
   - component: {fileID: 553289123520496821}
+  - component: {fileID: 4284187014582061370}
   m_Layer: 0
   m_Name: Motor
   m_TagString: Player
@@ -720,6 +721,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
+--- !u!114 &4284187014582061370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199255718538249255}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b878ddb52333e4e55b63e3d6a086049f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFinishedRace: 0
+  playerNickname: 
+  _debugProgress: 0.08
 --- !u!1 &5803778707785908736
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,14 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class RacePath : MonoBehaviour
 {
+    [SerializeField] private SplineContainer splineContainer;
+
     public static RacePath Instance { get; private set; }
-    public Transform[] waypoints;
+    public Vector3[] waypoints;
 
     private void Awake()
     {
+        Spline spline = splineContainer.Spline;
+        waypoints = new Vector3[spline.Count];
+        SetWaypoints(spline);
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -20,11 +27,18 @@ public class RacePath : MonoBehaviour
         }
     }
 
+    private void SetWaypoints(Spline spline1)
+    {
+        for (int i = 0; i < spline1.Count; i++) {
+            waypoints[i] = spline1[i].Position;
+        }
+    }
+
     public float GetPathLength()
     {
         float length = 0f;
         for (int i = 1; i < waypoints.Length; i++)
-            length += Vector3.Distance(waypoints[i - 1].position, waypoints[i].position);
+            length += Vector3.Distance(waypoints[i - 1], waypoints[i]);
         return length;
     }
 
@@ -39,8 +53,8 @@ public class RacePath : MonoBehaviour
         // Szukamy najlepszego dopasowania (najbliższego punktu na segmencie)
         for (int i = 1; i < waypoints.Length; i++)
         {
-            Vector3 a = waypoints[i - 1].position;
-            Vector3 b = waypoints[i].position;
+            Vector3 a = waypoints[i - 1];
+            Vector3 b = waypoints[i];
 
             Vector3 projection = ProjectPointOnLineSegment(a, b, position);
             float distToPlayer = Vector3.Distance(projection, position);

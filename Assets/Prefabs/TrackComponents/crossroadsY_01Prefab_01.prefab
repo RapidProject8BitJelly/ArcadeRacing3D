@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4428352457767635930}
   - component: {fileID: 2558190405910984187}
+  - component: {fileID: 7835188824762500362}
   m_Layer: 0
   m_Name: crossroadsY_01Prefab_01
   m_TagString: Untagged
@@ -56,6 +57,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1434794423281506052, guid: 6a3357e365ed17c4481cf7b63c6b0bc5, type: 3}
+--- !u!114 &7835188824762500362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687104136913195679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd0ce45ca555aa4cae32f37e075f5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2008699395600480845
 PrefabInstance:
   m_ObjectHideFlags: 0

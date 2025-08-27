@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 3551907513586332114}
   - component: {fileID: 8529798978500491305}
   - component: {fileID: 341564998198411568}
+  - component: {fileID: 9046983635158168178}
   m_Layer: 0
   m_Name: Vehicle
   m_TagString: Player
@@ -406,6 +407,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
+--- !u!114 &9046983635158168178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995321281187002485}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b878ddb52333e4e55b63e3d6a086049f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFinishedRace: 0
+  playerNickname: 
+  _debugProgress: 0
 --- !u!1 &2020849529546180162
 GameObject:
   m_ObjectHideFlags: 0

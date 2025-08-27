@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 2377118846038285036}
   - {fileID: 1440319380132834292}
   - {fileID: 8107493413012676536}
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 01000000010000000100000001000000
   coloursSet:
   - {fileID: 1652195973206292723}
@@ -104,6 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMesh: {fileID: 4936610979383026241}
   additionalMeshes: []
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 4364370856373899885}
@@ -628,6 +630,7 @@ MonoBehaviour:
   - {fileID: 1552624398128652994}
   - {fileID: 5778534622200442082}
   - {fileID: 3958142713319982104}
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 01000000010000000100000001000000
   coloursSet:
   - {fileID: 7341037051672473219}
@@ -923,6 +926,7 @@ GameObject:
   - component: {fileID: 3150697137939953893}
   - component: {fileID: 3897202172909927051}
   - component: {fileID: 7024892887349699791}
+  - component: {fileID: 5921916079305437243}
   m_Layer: 0
   m_Name: Racer
   m_TagString: Player
@@ -1182,6 +1186,21 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerControl
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5921916079305437243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8003802269278169891}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b878ddb52333e4e55b63e3d6a086049f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFinishedRace: 0
+  playerNickname: 
+  _debugProgress: 0
 --- !u!1 &9206465453177054632
 GameObject:
   m_ObjectHideFlags: 0

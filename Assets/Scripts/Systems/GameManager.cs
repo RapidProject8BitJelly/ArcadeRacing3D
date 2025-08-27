@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < _playersCars.Length; i++)
         {
             _playersCars[i].GetComponent<Rigidbody>().isKinematic = false;
+            _playersCars[i].GetComponent<RaceProgressTracker>().enabled = true;
         }  
     }
 

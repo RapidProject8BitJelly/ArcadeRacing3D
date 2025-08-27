@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMesh: {fileID: 1452002997603749473}
   additionalMeshes: []
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 3460169864210171996}
@@ -446,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMesh: {fileID: 2585245537098217416}
   additionalMeshes: []
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 4060165724816822029}
@@ -498,6 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMesh: {fileID: 1845731189361112141}
   additionalMeshes: []
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 2409240349716304328}
@@ -516,6 +519,7 @@ GameObject:
   - component: {fileID: 540519158840676336}
   - component: {fileID: 1899458504812657963}
   - component: {fileID: 8781584535597266785}
+  - component: {fileID: 2703078615825766125}
   m_Layer: 0
   m_Name: HoverBike
   m_TagString: Player
@@ -729,6 +733,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
+--- !u!114 &2703078615825766125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773903312362918220}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b878ddb52333e4e55b63e3d6a086049f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFinishedRace: 0
+  playerNickname: 
+  _debugProgress: 0
 --- !u!1 &9118358302672369623
 GameObject:
   m_ObjectHideFlags: 0
