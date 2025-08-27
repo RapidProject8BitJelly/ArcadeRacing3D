@@ -46,6 +46,7 @@ public class TrafficLights : MonoBehaviour
         yield return new WaitForSeconds(1f);
         countdownText.text = "";
         gameObject.SetActive(false);
+        GameManager.GameManagerEvents.EnablePlayersCars();
     }
 
     private void BeginCountdown()
