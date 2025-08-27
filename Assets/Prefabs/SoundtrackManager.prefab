@@ -69,3 +69,27 @@ MonoBehaviour:
     loop: 1
     fadeInSoundtrackSeconds: 5
     fadeOutSoundtrackSeconds: 2
+  - name: 3
+    isAmbient: 0
+    soundtrackClip: {fileID: 8300000, guid: a8690cbf91b34ab40bedba32f2db5ad8, type: 3}
+    volume: 1
+    pitch: 3
+    loop: 1
+    fadeInSoundtrackSeconds: 5
+    fadeOutSoundtrackSeconds: 2
+  - name: 5
+    isAmbient: 0
+    soundtrackClip: {fileID: 8300000, guid: ee45eaf274fa10f448343629966cafbd, type: 3}
+    volume: 1
+    pitch: 3
+    loop: 1
+    fadeInSoundtrackSeconds: 5
+    fadeOutSoundtrackSeconds: 2
+  - name: 4
+    isAmbient: 0
+    soundtrackClip: {fileID: 8300000, guid: b9c72cac0aad9434591343881751a398, type: 3}
+    volume: 1
+    pitch: 3
+    loop: 1
+    fadeInSoundtrackSeconds: 5
+    fadeOutSoundtrackSeconds: 2
