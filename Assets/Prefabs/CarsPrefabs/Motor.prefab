@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &28375622713393239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 393962539254704236}
+  - component: {fileID: 3580215379992451825}
+  m_Layer: 0
+  m_Name: ColourSet1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &393962539254704236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28375622713393239}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3166901662161432940}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3580215379992451825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28375622713393239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bbe7423b355134c81b5e8ec5b3928f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colours:
+  - color: {r: 0.20392159, g: 0.16862746, b: 0.17254902, a: 0}
+    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  - color: {r: 0.5411765, g: 0.5529412, b: 0.5803922, a: 0}
+    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  - color: {r: 0.6745098, g: 0.08627451, b: 0.5670607, a: 0}
+    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  iconColor: {r: 0.6745098, g: 0.08627451, b: 0.5686275, a: 1}
+  additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &346570121889161125
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,15 +98,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colours:
-  - color: {r: 0.58431375, g: 0.6117647, b: 0.65882355, a: 0}
+  - color: {r: 0.9058824, g: 0.8705883, b: 0.8745099, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
+  - color: {r: 0.28235295, g: 0.23529413, b: 0.23529413, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.5254902, g: 0.5529412, b: 0.5764706, a: 0}
+  - color: {r: 0.5254902, g: 0.48627454, b: 0.69411767, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  iconColor: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
-  additionalColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!1 &689134651615730835
+  iconColor: {r: 0.5254902, g: 0.4862745, b: 0.69411767, a: 1}
+  additionalColor: {r: 0.28235295, g: 0.23529412, b: 0.23529412, a: 1}
+--- !u!1 &947665830142554150
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,22 +114,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1679779854005329359}
-  - component: {fileID: 1270419753054447083}
+  - component: {fileID: 5919312088462614276}
+  - component: {fileID: 3470166208389020388}
   m_Layer: 0
-  m_Name: ColourSet1 (1)
+  m_Name: ColourSet1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1679779854005329359
+--- !u!4 &5919312088462614276
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689134651615730835}
+  m_GameObject: {fileID: 947665830142554150}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -85,27 +138,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5656861446799187610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1270419753054447083
+--- !u!114 &3470166208389020388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689134651615730835}
+  m_GameObject: {fileID: 947665830142554150}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78bbe7423b355134c81b5e8ec5b3928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colours:
-  - color: {r: 0.58431375, g: 0.6117647, b: 0.65882355, a: 0}
+  - color: {r: 0.9058824, g: 0.8705883, b: 0.8745099, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.6320754, g: 0.3488341, b: 0.4432479, a: 0}
+  - color: {r: 0.28235295, g: 0.23529413, b: 0.23529413, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.5254902, g: 0.5529412, b: 0.5764706, a: 0}
+  - color: {r: 0.4862745, g: 0.69411767, b: 0.6551393, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  iconColor: {r: 0.6313726, g: 0.34901962, b: 0.44313726, a: 0}
-  additionalColor: {r: 0, g: 0, b: 0, a: 0}
+  iconColor: {r: 0.4862745, g: 0.69411767, b: 0.654902, a: 1}
+  additionalColor: {r: 0.28235295, g: 0.23529412, b: 0.23529412, a: 1}
 --- !u!1 &985065866597134994
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +190,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5812262405956348361}
-  - {fileID: 3423111632721073329}
+  - {fileID: 393962539254704236}
   m_Father: {fileID: 2484767698864371029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3676001506733348340
@@ -154,10 +207,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMesh: {fileID: 6984679020609527048}
   additionalMeshes: []
+  additionalSkinnedMeshes: []
   additionalMaterialsIndex: 
   coloursSet:
   - {fileID: 8079784103012668537}
-  - {fileID: 6842959916932558029}
+  - {fileID: 3580215379992451825}
 --- !u!1 &2369745234818210923
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +243,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6022093993283625408}
-  - {fileID: 4096729044454949566}
+  - {fileID: 9217295477198228527}
   m_Father: {fileID: 2484767698864371029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5027793153272046379
@@ -206,10 +260,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMesh: {fileID: 4826563756954151457}
   additionalMeshes: []
-  additionalMaterialsIndex: 
+  additionalSkinnedMeshes:
+  - {fileID: 5348339399129728612}
+  additionalMaterialsIndex: 01000000
   coloursSet:
   - {fileID: 4554884732673590983}
-  - {fileID: 7167164607138626868}
+  - {fileID: 4438989948651276869}
 --- !u!1 &2865460157449620063
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +751,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7730806489439406193}
-  - {fileID: 1679779854005329359}
+  - {fileID: 5919312088462614276}
   m_Father: {fileID: 2484767698864371029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3592822116465692308
@@ -711,11 +767,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carMesh: {fileID: 1796020582059588340}
-  additionalMeshes: []
-  additionalMaterialsIndex: 
+  additionalMeshes:
+  - {fileID: 465682921493748110}
+  - {fileID: 465682921493748110}
+  additionalSkinnedMeshes: []
+  additionalMaterialsIndex: 0000000001000000
   coloursSet:
   - {fileID: 1764854461203004373}
-  - {fileID: 1270419753054447083}
+  - {fileID: 3470166208389020388}
 --- !u!1 &5847397110730230121
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,117 +820,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colours:
-  - color: {r: 0.58431375, g: 0.6117647, b: 0.65882355, a: 0}
+  - color: {r: 0.20392159, g: 0.16862746, b: 0.17254902, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
+  - color: {r: 0.5411765, g: 0.5529412, b: 0.5803922, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.5254902, g: 0.5529412, b: 0.5764706, a: 0}
+  - color: {r: 0.08627451, g: 0.6745098, b: 0.6392157, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  iconColor: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
-  additionalColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!1 &6032148650184910946
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3423111632721073329}
-  - component: {fileID: 6842959916932558029}
-  m_Layer: 0
-  m_Name: ColourSet1 (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3423111632721073329
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6032148650184910946}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3166901662161432940}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6842959916932558029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6032148650184910946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bbe7423b355134c81b5e8ec5b3928f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colours:
-  - color: {r: 0.58431375, g: 0.6117647, b: 0.65882355, a: 0}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.6320754, g: 0.3488341, b: 0.4432479, a: 0}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.5254902, g: 0.5529412, b: 0.5764706, a: 0}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  iconColor: {r: 0.6313726, g: 0.34901962, b: 0.44313726, a: 0}
-  additionalColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!1 &6214901853142797928
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4096729044454949566}
-  - component: {fileID: 7167164607138626868}
-  m_Layer: 0
-  m_Name: ColourSet1 (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4096729044454949566
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6214901853142797928}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3349283896874791107}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7167164607138626868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6214901853142797928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bbe7423b355134c81b5e8ec5b3928f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colours:
-  - color: {r: 0.58431375, g: 0.6117647, b: 0.65882355, a: 0}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.6320754, g: 0.3488341, b: 0.4432479, a: 0}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  iconColor: {r: 0.6313726, g: 0.34901962, b: 0.44313726, a: 0}
+  iconColor: {r: 0.08627451, g: 0.6745098, b: 0.6392157, a: 1}
   additionalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6790680459463615199
 GameObject:
@@ -960,6 +915,57 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2645876, y: 1.0261467, z: 2.0904074}
   m_Center: {x: -0.045619607, y: -0.013073325, z: -0.1701777}
+--- !u!1 &7385317573478180470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9217295477198228527}
+  - component: {fileID: 4438989948651276869}
+  m_Layer: 0
+  m_Name: ColourSet1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9217295477198228527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385317573478180470}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3349283896874791107}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4438989948651276869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385317573478180470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bbe7423b355134c81b5e8ec5b3928f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colours:
+  - color: {r: 0.20392159, g: 0.16862746, b: 0.17254902, a: 0}
+    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  - color: {r: 0.20392157, g: 0.16862746, b: 0.17254902, a: 0}
+    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  iconColor: {r: 0.96862745, g: 0.7529412, b: 0.38431373, a: 1}
+  additionalColor: {r: 0.96862745, g: 0.7529412, b: 0.38431373, a: 0.98039216}
 --- !u!1 &7748907993204264141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,12 +1011,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colours:
-  - color: {r: 0.58431375, g: 0.6117647, b: 0.65882355, a: 0}
+  - color: {r: 0.20392159, g: 0.16862746, b: 0.17254902, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  - color: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
+  - color: {r: 0.20392157, g: 0.16862746, b: 0.17254902, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
-  iconColor: {r: 0.20392157, g: 0.16862746, b: 0.18039216, a: 0}
-  additionalColor: {r: 0, g: 0, b: 0, a: 0}
+  iconColor: {r: 0.96862745, g: 0.38431373, b: 0.6039216, a: 1}
+  additionalColor: {r: 0.96862745, g: 0.38431373, b: 0.6039216, a: 0.98039216}
 --- !u!1001 &4265386564046451098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1065,7 +1071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9da0ff49b588c6e499067cc350936e2c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1169,7 +1175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b4d8cc51e5d4f34ebf841394a175e19, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1210,6 +1216,11 @@ MonoBehaviour:
 --- !u!4 &4286267823952933843 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1b4d8cc51e5d4f34ebf841394a175e19, type: 3}
+  m_PrefabInstance: {fileID: 4391388543740269624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5348339399129728612 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8559168907682861660, guid: 1b4d8cc51e5d4f34ebf841394a175e19, type: 3}
   m_PrefabInstance: {fileID: 4391388543740269624}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8028044157310597963 stripped
@@ -1330,6 +1341,11 @@ PrefabInstance:
 --- !u!1 &229056789141040829 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3974511087994196099, guid: ac300c2a8ada3904d9432db92c3ec62a, type: 3}
+  m_PrefabInstance: {fileID: 5474818960839246272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &465682921493748110 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3635523167776384946, guid: ac300c2a8ada3904d9432db92c3ec62a, type: 3}
   m_PrefabInstance: {fileID: 5474818960839246272}
   m_PrefabAsset: {fileID: 0}
 --- !u!23 &1796020582059588340 stripped
