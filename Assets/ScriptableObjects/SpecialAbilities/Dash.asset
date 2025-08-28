@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17748ca59ca17ed489ac9e28b4c27c32, type: 3}
-  m_Name: MagnetAbility
+  m_Script: {fileID: 11500000, guid: 29d343b259a7b6540a86a29819f86291, type: 3}
+  m_Name: Dash
   m_EditorClassIdentifier: 
-  magnetCooldown: 5
-  magnetDuration: 2
-  magnetStrength: 20
+  dashMaxSpeed: 100
+  dashCooldown: 10
+  dashDuration: 5

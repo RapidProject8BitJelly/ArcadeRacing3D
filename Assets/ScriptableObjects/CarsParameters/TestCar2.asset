@@ -18,7 +18,7 @@ MonoBehaviour:
   driftFactor: 0.95
   minSpeedToShowTrails: 10
   dampingMultiplier: 3
-  specialAbility: {fileID: 11400000, guid: 15748dc44d946f1418b17a87d087203a, type: 2}
+  specialAbility: {fileID: 11400000, guid: 58ffed3c135bf314c98d12211f5af9d5, type: 2}
   carColors:
   - {r: 0.6313726, g: 0.91764706, b: 0.9843137, a: 1}
   - {r: 0.8156863, g: 0.9490196, b: 0.53333336, a: 1}
