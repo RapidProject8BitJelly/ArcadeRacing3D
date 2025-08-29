@@ -224,6 +224,34 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""59258069-b652-4383-af81-caab40b23b28"",
+            ""actions"": [
+                {
+                    ""name"": ""ChangePausePanelVisibility"",
+                    ""type"": ""Button"",
+                    ""id"": ""810e56b2-0d8f-44ac-90ae-05a93ffd8096"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e999b22c-bc11-4337-8b51-3330834b85ce"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangePausePanelVisibility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -238,12 +266,16 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_UseSpecialAbility = m_Player2.FindAction("UseSpecialAbility", throwIfNotFound: true);
         m_Player2_BackToCheckpoint = m_Player2.FindAction("BackToCheckpoint", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_ChangePausePanelVisibility = m_UI.FindAction("ChangePausePanelVisibility", throwIfNotFound: true);
     }
 
     ~@PlayersInputActions()
     {
         UnityEngine.Debug.Assert(!m_Player1.enabled, "This will cause a leak and performance issues, PlayersInputActions.Player1.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Player2.enabled, "This will cause a leak and performance issues, PlayersInputActions.Player2.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayersInputActions.UI.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -425,6 +457,52 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
         }
     }
     public Player2Actions @Player2 => new Player2Actions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_ChangePausePanelVisibility;
+    public struct UIActions
+    {
+        private @PlayersInputActions m_Wrapper;
+        public UIActions(@PlayersInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ChangePausePanelVisibility => m_Wrapper.m_UI_ChangePausePanelVisibility;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @ChangePausePanelVisibility.started += instance.OnChangePausePanelVisibility;
+            @ChangePausePanelVisibility.performed += instance.OnChangePausePanelVisibility;
+            @ChangePausePanelVisibility.canceled += instance.OnChangePausePanelVisibility;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @ChangePausePanelVisibility.started -= instance.OnChangePausePanelVisibility;
+            @ChangePausePanelVisibility.performed -= instance.OnChangePausePanelVisibility;
+            @ChangePausePanelVisibility.canceled -= instance.OnChangePausePanelVisibility;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPlayer1Actions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -436,5 +514,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnUseSpecialAbility(InputAction.CallbackContext context);
         void OnBackToCheckpoint(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnChangePausePanelVisibility(InputAction.CallbackContext context);
     }
 }

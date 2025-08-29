@@ -7,7 +7,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player");
             other.gameObject.GetComponent<CarCheckpointController>().CheckPointVisited(this);
         }
     }

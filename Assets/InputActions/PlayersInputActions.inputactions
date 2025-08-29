@@ -202,6 +202,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "59258069-b652-4383-af81-caab40b23b28",
+            "actions": [
+                {
+                    "name": "ChangePausePanelVisibility",
+                    "type": "Button",
+                    "id": "810e56b2-0d8f-44ac-90ae-05a93ffd8096",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e999b22c-bc11-4337-8b51-3330834b85ce",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangePausePanelVisibility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
