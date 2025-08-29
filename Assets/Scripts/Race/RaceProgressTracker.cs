@@ -3,6 +3,7 @@ using UnityEngine;
 public class RaceProgressTracker : MonoBehaviour
 {
     private RacePath racePath;
+    [SerializeField] private TempPlayerInfo tempPlayerInfo;
     private float progress = 0f;
     private int _currentLap;
     
@@ -15,6 +16,7 @@ public class RaceProgressTracker : MonoBehaviour
     private void Start()
     {
         racePath = RacePath.Instance;
+        playerNickname = tempPlayerInfo.playerNickname;
         //RaceManager.Instance.racers.Add(this);
     }
 

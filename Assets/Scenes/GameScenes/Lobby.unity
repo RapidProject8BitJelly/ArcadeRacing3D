@@ -757,6 +757,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCars: []
+  playerNicknamePanels:
+  - {fileID: 1107779888958968401}
+  - {fileID: 1107779888958968400}
 --- !u!4 &1622166154
 Transform:
   m_ObjectHideFlags: 0
@@ -1784,6 +1787,28 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2735091823939939080, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
   m_PrefabInstance: {fileID: 1107779888958968397}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1107779888958968400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6034471350008415230, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+  m_PrefabInstance: {fileID: 1107779888958968397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c2a24f6e8129543827e10d921f8976, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1107779888958968401 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9138537864505644322, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}
+  m_PrefabInstance: {fileID: 1107779888958968397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c2a24f6e8129543827e10d921f8976, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1107779888958968407 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3778528940132792631, guid: 50927f14ddef9144ea5262b5cf617747, type: 3}

@@ -645,9 +645,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4771158791524241805}
   - component: {fileID: 1130304408524448713}
+  - component: {fileID: 5450513292071549047}
   m_Layer: 2
   m_Name: RacerCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -686,8 +687,25 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.9545628, y: 0.85680413, z: 4.7925153}
-  m_Center: {x: -0.029670537, y: 0.07159795, z: 0.17663646}
+  m_Size: {x: 1.9545628, y: 0.8255538, z: 4.7925153}
+  m_Center: {x: -0.029670537, y: 0.08722311, z: 0.17663646}
+--- !u!114 &5450513292071549047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6886244999785619449}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109739aecc8a81848b4b3c683b332233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raceProgressTracker: {fileID: 5921916079305437243}
+  carController: {fileID: 6440190711922457290}
+  tempPlayerInfo: {fileID: 3897202172909927051}
+  playerHUD: {fileID: 0}
+  currentLap: 1
 --- !u!1 &7133877879046915246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,6 +1166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
+  playerNickname: 
 --- !u!114 &7024892887349699791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,6 +1217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b878ddb52333e4e55b63e3d6a086049f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tempPlayerInfo: {fileID: 3897202172909927051}
   hasFinishedRace: 0
   playerNickname: 
   _debugProgress: 0

@@ -9,6 +9,8 @@ public class SetPlayerNicknamePanel : MonoBehaviour
     [SerializeField] private Button applyButton;
     [SerializeField] private PlayerGUI playerGUI;
 
+    public string playerNickname;
+
     private void OnEnable()
     {
         applyButton.onClick.AddListener(SetPlayerNickname);
@@ -23,5 +25,6 @@ public class SetPlayerNicknamePanel : MonoBehaviour
     {
         string nickname = nicknameInput.text;
         playerGUI.SetPlayerName(nickname);
+        playerNickname = nickname;
     }
 }

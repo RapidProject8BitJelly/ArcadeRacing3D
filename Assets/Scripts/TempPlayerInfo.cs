@@ -9,6 +9,7 @@ public enum PlayerNumbers
 public class TempPlayerInfo : MonoBehaviour
 {
     public PlayerNumbers PlayerNumber;
+    public string playerNickname;
 
     public void SetPlayerNumber(int playerNumber)
     {
@@ -18,5 +19,10 @@ public class TempPlayerInfo : MonoBehaviour
     public PlayerNumbers GetPlayerNumber()
     {
         return PlayerNumber;
+    }
+
+    public void SetPlayerNickname(string nick)
+    {
+        playerNickname = nick;
     }
 }

@@ -12,12 +12,21 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "UseSpecialAbility",
                     "type": "Button",
                     "id": "04e008e0-4d84-442b-8f9a-0852a7e1c218",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BackToCheckpoint",
+                    "type": "Button",
+                    "id": "4dccc444-13ec-45be-87e5-905ead0d66ac",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -79,6 +88,17 @@
                     "action": "UseSpecialAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54266177-35ab-497f-ae2f-026d954fd20e",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BackToCheckpoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -99,6 +119,15 @@
                     "name": "UseSpecialAbility",
                     "type": "Button",
                     "id": "615501ce-57d2-473d-b165-281a46602c01",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BackToCheckpoint",
+                    "type": "Button",
+                    "id": "4a816e80-2d80-4b48-b9f8-50cf95e37090",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -158,6 +187,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "UseSpecialAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec6e98d1-cf10-496d-9324-9a55b50de815",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BackToCheckpoint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

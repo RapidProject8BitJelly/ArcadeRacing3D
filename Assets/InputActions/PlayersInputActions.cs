@@ -34,12 +34,21 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""UseSpecialAbility"",
                     ""type"": ""Button"",
                     ""id"": ""04e008e0-4d84-442b-8f9a-0852a7e1c218"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BackToCheckpoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""4dccc444-13ec-45be-87e5-905ead0d66ac"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -101,6 +110,17 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UseSpecialAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54266177-35ab-497f-ae2f-026d954fd20e"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackToCheckpoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -121,6 +141,15 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""UseSpecialAbility"",
                     ""type"": ""Button"",
                     ""id"": ""615501ce-57d2-473d-b165-281a46602c01"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BackToCheckpoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a816e80-2d80-4b48-b9f8-50cf95e37090"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -182,6 +211,17 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UseSpecialAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec6e98d1-cf10-496d-9324-9a55b50de815"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackToCheckpoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -192,10 +232,12 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
         m_Player1 = asset.FindActionMap("Player1", throwIfNotFound: true);
         m_Player1_Move = m_Player1.FindAction("Move", throwIfNotFound: true);
         m_Player1_UseSpecialAbility = m_Player1.FindAction("UseSpecialAbility", throwIfNotFound: true);
+        m_Player1_BackToCheckpoint = m_Player1.FindAction("BackToCheckpoint", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_UseSpecialAbility = m_Player2.FindAction("UseSpecialAbility", throwIfNotFound: true);
+        m_Player2_BackToCheckpoint = m_Player2.FindAction("BackToCheckpoint", throwIfNotFound: true);
     }
 
     ~@PlayersInputActions()
@@ -265,12 +307,14 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
     private List<IPlayer1Actions> m_Player1ActionsCallbackInterfaces = new List<IPlayer1Actions>();
     private readonly InputAction m_Player1_Move;
     private readonly InputAction m_Player1_UseSpecialAbility;
+    private readonly InputAction m_Player1_BackToCheckpoint;
     public struct Player1Actions
     {
         private @PlayersInputActions m_Wrapper;
         public Player1Actions(@PlayersInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player1_Move;
         public InputAction @UseSpecialAbility => m_Wrapper.m_Player1_UseSpecialAbility;
+        public InputAction @BackToCheckpoint => m_Wrapper.m_Player1_BackToCheckpoint;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -286,6 +330,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @UseSpecialAbility.started += instance.OnUseSpecialAbility;
             @UseSpecialAbility.performed += instance.OnUseSpecialAbility;
             @UseSpecialAbility.canceled += instance.OnUseSpecialAbility;
+            @BackToCheckpoint.started += instance.OnBackToCheckpoint;
+            @BackToCheckpoint.performed += instance.OnBackToCheckpoint;
+            @BackToCheckpoint.canceled += instance.OnBackToCheckpoint;
         }
 
         private void UnregisterCallbacks(IPlayer1Actions instance)
@@ -296,6 +343,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @UseSpecialAbility.started -= instance.OnUseSpecialAbility;
             @UseSpecialAbility.performed -= instance.OnUseSpecialAbility;
             @UseSpecialAbility.canceled -= instance.OnUseSpecialAbility;
+            @BackToCheckpoint.started -= instance.OnBackToCheckpoint;
+            @BackToCheckpoint.performed -= instance.OnBackToCheckpoint;
+            @BackToCheckpoint.canceled -= instance.OnBackToCheckpoint;
         }
 
         public void RemoveCallbacks(IPlayer1Actions instance)
@@ -319,12 +369,14 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
     private List<IPlayer2Actions> m_Player2ActionsCallbackInterfaces = new List<IPlayer2Actions>();
     private readonly InputAction m_Player2_Move;
     private readonly InputAction m_Player2_UseSpecialAbility;
+    private readonly InputAction m_Player2_BackToCheckpoint;
     public struct Player2Actions
     {
         private @PlayersInputActions m_Wrapper;
         public Player2Actions(@PlayersInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player2_Move;
         public InputAction @UseSpecialAbility => m_Wrapper.m_Player2_UseSpecialAbility;
+        public InputAction @BackToCheckpoint => m_Wrapper.m_Player2_BackToCheckpoint;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -340,6 +392,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @UseSpecialAbility.started += instance.OnUseSpecialAbility;
             @UseSpecialAbility.performed += instance.OnUseSpecialAbility;
             @UseSpecialAbility.canceled += instance.OnUseSpecialAbility;
+            @BackToCheckpoint.started += instance.OnBackToCheckpoint;
+            @BackToCheckpoint.performed += instance.OnBackToCheckpoint;
+            @BackToCheckpoint.canceled += instance.OnBackToCheckpoint;
         }
 
         private void UnregisterCallbacks(IPlayer2Actions instance)
@@ -350,6 +405,9 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
             @UseSpecialAbility.started -= instance.OnUseSpecialAbility;
             @UseSpecialAbility.performed -= instance.OnUseSpecialAbility;
             @UseSpecialAbility.canceled -= instance.OnUseSpecialAbility;
+            @BackToCheckpoint.started -= instance.OnBackToCheckpoint;
+            @BackToCheckpoint.performed -= instance.OnBackToCheckpoint;
+            @BackToCheckpoint.canceled -= instance.OnBackToCheckpoint;
         }
 
         public void RemoveCallbacks(IPlayer2Actions instance)
@@ -371,10 +429,12 @@ public partial class @PlayersInputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnUseSpecialAbility(InputAction.CallbackContext context);
+        void OnBackToCheckpoint(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnUseSpecialAbility(InputAction.CallbackContext context);
+        void OnBackToCheckpoint(InputAction.CallbackContext context);
     }
 }

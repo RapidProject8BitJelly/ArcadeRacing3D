@@ -6,6 +6,11 @@ using UnityEngine.Serialization;
 
 public class CarCheckpointController : MonoBehaviour
 {
+    [SerializeField] private RaceProgressTracker raceProgressTracker;
+    [SerializeField] private CarCon carController;
+    [SerializeField] private TempPlayerInfo tempPlayerInfo;
+    public PlayerHUD playerHUD;
+    
     private class MyCheckpoint
     {
         public Checkpoint checkpoint;
@@ -14,29 +19,27 @@ public class CarCheckpointController : MonoBehaviour
 
     private List<MyCheckpoint> myCheckpoints = new();
     private MyCheckpoint _currentCheckpoint;
-    private PlayerInputActions _playerInputActions;
+    private PlayersInputActions _playerInputActions;
     
     public int currentLap = 1;
     private const int LAPS = 3;
+    private int buttonPressedBy = 0;
     
     private bool _isLastCheckpoint = false;
 
     private bool hasFinishedRace = false;
-    private void Awake()
-    {
-        _playerInputActions = new PlayerInputActions();
-    }
-
     private void OnEnable()
     {
-        _playerInputActions.PlayerControl.BackToCheckpoint.started += ResetPlayerPosition;
+        _playerInputActions = new PlayersInputActions();
+        _playerInputActions.Player1.BackToCheckpoint.performed += context => { buttonPressedBy = 1; ResetPlayerPosition(context); };
+        _playerInputActions.Player2.BackToCheckpoint.performed += context => { buttonPressedBy = 0; ResetPlayerPosition(context); };
         _playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        _playerInputActions.PlayerControl.BackToCheckpoint.started -= ResetPlayerPosition;
-        _playerInputActions.Disable();
+        _playerInputActions.Player1.BackToCheckpoint.performed -= ResetPlayerPosition;
+        _playerInputActions.Player2.BackToCheckpoint.performed -= ResetPlayerPosition;
     }
 
     private void Start()
@@ -102,9 +105,12 @@ public class CarCheckpointController : MonoBehaviour
 
     private void ResetPlayerPosition(InputAction.CallbackContext ctx)
     {
-        transform.position = _currentCheckpoint.checkpoint.teleportPosition.transform.position;
-        gameObject.GetComponent<CarCon>().SetNewRotation(-_currentCheckpoint.checkpoint.transform.rotation.eulerAngles.y);
-        HideBackMessage();
+        if (tempPlayerInfo.PlayerNumber == (PlayerNumbers)buttonPressedBy)
+        {
+            transform.root.gameObject.transform.position = _currentCheckpoint.checkpoint.teleportPosition.transform.position;
+            carController.SetNewRotation(-_currentCheckpoint.checkpoint.transform.rotation.eulerAngles.y);
+            HideBackMessage();
+        }
     }
 
     private void CrossedFinishLine()
@@ -118,7 +124,7 @@ public class CarCheckpointController : MonoBehaviour
             }
 
             _currentCheckpoint = myCheckpoints[0];
-            GetComponent<RaceProgressTracker>().IncreaseLapCounter();
+            raceProgressTracker.IncreaseLapCounter();
             IncreaseLapCounter();
         }
         else if (currentLap == LAPS && !hasFinishedRace)
@@ -126,7 +132,7 @@ public class CarCheckpointController : MonoBehaviour
             hasFinishedRace = true;
             SetFinishText();
             //CmdRequestSpectateLeader();
-            GetComponent<RaceProgressTracker>().hasFinishedRace = true;
+            raceProgressTracker.hasFinishedRace = true;
 
         }
     }
@@ -156,24 +162,24 @@ public class CarCheckpointController : MonoBehaviour
 
     private void CmdShowBackMessage()
     {
-        Debug.Log("Back to checkpoint");
+        playerHUD.SetAnnouncementBoardText("Back to checkpoint");
         //TargetShowBackMessage(connectionToClient);
     }
     
     private void HideBackMessage()
     {
-        Debug.Log("Hide Back message");
+        playerHUD.SetAnnouncementBoardText("");
     }
     
     private void IncreaseLapCounter()
     {
-        Debug.Log("Increased lap counter");
+        playerHUD.IncreaseLapCounter(currentLap, LAPS);
         //_matchController.lapCounterText.text = "Lap: " + currentLap + "/" + LAPS;
     }
     
     private void SetFinishText()
     {
-        Debug.Log("FINISH");
+        playerHUD.SetAnnouncementBoardText("FINISH");
     }
     
 }

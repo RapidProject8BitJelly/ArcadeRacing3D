@@ -63,8 +63,8 @@ public class CarCon : MonoBehaviour
         //_playerInput.actions["UseSpecialAbility"].performed -= OnUseSpecialAbility;
         _playersInputActions.Player1.Move.performed -= context => {buttonPressedBy = 0;};
         _playersInputActions.Player2.Move.performed -= context => {buttonPressedBy = 1;};
-        _playersInputActions.Player1.UseSpecialAbility.performed -= OnUseSpecialAbility;
-        _playersInputActions.Player2.UseSpecialAbility.performed -= OnUseSpecialAbility;
+        _playersInputActions.Player1.Move.performed -= context => { buttonPressedBy = 0; };
+        _playersInputActions.Player2.Move.performed -= context => { buttonPressedBy = 1; };
         _playersInputActions.Disable();
     }
     

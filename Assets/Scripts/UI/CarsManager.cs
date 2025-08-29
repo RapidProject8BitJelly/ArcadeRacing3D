@@ -9,6 +9,7 @@ public class CarsManager : MonoBehaviour
     private static CarsManager instance;
     private static bool gameStarted = false;
     public GameObject[] playerCars;
+    [SerializeField] private SetPlayerNicknamePanel[] playerNicknamePanels;
     private void Awake()
     {
         if (instance == null)
@@ -46,6 +47,7 @@ public class CarsManager : MonoBehaviour
             float playerRotation = 90;
             SetCarsElements();
             playerCars[i].GetComponent<CarCon>().enabled = true;
+            playerCars[i].GetComponent<TempPlayerInfo>().SetPlayerNickname(playerNicknamePanels[i].playerNickname);
             playerCars[i].GetComponent<CarCon>().SetNewRotation(playerRotation);
             playerCars[i].GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
             playerCars[i].transform.localScale = Vector3.one;

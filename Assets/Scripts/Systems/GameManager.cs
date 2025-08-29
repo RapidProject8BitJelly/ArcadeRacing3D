@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private GameObject[] _playersCars;
+    [SerializeField] private PlayerHUD[] _playerHUD;
     private void Start()
     {
         TrafficLights.TrafficLightsEvents.BeginCountdown();
@@ -26,13 +27,21 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < _playersCars.Length; i++)
         {
             _playersCars[i].GetComponent<Rigidbody>().isKinematic = false;
-            _playersCars[i].GetComponent<RaceProgressTracker>().enabled = true;
-        }  
+            
+            _playersCars[i].GetComponentInChildren<CarCheckpointController>().enabled = true;
+            _playersCars[i].GetComponentInChildren<CarCheckpointController>().playerHUD = _playerHUD[i];
+            
+        }
     }
 
     private void SetPlayersCars(GameObject[] playersCars)
     {
         _playersCars = playersCars;
+        for(int i = 0; i < _playersCars.Length;i++)
+        {
+            _playersCars[i].GetComponent<RaceProgressTracker>().enabled = true;
+            gameObject.GetComponent<RaceManager>().racers.Add(_playersCars[i].GetComponent<RaceProgressTracker>());
+        }
     }
 
     public static class GameManagerEvents
