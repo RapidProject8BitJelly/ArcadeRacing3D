@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     private void SetPlayersCars(GameObject[] playersCars)
     {
         _playersCars = playersCars;
+        EndGamePanel.EndGamePanelEvents.SetPlayersCount(_playersCars.Length);
         for(int i = 0; i < _playersCars.Length;i++)
         {
             _playersCars[i].GetComponent<RaceProgressTracker>().enabled = true;
